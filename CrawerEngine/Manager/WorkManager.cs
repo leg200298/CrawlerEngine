@@ -10,6 +10,11 @@ namespace CrawerEngine.Manager
     {
         private Condition resourseSetting;
         private List<string> mailTo;
+        public void Process()
+        {
+
+            throw new Exception("沒做");
+        }
         public List<JobInfo> GetJobInfo()
         {
 
