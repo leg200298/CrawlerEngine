@@ -1,4 +1,5 @@
 ﻿using CrawlerEngine.Crawler;
+using CrawlerEngine.Driver;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,7 +15,7 @@ namespace CrawlerEngine.Crawler.WorkClass
 
         protected override void OpenUrl(string url)
         {
-            throw new NotImplementedException();
+            WebDriverPool.GetFreeDriver();
         }
     }
 }

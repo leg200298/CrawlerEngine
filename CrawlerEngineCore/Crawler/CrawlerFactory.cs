@@ -1,4 +1,5 @@
 ﻿using CrawlerEngine.Crawler.Interface;
+using CrawlerEngine.Crawler.WorkClass;
 using CrawlerEngine.Models;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,15 @@ namespace CrawlerEngine.Crawler
     class CrawlerFactory
     {
         public ICrawler GetCrawler(JobInfo jobInfo) {
-            throw new Exception();
+            switch (jobInfo.TargetType) {
+                case 2:
+                    return new WebCrawler();
+                case 1:
+                default:
+                    return new HttpCrawler();
+
+            }
+
         }
     }
 }

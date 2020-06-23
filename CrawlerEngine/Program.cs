@@ -9,7 +9,6 @@ namespace CrawlerEngine
         {
             WorkManager workManager = new WorkManager();
             workManager.Process();
-            Console.WriteLine("Hello World!");
             Console.ReadLine();
         }
     }

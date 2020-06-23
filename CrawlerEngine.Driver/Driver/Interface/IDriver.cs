@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CrawlerEngine.Driver.Interface
 {
-    interface IDriver
+    public interface IDriver
     {
         String Status { get; set; }
 

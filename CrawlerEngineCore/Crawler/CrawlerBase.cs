@@ -8,8 +8,8 @@ namespace CrawlerEngine.Crawler
     abstract class CrawlerBase : ICrawler
     {
         public DateTime StartTime { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        protected string url { get; set; }
 
-        private string url;
         public string DoCrawlerFlow()
         {
             OpenUrl(url);

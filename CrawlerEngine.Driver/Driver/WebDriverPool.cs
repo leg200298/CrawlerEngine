@@ -6,10 +6,10 @@ using System.Text;
 
 namespace CrawlerEngine.Driver
 {
-    class WebDriverPool
+    public class WebDriverPool
     {
-        static List<IDriver> DriverPool;
-        public IDriver GetFreeDriver()
+        public static List<IDriver> DriverPool;
+        public static IDriver GetFreeDriver()
         {
             throw new Exception();
         }
