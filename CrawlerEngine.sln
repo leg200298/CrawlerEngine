@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30104.148
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrawerEngine", "CrawerEngine\CrawerEngine.csproj", "{2378A46E-3E3C-4CC5-ABF8-A4811471FFFE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrawlerEngine", "CrawerEngine\CrawlerEngine.csproj", "{2378A46E-3E3C-4CC5-ABF8-A4811471FFFE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
