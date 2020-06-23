@@ -5,13 +5,15 @@ VisualStudioVersion = 16.0.30104.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrawlerEngine", "CrawlerEngine\CrawlerEngine.csproj", "{2378A46E-3E3C-4CC5-ABF8-A4811471FFFE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrawlerEngine.Core", "CrawlerEngineCore\CrawlerEngine.Core.csproj", "{1316B5FC-0F62-4B21-8314-D9987311383C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrawlerEngine.Core", "CrawlerEngineCore\CrawlerEngine.Core.csproj", "{1316B5FC-0F62-4B21-8314-D9987311383C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrawlerEngine.Models", "CrawlerEngine.Models\CrawlerEngine.Models.csproj", "{51B8DFC3-FA51-4F12-9B57-EEE8D9F01BB0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrawlerEngine.Models", "CrawlerEngine.Models\CrawlerEngine.Models.csproj", "{51B8DFC3-FA51-4F12-9B57-EEE8D9F01BB0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrawlerEngine.Driver", "CrawlerEngine.Driver\CrawlerEngine.Driver.csproj", "{3B63DC0E-E54B-4E6A-AD66-50412D945F63}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrawlerEngine.Driver", "CrawlerEngine.Driver\CrawlerEngine.Driver.csproj", "{3B63DC0E-E54B-4E6A-AD66-50412D945F63}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrawlerEngine.JobWorker", "CrawlerEngine.JobWorker\CrawlerEngine.JobWorker.csproj", "{02EE4C24-29B0-4151-92B3-BA9356A362B9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrawlerEngine.JobWorker", "CrawlerEngine.JobWorker\CrawlerEngine.JobWorker.csproj", "{02EE4C24-29B0-4151-92B3-BA9356A362B9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrawlerEngine.Test", "CrawlerEngine.Test\CrawlerEngine.Test.csproj", "{FF89215B-2BBF-4C3E-9589-DA99E8AA1E37}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{02EE4C24-29B0-4151-92B3-BA9356A362B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{02EE4C24-29B0-4151-92B3-BA9356A362B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{02EE4C24-29B0-4151-92B3-BA9356A362B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF89215B-2BBF-4C3E-9589-DA99E8AA1E37}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF89215B-2BBF-4C3E-9589-DA99E8AA1E37}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF89215B-2BBF-4C3E-9589-DA99E8AA1E37}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF89215B-2BBF-4C3E-9589-DA99E8AA1E37}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
