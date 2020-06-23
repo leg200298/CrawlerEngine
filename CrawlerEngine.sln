@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30104.148
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrawlerEngine", "CrawerEngine\CrawlerEngine.csproj", "{2378A46E-3E3C-4CC5-ABF8-A4811471FFFE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrawlerEngine", "CrawlerEngine\CrawlerEngine.csproj", "{2378A46E-3E3C-4CC5-ABF8-A4811471FFFE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrawlerEngine.Core", "CrawerEngineCore\CrawlerEngine.Core.csproj", "{1316B5FC-0F62-4B21-8314-D9987311383C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrawlerEngine.Core", "CrawlerEngineCore\CrawlerEngine.Core.csproj", "{1316B5FC-0F62-4B21-8314-D9987311383C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrawlerEngine.Models", "CrawlerEngine.Models\CrawlerEngine.Models.csproj", "{51B8DFC3-FA51-4F12-9B57-EEE8D9F01BB0}"
 EndProject
