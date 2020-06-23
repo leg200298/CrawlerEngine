@@ -1,15 +1,29 @@
-﻿using CrawerEngine.JobWorker.Interface;
+﻿using CrawerEngine.Crawler.Interface;
+using CrawerEngine.JobWorker.Interface;
+using CrawerEngine.Models;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace CrawerEngine.JobWorker
 {
     abstract class JobWorkerBase : IJobWorker
     {
+        public JobInfo jobInfo;
+        public ICrawler crawler;
+        public string responseData;
         public void DoJobFlow()
         {
-            throw new NotImplementedException();
+            (bool, string) temp = (false, "");
+            do
+            {
+                GotoNextPage(temp.Item2);
+                CallCrawler();
+                Validation();
+                Parser();
+                SaveData();
+                temp = HasNextPage();
+                SleepForAWhile( GetSleepTimeByJobInfo());
+            } while (temp.Item1)
+
         }
 
         protected abstract bool CallCrawler();
@@ -17,8 +31,8 @@ namespace CrawerEngine.JobWorker
         protected abstract bool Parser();
         protected abstract bool SaveData();
         protected abstract (bool, string) HasNextPage();
-        protected abstract bool GotoNextPage();
+        protected abstract bool GotoNextPage(string url);
         protected abstract int GetSleepTimeByJobInfo();
-        protected abstract void SleepForAWhile();
+        protected abstract void SleepForAWhile(int sleepTime);
     }
 }

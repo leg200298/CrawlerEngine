@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace CrawerEngine.Models
+﻿namespace CrawerEngine.Models
 {
     public class JobInfo : SaveInfo
     {

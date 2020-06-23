@@ -8,6 +8,7 @@ namespace CrawerEngine
         static void Main(string[] args)
         {
             WorkManager workManager = new WorkManager();
+            
             Console.WriteLine("Hello World!");
         }
     }

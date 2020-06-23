@@ -6,6 +6,6 @@ namespace CrawerEngine.Manager
 {
     class WorkManager
     {
-        public 
+      public 
     }
 }
