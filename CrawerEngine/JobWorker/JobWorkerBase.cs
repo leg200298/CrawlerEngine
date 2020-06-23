@@ -21,8 +21,8 @@ namespace CrawerEngine.JobWorker
                 Parser();
                 SaveData();
                 temp = HasNextPage();
-                SleepForAWhile( GetSleepTimeByJobInfo());
-            } while (temp.Item1)
+                SleepForAWhile(GetSleepTimeByJobInfo());
+            } while (temp.Item1);
 
         }
 
