@@ -1,10 +1,8 @@
-﻿using CrawerEngine.Models;
-using CrawlerEngine.Models;
+﻿using CrawlerEngine.Models;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace CrawerEngine.Manager
+namespace CrawlerEngine.Manager
 {
     class WorkManager
     {
@@ -12,8 +10,8 @@ namespace CrawerEngine.Manager
         private List<string> mailTo;
         public void Process()
         {
-
-            throw new Exception("沒做");
+            Console.WriteLine("Process");
+            // throw new Exception("沒做");
         }
         public List<JobInfo> GetJobInfo()
         {

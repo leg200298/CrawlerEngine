@@ -5,4 +5,26 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Crawler\**" />
+    <Compile Remove="Driver\**" />
+    <Compile Remove="JobWorker\**" />
+    <Compile Remove="Models\**" />
+    <EmbeddedResource Remove="Crawler\**" />
+    <EmbeddedResource Remove="Driver\**" />
+    <EmbeddedResource Remove="JobWorker\**" />
+    <EmbeddedResource Remove="Models\**" />
+    <None Remove="Crawler\**" />
+    <None Remove="Driver\**" />
+    <None Remove="JobWorker\**" />
+    <None Remove="Models\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CrawerEngineCore\CrawlerEngine.Core.csproj" />
+    <ProjectReference Include="..\CrawlerEngine.Driver\CrawlerEngine.Driver.csproj" />
+    <ProjectReference Include="..\CrawlerEngine.JobWorker\CrawlerEngine.JobWorker.csproj" />
+    <ProjectReference Include="..\CrawlerEngine.Models\CrawlerEngine.Models.csproj" />
+  </ItemGroup>
+
 </Project>
