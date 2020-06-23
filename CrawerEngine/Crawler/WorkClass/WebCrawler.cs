@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace CrawlerEngine.Crawler
+namespace CrawlerEngine.Crawler.WorkClass
 {
     class WebCrawler : CrawlerBase
     {

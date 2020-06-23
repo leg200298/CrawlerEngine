@@ -3,9 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace CrawlerEngine.JobWorker
+namespace CrawlerEngine.JobWorker.WorkClass
 {
-    class PchomeJobWorker : JobWorkerBase
+    class MomoJobWorker : JobWorkerBase
+
     {
         protected override bool CallCrawler()
         {
