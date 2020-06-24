@@ -16,7 +16,6 @@ namespace CrawlerEngine.Crawler
                 case 1:
                 default:
                     return new HttpCrawler();
-
             }
 
         }
