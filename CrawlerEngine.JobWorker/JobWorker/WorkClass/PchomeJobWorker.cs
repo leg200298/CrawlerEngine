@@ -1,4 +1,7 @@
-﻿using CrawlerEngine.JobWorker;
+﻿using CrawlerEngine.Crawler;
+using CrawlerEngine.Crawler.Interface;
+using CrawlerEngine.JobWorker;
+using CrawlerEngine.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,9 +10,25 @@ namespace CrawlerEngine.JobWorker.WorkClass
 {
     class PchomeJobWorker : JobWorkerBase
     {
+        public PchomeJobWorker(JobInfo jobInfo)
+        {
+            this.jobInfo = jobInfo;
+            this.crawler = new CrawlerFactory().GetCrawler(jobInfo);
+        }
+        public override JobInfo jobInfo { get; set; }
+        public override ICrawler crawler { get; set; }
+
         protected override bool CallCrawler()
         {
-            throw new NotImplementedException();
+            var success = false;
+            try
+            {
+                crawler.DoCrawlerFlow();
+                success = true;
+            }
+            catch (Exception e) { 
+            }
+            return success;
         }
 
         protected override int GetSleepTimeByJobInfo()

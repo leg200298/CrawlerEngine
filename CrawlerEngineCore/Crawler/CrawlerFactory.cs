@@ -7,7 +7,7 @@ using System.Text;
 
 namespace CrawlerEngine.Crawler
 {
-    class CrawlerFactory
+    public class CrawlerFactory
     {
         public ICrawler GetCrawler(JobInfo jobInfo) {
             switch (jobInfo.TargetType) {

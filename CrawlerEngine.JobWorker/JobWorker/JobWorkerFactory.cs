@@ -13,10 +13,10 @@ namespace CrawlerEngine.JobWorker
             switch (jobInfo.TargetType)
             {
                 case 2:
-                    return new  MomoJobWorker();
+                    return new  MomoJobWorker(jobInfo);
                 case 1:
                 default:
-                    return new PchomeJobWorker();
+                    return new PchomeJobWorker(jobInfo);
             }
         }
     }

@@ -7,9 +7,12 @@ namespace CrawlerEngine.JobWorker
 {
     abstract class JobWorkerBase : IJobWorker
     {
-        public JobInfo jobInfo;
-        public ICrawler crawler;
+        public abstract JobInfo jobInfo { get; set; }
+        public abstract ICrawler crawler { get; set; }
         public string responseData;
+        /// <summary>
+        /// 執行工作流程 ()
+        /// </summary>
         public void DoJobFlow()
         {
             (bool, string) temp = (false, "");
