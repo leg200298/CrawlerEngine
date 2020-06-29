@@ -13,3 +13,12 @@
 | CrawlerEngine.Models     | 模型     | 
 | CrawlerEngine.Test     | 測試專案     | 
 
+使用方法 
+先下載netcore sdk
+
+
+```
+run
+dotnet CrawlerEngine.dll
+```
+design:(https://drive.google.com/file/d/1VM8OUCgJG9Scf7f5sDjSgD2Uwp9_anaT/view?usp=sharing)
