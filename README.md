@@ -4,9 +4,32 @@ CrawlerEngine
 ![build](https://img.shields.io/appveyor/ci/:user/:repo.svg)
 ![chat](https://img.shields.io/discord/:serverId.svg)
 
-## Table of Contents
+Table of Contents
 
 [TOC]
+
+
+Description
+---
+
+| 專案      |功用       | 
+| -------- | -------- | 
+| CrawlerEngine     | 主程式     | 
+| CrawlerEngine.JobWorker     | 執行工作者     | 
+| CrawlerEngine.Core     | 爬蟲核心爬取     | 
+| CrawlerEngine.Driver     | 瀏覽器模式     |
+| CrawlerEngine.Models     | 模型     | 
+| CrawlerEngine.Test     | 測試專案     | 
+
+使用方法 
+先下載netcore sdk
+
+
+```
+run
+dotnet CrawlerEngine.dll
+```
+
 
 design
 ---
