@@ -19,9 +19,9 @@ namespace CrawlerEngine.JobWorker
             do
             {
                 GotoNextPage(temp.Item2);
-                CallCrawler();
-                Validation();
-                Parser();
+                Crawl();
+                Validate();
+                Parse();
                 SaveData();
                 temp = HasNextPage();
                 SleepForAWhile(GetSleepTimeByJobInfo());
@@ -29,9 +29,9 @@ namespace CrawlerEngine.JobWorker
 
         }
 
-        protected abstract bool CallCrawler();
-        protected abstract bool Validation();
-        protected abstract bool Parser();
+        protected abstract bool Crawl();
+        protected abstract bool Validate();
+        protected abstract bool Parse();
         protected abstract bool SaveData();
         protected abstract (bool, string) HasNextPage();
         protected abstract bool GotoNextPage(string url);

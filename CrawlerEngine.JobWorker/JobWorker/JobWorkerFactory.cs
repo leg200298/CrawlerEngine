@@ -10,14 +10,15 @@ namespace CrawlerEngine.JobWorker
     public class JobWorkerFactory
     {
         public IJobWorker GetJobWorker(JobInfo jobInfo) {
-            switch (jobInfo.TargetType)
-            {
-                case 2:
-                    return new  MomoJobWorker(jobInfo);
-                case 1:
-                default:
-                    return new PchomeJobWorker(jobInfo);
-            }
+            throw new Exception();
+            //switch (jobInfo.TargetType)
+            //{
+            //    case 2:
+            //        return new  MomoJobWorker(jobInfo);
+            //    case 1:
+            //    default:
+            //        return new PchomeJobWorker(jobInfo);
+            //}
         }
     }
 }

@@ -18,7 +18,7 @@ namespace CrawlerEngine.JobWorker.WorkClass
         public override JobInfo jobInfo { get; set; }
         public override ICrawler crawler { get; set; }
 
-        protected override bool CallCrawler()
+        protected override bool Crawl()
         {
             var success = false;
             try
@@ -46,7 +46,7 @@ namespace CrawlerEngine.JobWorker.WorkClass
             throw new NotImplementedException();
         }
 
-        protected override bool Parser()
+        protected override bool Parse()
         {
             throw new NotImplementedException();
         }
@@ -61,7 +61,7 @@ namespace CrawlerEngine.JobWorker.WorkClass
             throw new NotImplementedException();
         }
 
-        protected override bool Validation()
+        protected override bool Validate()
         {
             throw new NotImplementedException();
         }

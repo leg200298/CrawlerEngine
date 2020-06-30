@@ -16,5 +16,15 @@ namespace CrawlerEngine.Crawler.WorkClass
         {
             throw new NotImplementedException();
         }
+
+        protected override void Reset()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void Sleep(int time)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

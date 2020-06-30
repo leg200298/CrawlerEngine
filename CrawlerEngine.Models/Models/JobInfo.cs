@@ -1,9 +1,8 @@
-﻿namespace CrawlerEngine.Models
+﻿using Newtonsoft.Json.Linq;
+
+namespace CrawlerEngine.Models
 {
-    public class JobInfo : SaveInfo
+    public class JobInfo : JObject
     {
-        public string TargetUrl;
-        public int TargetType;
-        public string Selector;
     }
 }
