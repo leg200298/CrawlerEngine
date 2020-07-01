@@ -25,7 +25,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Service", "Service", "{FEB8
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "App", "App", "{436C70FA-602A-4F4F-88BB-CC9B2530C0A2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrawlerEngine.Repository", "CrawlerEngine.MSSQLORM\CrawlerEngine.Repository.csproj", "{B6571C25-B8BA-41BF-9713-052CEE909058}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrawlerEngine.Repository", "CrawlerEngine.Repository\CrawlerEngine.Repository.csproj", "{B6571C25-B8BA-41BF-9713-052CEE909058}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
