@@ -1,8 +1,10 @@
-﻿using CrawlerEngine.Driver.WorkClass;
+﻿using CrawlerEngine.Common.Extansion;
+using CrawlerEngine.Driver.WorkClass;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using static CrawlerEngine.Common.NamingString.ObjectStatus;
 
 namespace CrawlerEngine.Driver
 {
@@ -13,12 +15,12 @@ namespace CrawlerEngine.Driver
 
         public static SeleniumDriver GetFreeDriver()
         {
-            if (DriverPool.Any(x => x.Status == "FREE"))
+            if (DriverPool.Any(x => x.Status == DriverStatus.FREE.GetDescription()))
             {
                 lock (c)
                 {
-                    DriverPool.Where(x => x.Status == "FREE").First().Status = "NOTFREE";
-                    return DriverPool.Where(x => x.Status == "FREE").First();
+                    DriverPool.Where(x => x.Status == DriverStatus.FREE.GetDescription()).First().Status = DriverStatus.NOTFREE.GetDescription();
+                    return DriverPool.Where(x => x.Status == DriverStatus.FREE.GetDescription()).First();
                 }
             }
             else
