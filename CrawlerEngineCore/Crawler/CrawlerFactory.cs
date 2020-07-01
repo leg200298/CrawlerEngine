@@ -2,21 +2,24 @@
 using CrawlerEngine.Crawler.WorkClass;
 using CrawlerEngine.Models;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace CrawlerEngine.Crawler
 {
     public class CrawlerFactory
     {
-        public ICrawler GetCrawler(JobInfo jobInfo) {
-            //switch (jobInfo.TargetType) {
-            //    case 2:
-            //        return new WebCrawler();
-            //    case 1:
-            //    default:
-            //        return new HttpCrawler();
-            //}
+        public ICrawler GetCrawler(JobInfo jobInfo)
+        {
+            var target = jobInfo.Info["url"].ToString();
+
+
+            switch (target.ToUpper())
+            {
+                case "MOMOCATEGORY":
+                    return new WebCrawler();
+                case "PCHOMEDETAIL":
+                default:
+                    return new HttpCrawler();
+            }
             throw new Exception();
 
         }

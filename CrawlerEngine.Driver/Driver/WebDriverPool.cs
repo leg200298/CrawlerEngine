@@ -1,19 +1,31 @@
-﻿using CrawlerEngine.Driver.Interface;
-using CrawlerEngine.Driver.WorkClass;
-using OpenQA.Selenium.Chrome;
+﻿using CrawlerEngine.Driver.WorkClass;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
+using System.Linq;
+using System.Threading;
 
 namespace CrawlerEngine.Driver
 {
     public class WebDriverPool
     {
         public static List<SeleniumDriver> DriverPool;
+        private static object c;
+
         public static SeleniumDriver GetFreeDriver()
         {
-            throw new Exception();
+            if (DriverPool.Any(x => x.Status == "FREE"))
+            {
+                lock (c)
+                {
+                    DriverPool.Where(x => x.Status == "FREE").First().Status = "NOTFREE";
+                    return DriverPool.Where(x => x.Status == "FREE").First();
+                }
+            }
+            else
+            {
+                Thread.Sleep(500);
+                return GetFreeDriver();
+            }
         }
         public static bool InitDriver(int driverCount)
         {
@@ -26,7 +38,8 @@ namespace CrawlerEngine.Driver
                     DriverPool.Add(new SeleniumDriver().Init());
                 }
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
 
                 throw ex;
                 return false;

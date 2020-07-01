@@ -1,19 +1,14 @@
-﻿using CrawlerEngine.Driver.Interface;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using OpenQA.Selenium.Chrome;
 
 namespace CrawlerEngine.Driver.WorkClass
 {
     public class SeleniumDriver : ChromeDriver
     {
-        public string Status { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public string Status = "FREE";
 
         public SeleniumDriver Init()
         {
-           return this;
+            return this;
         }
 
     }
