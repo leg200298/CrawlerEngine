@@ -17,8 +17,8 @@ namespace CrawlerEngine.Crawler.WorkClass
 
         protected override string GetData()
         {
-            var s = sd.FindElementsByCssSelector("/html/body");
-            return s[0].GetAttribute("innerHTML");
+            var s = sd.FindElementByXPath("/html/body");
+            return s.GetAttribute("innerHTML");
 
         }
 
