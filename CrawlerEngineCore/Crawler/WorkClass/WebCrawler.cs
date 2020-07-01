@@ -1,34 +1,44 @@
-﻿using CrawlerEngine.Crawler;
-using CrawlerEngine.Driver;
-using CrawlerEngine.Driver.WorkClass;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using CrawlerEngine.Driver;
+using CrawlerEngine.Models;
 
 namespace CrawlerEngine.Crawler.WorkClass
 {
     class WebCrawler : CrawlerBase
     {
-        private SeleniumDriver sd;
+        private JobInfo jobInfo;
+
+        public WebCrawler(JobInfo jobInfo)
+        {
+            this.jobInfo = jobInfo;
+            url = jobInfo.Info["url"].ToString();
+        }
+
         protected override string GetData()
         {
-            throw new NotImplementedException();
+            var s = sd.FindElementsByCssSelector("");
+            return s[0].GetAttribute("innerHTML");
+
         }
 
         protected override void OpenUrl(string url)
         {
-          sd =   WebDriverPool.GetFreeDriver();
+
             sd.Navigate().GoToUrl(url);
         }
 
         protected override void Reset()
         {
-            throw new NotImplementedException();
+
         }
 
         protected override void Sleep(int time)
         {
-            throw new NotImplementedException();
+            System.Threading.Thread.Sleep(time * 1000);
+        }
+
+        protected override void GetDriver()
+        {
+            sd = WebDriverPool.GetFreeDriver();
         }
     }
 }

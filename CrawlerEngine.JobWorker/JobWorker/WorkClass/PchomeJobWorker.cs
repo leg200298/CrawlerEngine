@@ -33,37 +33,41 @@ namespace CrawlerEngine.JobWorker.WorkClass
 
         protected override int GetSleepTimeByJobInfo()
         {
-            throw new NotImplementedException();
+            return 1000;
         }
 
         protected override bool GotoNextPage(string url)
         {
-            throw new NotImplementedException();
+            return false;
         }
 
         protected override (bool, string) HasNextPage()
         {
-            throw new NotImplementedException();
+
+            return (false,"");
         }
 
         protected override bool Parse()
         {
-            throw new NotImplementedException();
+
+            return false;
         }
 
         protected override bool SaveData()
         {
-            throw new NotImplementedException();
+            return false;
+
         }
 
         protected override void SleepForAWhile(int sleepTime)
         {
-            throw new NotImplementedException();
+         
         }
 
         protected override bool Validate()
         {
-            throw new NotImplementedException();
+
+            return false;
         }
     }
 }

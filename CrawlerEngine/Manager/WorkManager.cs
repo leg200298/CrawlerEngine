@@ -15,7 +15,7 @@ namespace CrawlerEngine.Manager
         private List<string> mailTo;
         public void Process()
         {
-            WebDriverPool.InitDriver(3);
+            WebDriverPool.InitDriver(2);
             try
             {
 

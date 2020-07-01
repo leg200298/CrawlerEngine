@@ -11,7 +11,7 @@ namespace CrawlerEngine.Driver
     public class WebDriverPool
     {
         public static List<SeleniumDriver> DriverPool;
-        private static object c;
+        private static object c = new object();
 
         public static SeleniumDriver GetFreeDriver()
         {
@@ -33,6 +33,7 @@ namespace CrawlerEngine.Driver
         {
             try
             {
+                if (DriverPool == null) { DriverPool = new List<SeleniumDriver>(); }
                 DriverPool.Clear();
                 for (int i = 0; i < driverCount; ++i)
                 {

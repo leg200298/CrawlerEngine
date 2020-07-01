@@ -1,7 +1,6 @@
 ﻿using CrawlerEngine.Crawler.Interface;
+using CrawlerEngine.Driver.WorkClass;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace CrawlerEngine.Crawler
 {
@@ -9,6 +8,7 @@ namespace CrawlerEngine.Crawler
     {
         private int time;
 
+        protected SeleniumDriver sd;
         public DateTime StartTime { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         protected string url { get; set; }
 
@@ -18,12 +18,13 @@ namespace CrawlerEngine.Crawler
         /// <returns></returns>
         public string DoCrawlerFlow()
         {
+            GetDriver();
             Sleep(time);
             Reset();
             OpenUrl(url);
             return GetData();
         }
-
+        protected abstract void GetDriver();
         protected abstract void OpenUrl(string url);
 
         protected abstract string GetData();

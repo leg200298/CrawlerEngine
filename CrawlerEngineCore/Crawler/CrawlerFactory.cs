@@ -1,7 +1,6 @@
 ﻿using CrawlerEngine.Crawler.Interface;
 using CrawlerEngine.Crawler.WorkClass;
 using CrawlerEngine.Models;
-using System;
 
 namespace CrawlerEngine.Crawler
 {
@@ -15,12 +14,11 @@ namespace CrawlerEngine.Crawler
             switch (target.ToUpper())
             {
                 case "MOMOCATEGORY":
-                    return new WebCrawler();
+                    return new HttpCrawler(jobInfo);
                 case "PCHOMEDETAIL":
                 default:
-                    return new HttpCrawler();
+                    return new WebCrawler(jobInfo);
             }
-            throw new Exception();
 
         }
     }
