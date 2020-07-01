@@ -1,5 +1,5 @@
-﻿using CrawlerEngine.Repository.Common.Interface;
-using CrawlerEngine.Repository.DTO;
+﻿using CrawlerEngine.Model.DTO;
+using CrawlerEngine.Repository.Common.Interface;
 using Dapper;
 using System;
 using System.Collections.Generic;

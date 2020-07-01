@@ -1,9 +1,10 @@
 ﻿using CrawlerEngine.Driver;
-using CrawlerEngine.Driver.WorkClass;
 using CrawlerEngine.JobWorker;
 using CrawlerEngine.Models;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace CrawlerEngine.Manager
@@ -27,34 +28,44 @@ namespace CrawlerEngine.Manager
             {
                 SendErrorEmail();
             }
-          //
+            //
             // throw new Exception("沒做");
         }
-        public List<JobInfo> GetJobInfo()
+
+
+        #region 工作區
+        private IEnumerable<JobInfo> GetJobInfo()
+        {
+            return
+
+              from x in Repository.Factory.CrawlFactory.CrawlDataJobListRepository.GetCrawlDataJobListDtos()
+              select new JobInfo()
+              {
+                  Info = JObject.Parse(x.JobInfo),
+                  Seq = x.Seq
+              };
+        }
+        private List<JobInfo> Init()
         {
 
             throw new Exception("沒做");
         }
-        public List<JobInfo> Init()
-        {
-
-            throw new Exception("沒做");
-        }
-        public bool DoJob(JobInfo jobInfo)
+        private bool DoJob(JobInfo jobInfo)
         {
             var success = false;
             try
             {
                 new JobWorkerFactory().GetJobWorker(jobInfo).DoJobFlow();
-                success= true;
+                success = true;
             }
-            catch (Exception) {
-              
+            catch (Exception)
+            {
+
             }
             return success;
 
         }
-        public bool SendErrorEmail()
+        private bool SendErrorEmail()
         {
             foreach (var user in mailTo)
             {
@@ -65,5 +76,6 @@ namespace CrawlerEngine.Manager
             throw new Exception("沒做");
 
         }
+        #endregion
     }
 }
