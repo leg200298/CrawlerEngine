@@ -1,7 +1,7 @@
-﻿using CrawlerEngine.Driver;
+﻿using CrawlerEngine.Common.Helper;
+using CrawlerEngine.Driver;
 using CrawlerEngine.JobWorker;
 using CrawlerEngine.Models;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,7 +41,7 @@ namespace CrawlerEngine.Manager
               from x in Repository.Factory.CrawlFactory.CrawlDataJobListRepository.GetCrawlDataJobListDtos()
               select new JobInfo()
               {
-                  Info = JObject.Parse(x.JobInfo),
+                  Info = JsonUntityHelper.DeserializeStringToDictionary<string, object>(x.JobInfo),
                   Seq = x.Seq
               };
         }
@@ -76,6 +76,9 @@ namespace CrawlerEngine.Manager
             throw new Exception("沒做");
 
         }
+
+
+
         #endregion
     }
 }

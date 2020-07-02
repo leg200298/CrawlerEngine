@@ -12,11 +12,6 @@ namespace CrawlerEngine.Crawler.WorkClass
         {
             this.jobInfo = jobInfo;
             url = jobInfo.Info["url"].ToString();
-            xPaths.Clear();
-            foreach (var a in jobInfo.Info["xPathList"].ToList())
-            {
-                xPaths.Add(a.ToString());
-            }
         }
 
         protected override string GetData()

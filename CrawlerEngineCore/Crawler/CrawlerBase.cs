@@ -1,7 +1,6 @@
 ﻿using CrawlerEngine.Crawler.Interface;
 using CrawlerEngine.Driver.WorkClass;
 using System;
-using System.Collections.Generic;
 
 namespace CrawlerEngine.Crawler
 {
@@ -10,7 +9,6 @@ namespace CrawlerEngine.Crawler
         private int time;
 
         protected SeleniumDriver sd;
-        protected List<string> xPaths = new List<string>();
         public DateTime StartTime { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         protected string url { get; set; }
 

@@ -8,9 +8,9 @@ namespace CrawlerEngine.JobWorker
     {
         public IJobWorker GetJobWorker(JobInfo jobInfo)
         {
-            var jobWorker = jobInfo.Info["url"].ToString().ToLower().IndexOf("pchome") > 1 ? "PCHOME" : "MOMO";
+            var jobType = jobInfo.JobType;
 
-            switch (jobWorker)
+            switch (jobType)
             {
                 case "MOMO":
                     return new MomoJobWorker(jobInfo);
