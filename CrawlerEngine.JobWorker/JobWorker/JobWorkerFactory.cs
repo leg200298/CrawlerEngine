@@ -10,13 +10,13 @@ namespace CrawlerEngine.JobWorker
         {
             var jobType = jobInfo.JobType;
 
-            switch (jobType)
+            switch (jobType.ToUpper())
             {
-                case "MOMO":
-                    return new MomoJobWorker(jobInfo);
-                case "PCHOME":
+                case "MOMO-PRODUCT":
+                    return new MomoProductJobWorker(jobInfo);
+                case "PCHOME-PRODUCT":
                 default:
-                    return new PchomeJobWorker(jobInfo);
+                    return new PchomeProductJobWorker(jobInfo);
             }
         }
     }

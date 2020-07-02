@@ -8,66 +8,55 @@ using System.Text;
 
 namespace CrawlerEngine.JobWorker.WorkClass
 {
-    class PchomeJobWorker : JobWorkerBase
+    class MomoProductJobWorker : JobWorkerBase
+
     {
-        public PchomeJobWorker(JobInfo jobInfo)
+        public MomoProductJobWorker(JobInfo jobInfo)
         {
             this.jobInfo = jobInfo;
             this.crawler = new CrawlerFactory().GetCrawler(jobInfo);
         }
-        public override JobInfo jobInfo { get; set; }
+         public override JobInfo jobInfo { get; set; }
         public override ICrawler crawler { get; set; }
 
         protected override bool Crawl()
         {
-            var success = false;
-            try
-            {
-                crawler.DoCrawlerFlow();
-                success = true;
-            }
-            catch (Exception e) { 
-            }
-            return success;
+            throw new NotImplementedException();
         }
 
         protected override int GetSleepTimeByJobInfo()
         {
-            return 1000;
+            throw new NotImplementedException();
         }
 
         protected override bool GotoNextPage(string url)
         {
-            return false;
+            throw new NotImplementedException();
         }
 
         protected override (bool, string) HasNextPage()
         {
-
-            return (false,"");
+            throw new NotImplementedException();
         }
 
         protected override bool Parse()
         {
-
-            return false;
+            throw new NotImplementedException();
         }
 
         protected override bool SaveData()
         {
-            return false;
-
+            throw new NotImplementedException();
         }
 
         protected override void SleepForAWhile(int sleepTime)
         {
-         
+            throw new NotImplementedException();
         }
 
         protected override bool Validate()
         {
-
-            return false;
+            throw new NotImplementedException();
         }
     }
 }
