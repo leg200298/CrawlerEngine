@@ -12,12 +12,17 @@ namespace CrawlerEngine.Crawler.WorkClass
         {
             this.jobInfo = jobInfo;
             url = jobInfo.Info["url"].ToString();
-            xPaths = jobInfo.Info["xPathList"].ToString().Split(',').ToList();
+            xPaths.Clear();
+            foreach (var a in jobInfo.Info["xPathList"].ToList())
+            {
+                xPaths.Add(a.ToString());
+            }
         }
 
         protected override string GetData()
         {
             var s = sd.FindElementByXPath("/html/body");
+            var qq = sd.FindElementByXPath("//*[@id=\"ToothContainer\"]/div/ul[3]/li[1]/a").GetAttribute("innerHTML");
             return s.GetAttribute("innerHTML");
 
         }

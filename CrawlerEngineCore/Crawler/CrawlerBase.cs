@@ -10,7 +10,7 @@ namespace CrawlerEngine.Crawler
         private int time;
 
         protected SeleniumDriver sd;
-        protected List<string> xPaths;
+        protected List<string> xPaths = new List<string>();
         public DateTime StartTime { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         protected string url { get; set; }
 
