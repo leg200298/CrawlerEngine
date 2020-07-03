@@ -1,7 +1,7 @@
 ﻿using CrawlerEngine.Crawler.Interface;
 using CrawlerEngine.JobWorker.Interface;
 using CrawlerEngine.Models;
-using System;
+using CrawlerEngine.Models.Models;
 
 namespace CrawlerEngine.JobWorker
 {
@@ -10,6 +10,7 @@ namespace CrawlerEngine.JobWorker
         public abstract JobInfo jobInfo { get; set; }
         public abstract ICrawler crawler { get; set; }
         public string responseData;
+       protected JsonOptions crawlDataDetailOptions = new JsonOptions();
         /// <summary>
         /// 執行工作流程 ()
         /// </summary>
