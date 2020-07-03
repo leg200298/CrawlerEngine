@@ -5,6 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Driver\Interface\**" />
+    <EmbeddedResource Remove="Driver\Interface\**" />
+    <None Remove="Driver\Interface\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Class1.cs" />
   </ItemGroup>
 
