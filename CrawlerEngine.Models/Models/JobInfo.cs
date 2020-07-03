@@ -23,6 +23,14 @@ namespace CrawlerEngine.Models
             get { return GetUrl(); }
         }
 
+        /// <summary>
+        /// 資料紀錄時間
+        /// </summary>
+        public string RegisterTime
+        {
+            get { return GetRegisterTime(); }
+        }
+
         #region  private area
         private string GetUrl()
         {
@@ -31,6 +39,10 @@ namespace CrawlerEngine.Models
         private string GetJobType()
         {
             return GetString("_jobType");
+        }
+        private string GetRegisterTime()
+        {
+            return GetString("_registerTime");
         }
         #endregion
     }
