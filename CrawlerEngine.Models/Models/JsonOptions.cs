@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using CrawlerEngine.Common;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,7 +40,7 @@ namespace CrawlerEngine.Models.Models
         /// <returns>Json字典黨</returns>
         public string GetJsonString()
         {
-            PutToDic("_saveDataTime", DateTime.UtcNow.ToString("yyyy/MM/dd hh:mm:ss"));
+            PutToDic("_saveDataTime", DateTime.UtcNow.ToString(RuleString.DateTimeFormat));
             return JObject.FromObject(Info).ToString();
         }
 

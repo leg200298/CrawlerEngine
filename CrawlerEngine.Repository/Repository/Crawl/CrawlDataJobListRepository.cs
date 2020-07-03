@@ -1,4 +1,5 @@
-﻿using CrawlerEngine.Model.DTO;
+﻿using CrawlerEngine.Common;
+using CrawlerEngine.Model.DTO;
 using CrawlerEngine.Models;
 using CrawlerEngine.Repository.Common.Interface;
 using Dapper;
@@ -59,7 +60,7 @@ namespace CrawlerEngine.Repository.Crawl
             string sqlCommand = $@"
                                     UPDATE [dbo].[CrawlDataJobList]
                                        SET  [JobStatus] = 'end'
-                                           ,[EndTime] = '{DateTime.UtcNow.ToString("yyyy/MM/dd hh:mm:ss")}'
+                                           ,[EndTime] = '{DateTime.UtcNow.ToString(RuleString.DateTimeFormat)}'
                                    WHERE [Seq] = @Seq";
             using (var conn = _DatabaseConnection.Create())
             {
@@ -71,7 +72,7 @@ namespace CrawlerEngine.Repository.Crawl
             string sqlCommand = $@"
                                 UPDATE [dbo].[CrawlDataJobList]
                                    SET [JobStatus] = 'start'
-                                      ,[StartTime] = '{DateTime.UtcNow.ToString("yyyy/MM/dd hh:mm:ss")}'
+                                      ,[StartTime] = '{DateTime.UtcNow.ToString(RuleString.DateTimeFormat)}'
                                  WHERE [Seq] = @Seq
                                 ";
             using (var conn = _DatabaseConnection.Create())
