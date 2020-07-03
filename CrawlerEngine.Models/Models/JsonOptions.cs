@@ -1,5 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CrawlerEngine.Models.Models
 {
@@ -11,9 +13,9 @@ namespace CrawlerEngine.Models.Models
         /// 字典暫存檔
         /// </summary>
         public Dictionary<string, object> Info = new Dictionary<string, object>();
-        public object price { set { PutToDic("price", value); } }
-        public object name { set { PutToDic("name", value); } }
-        public object category { set { PutToDic("category", value); } }
+        public object price { set { PutToDic("_productPrice", value); } }
+        public object name { set { PutToDic("_productName", value); } }
+        public object category { set { PutToDic("_productCategory", value); } }
 
 
         /// <summary>
@@ -23,7 +25,12 @@ namespace CrawlerEngine.Models.Models
         /// <param name="value">值</param>
         public void PutToDic(string key, object value)
         {
-            Info.Add(key, value);
+            if (Info.Keys.Contains(key))
+            {
+                Info[key] = value;
+            }
+            else { Info.Add(key, value); }
+
         }
 
         /// <summary>
@@ -32,6 +39,7 @@ namespace CrawlerEngine.Models.Models
         /// <returns>Json字典黨</returns>
         public string GetJsonString()
         {
+            PutToDic("_saveDataTime", DateTime.UtcNow.ToString("yyyy/MM/dd hh:mm:ss"));
             return JObject.FromObject(Info).ToString();
         }
 
