@@ -9,6 +9,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.24" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\CrawlerEngine.Models\CrawlerEngine.Models.csproj" />
     <ProjectReference Include="..\CrawlerEngineCore\CrawlerEngine.Core.csproj" />
   </ItemGroup>

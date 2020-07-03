@@ -1,15 +1,16 @@
 ﻿using CrawlerEngine.Crawler;
 using CrawlerEngine.Crawler.Interface;
-using CrawlerEngine.JobWorker;
 using CrawlerEngine.Models;
+using HtmlAgilityPack;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace CrawlerEngine.JobWorker.WorkClass
 {
     class PchomeProductJobWorker : JobWorkerBase
     {
+        private string productPrice = string.Empty;
+        private string productName = string.Empty;
+        private string productCategory = string.Empty;
         public PchomeProductJobWorker(JobInfo jobInfo)
         {
             this.jobInfo = jobInfo;
@@ -23,10 +24,11 @@ namespace CrawlerEngine.JobWorker.WorkClass
             var success = false;
             try
             {
-                crawler.DoCrawlerFlow();
+                responseData = crawler.DoCrawlerFlow();
                 success = true;
             }
-            catch (Exception e) { 
+            catch (Exception e)
+            {
             }
             return success;
         }
@@ -44,30 +46,44 @@ namespace CrawlerEngine.JobWorker.WorkClass
         protected override (bool, string) HasNextPage()
         {
 
-            return (false,"");
+            return (false, "");
         }
 
         protected override bool Parse()
         {
 
+            var htmlDoc = new HtmlDocument();
+            htmlDoc.LoadHtml(responseData);
+            productPrice = htmlDoc.DocumentNode.SelectSingleNode("//*[@id=\"PriceTotal\"]").InnerText;
+            productName = htmlDoc.DocumentNode.SelectSingleNode("//*[@id=\"NickContainer\"]").InnerText;
+            productCategory = htmlDoc.DocumentNode.SelectSingleNode("//*[@id=\"CONTENT\"]/div[1]/div[1]/div[2]").InnerText;
             return false;
         }
 
         protected override bool SaveData()
         {
+            Console.WriteLine($"productPrice: {productPrice}");
+            Console.WriteLine($"productName: {productName}");
+            Console.WriteLine($"productCategory: {productCategory}");
             return false;
 
         }
 
         protected override void SleepForAWhile(int sleepTime)
         {
-         
+
         }
 
         protected override bool Validate()
         {
-
-            return false;
+            if (string.IsNullOrEmpty(responseData))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
     }
 }

@@ -8,14 +8,14 @@ namespace CrawlerEngine.Crawler
     {
         public ICrawler GetCrawler(JobInfo jobInfo)
         {
-            var target = jobInfo.Info["url"].ToString();
+            var target = jobInfo.JobType;
 
 
             switch (target.ToUpper())
             {
-                case "MOMOCATEGORY":
+                case "MOMO-PRODUCT":
                     return new HttpCrawler(jobInfo);
-                case "PCHOMEDETAIL":
+                case "PCHOME-PRODUCT":
                 default:
                     return new WebCrawler(jobInfo);
             }

@@ -1,6 +1,5 @@
 ﻿using CrawlerEngine.Driver;
 using CrawlerEngine.Models;
-using System.Linq;
 
 namespace CrawlerEngine.Crawler.WorkClass
 {
@@ -11,13 +10,12 @@ namespace CrawlerEngine.Crawler.WorkClass
         public WebCrawler(JobInfo jobInfo)
         {
             this.jobInfo = jobInfo;
-            url = jobInfo.Info["url"].ToString();
+            url = jobInfo.GetUrl();
         }
 
         protected override string GetData()
         {
             var s = sd.FindElementByXPath("/html/body");
-            var qq = sd.FindElementByXPath("//*[@id=\"ToothContainer\"]/div/ul[3]/li[1]/a").GetAttribute("innerHTML");
             return s.GetAttribute("innerHTML");
 
         }
