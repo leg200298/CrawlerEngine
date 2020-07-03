@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CrawlerEngine.Models\CrawlerEngine.Models.csproj" />
+    <ProjectReference Include="..\CrawlerEngine.Repository\CrawlerEngine.Repository.csproj" />
     <ProjectReference Include="..\CrawlerEngineCore\CrawlerEngine.Core.csproj" />
   </ItemGroup>
 

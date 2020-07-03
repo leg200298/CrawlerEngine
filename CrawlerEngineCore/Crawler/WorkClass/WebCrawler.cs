@@ -15,20 +15,16 @@ namespace CrawlerEngine.Crawler.WorkClass
 
         protected override string GetData()
         {
-            var s = sd.FindElementByXPath("/html/body");
-            return s.GetAttribute("innerHTML");
-
+            return sd.FindElementByXPath("/html/body").GetAttribute("innerHTML");
         }
 
         protected override void OpenUrl(string url)
         {
-
             sd.Navigate().GoToUrl(url);
         }
 
         protected override void Reset()
         {
-
         }
 
         protected override void Sleep(int time)

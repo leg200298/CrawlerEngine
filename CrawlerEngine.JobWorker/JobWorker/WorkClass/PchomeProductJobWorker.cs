@@ -1,8 +1,11 @@
 ﻿using CrawlerEngine.Crawler;
 using CrawlerEngine.Crawler.Interface;
+using CrawlerEngine.Model.DTO;
 using CrawlerEngine.Models;
 using HtmlAgilityPack;
+using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
 
 namespace CrawlerEngine.JobWorker.WorkClass
 {
@@ -62,9 +65,17 @@ namespace CrawlerEngine.JobWorker.WorkClass
 
         protected override bool SaveData()
         {
-            Console.WriteLine($"productPrice: {productPrice}");
-            Console.WriteLine($"productName: {productName}");
-            Console.WriteLine($"productCategory: {productCategory}");
+            JObject jObject = new JObject();
+            Dictionary<string, object> dictionary = new Dictionary<string, object>();
+            CrawlDataDetailDto crawlDataDetailDto = new CrawlDataDetailDto();
+            crawlDataDetailDto.Seq = jobInfo.Seq;
+            jObject.Add("price", productPrice);
+            jObject.Add("name", productName);
+            jObject.Add("category", productCategory);
+            crawlDataDetailDto.DetailData = jObject.ToString();
+            crawlDataDetailDto.JobStatus = "end";
+            crawlDataDetailDto.EndTime = DateTime.Now;
+            Repository.Factory.CrawlFactory.CrawlDataDetailRepository.InsertDataDetail(crawlDataDetailDto);
             return false;
 
         }
