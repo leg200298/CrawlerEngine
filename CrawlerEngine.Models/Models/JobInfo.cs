@@ -5,15 +5,26 @@ namespace CrawlerEngine.Models
     public class JobInfo : Options
     {
         public Guid Seq { get; set; }
+
         /// <summary>
-        /// 
+        /// 決定工作屬於的類型  ("平台"-"網頁類型")
         /// </summary>
         public string JobType
         {
             get { return GetJobType(); }
-            set { }
         }
-        public string GetUrl()
+
+
+        /// <summary>
+        /// 目標網址
+        /// </summary>
+        public string Url
+        {
+            get { return GetUrl(); }
+        }
+
+        #region  private area
+        private string GetUrl()
         {
             return GetString("_url");
         }
@@ -21,5 +32,6 @@ namespace CrawlerEngine.Models
         {
             return GetString("_jobType");
         }
+        #endregion
     }
 }

@@ -10,7 +10,7 @@ namespace CrawlerEngine.Crawler.WorkClass
         public WebCrawler(JobInfo jobInfo)
         {
             this.jobInfo = jobInfo;
-            url = jobInfo.GetUrl();
+            url = jobInfo.Url;
         }
 
         protected override string GetData()
