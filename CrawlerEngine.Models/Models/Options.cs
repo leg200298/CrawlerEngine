@@ -23,7 +23,7 @@ namespace CrawlerEngine.Models
             {
                 return null;
             }
-            return Info[key].ToString();
+            return Info[key] as string;
         }
 
         /// <summary>
