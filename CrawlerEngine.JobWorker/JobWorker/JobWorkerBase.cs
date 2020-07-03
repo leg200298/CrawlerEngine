@@ -10,12 +10,13 @@ namespace CrawlerEngine.JobWorker
         public abstract JobInfo jobInfo { get; set; }
         public abstract ICrawler crawler { get; set; }
         public string responseData;
-       protected JsonOptions crawlDataDetailOptions = new JsonOptions();
+        protected JsonOptions crawlDataDetailOptions = new JsonOptions();
         /// <summary>
         /// 執行工作流程 ()
         /// </summary>
         public void DoJobFlow()
         {
+            UpdateJobStatusStart();
             (bool, string) temp = (false, "");
             do
             {
@@ -27,8 +28,17 @@ namespace CrawlerEngine.JobWorker
                 temp = HasNextPage();
                 SleepForAWhile(GetSleepTimeByJobInfo());
             } while (temp.Item1);
+            UpdateJobStatusEnd();
 
         }
+
+        protected abstract void UpdateJobStatusEnd();
+
+
+
+        protected abstract void UpdateJobStatusStart();
+
+
 
         protected abstract bool Crawl();
         protected abstract bool Validate();

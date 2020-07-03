@@ -2,7 +2,6 @@
 using CrawlerEngine.Crawler.Interface;
 using CrawlerEngine.Model.DTO;
 using CrawlerEngine.Models;
-using CrawlerEngine.Models.Models;
 using HtmlAgilityPack;
 using System;
 
@@ -77,6 +76,25 @@ namespace CrawlerEngine.JobWorker.WorkClass
         protected override void SleepForAWhile(int sleepTime)
         {
 
+        }
+
+        protected override void UpdateJobStatusEnd()
+        {
+            CrawlDataJobListDto crawlDataJobListDto = new CrawlDataJobListDto()
+            {
+                Seq = jobInfo.Seq
+            };
+            Repository.Factory.CrawlFactory.CrawlDataJobListRepository.UpdateStatusEnd(crawlDataJobListDto);
+
+        }
+
+        protected override void UpdateJobStatusStart()
+        {
+            CrawlDataJobListDto crawlDataJobListDto = new CrawlDataJobListDto()
+            {
+                Seq = jobInfo.Seq
+            };
+            Repository.Factory.CrawlFactory.CrawlDataJobListRepository.UpdateStatusStart(crawlDataJobListDto);
         }
 
         protected override bool Validate()

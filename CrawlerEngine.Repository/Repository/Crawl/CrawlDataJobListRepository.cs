@@ -52,5 +52,31 @@ namespace CrawlerEngine.Repository.Crawl
                 return result;
             }
         }
+
+        public int UpdateStatusEnd(CrawlDataJobListDto crawlDataJobListDto)
+        {
+            string sqlCommand = $@"
+                                    UPDATE [dbo].[CrawlDataJobList]
+                                       SET  [JobStatus] = 'end'
+                                           ,[EndTime] = {DateTime.Now}
+                                   WHERE [Seq] = @Seq";
+            using (var conn = _DatabaseConnection.Create())
+            {
+                return conn.Execute(sqlCommand, crawlDataJobListDto);
+            }
+        }
+        public int UpdateStatusStart(CrawlDataJobListDto crawlDataJobListDto)
+        {
+            string sqlCommand = $@"
+                                UPDATE [dbo].[CrawlDataJobList]
+                                   SET [JobStatus] = 'start'
+                                      ,[StartTime] = {DateTime.Now}
+                                 WHERE [Seq] = @Seq
+                                ";
+            using (var conn = _DatabaseConnection.Create())
+            {
+                return conn.Execute(sqlCommand, crawlDataJobListDto);
+            }
+        }
     }
 }

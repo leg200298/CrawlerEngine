@@ -1,10 +1,7 @@
 ﻿using CrawlerEngine.Crawler;
 using CrawlerEngine.Crawler.Interface;
-using CrawlerEngine.JobWorker;
 using CrawlerEngine.Models;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace CrawlerEngine.JobWorker.WorkClass
 {
@@ -16,7 +13,7 @@ namespace CrawlerEngine.JobWorker.WorkClass
             this.jobInfo = jobInfo;
             this.crawler = new CrawlerFactory().GetCrawler(jobInfo);
         }
-         public override JobInfo jobInfo { get; set; }
+        public override JobInfo jobInfo { get; set; }
         public override ICrawler crawler { get; set; }
 
         protected override bool Crawl()
@@ -50,6 +47,16 @@ namespace CrawlerEngine.JobWorker.WorkClass
         }
 
         protected override void SleepForAWhile(int sleepTime)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void UpdateJobStatusEnd()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void UpdateJobStatusStart()
         {
             throw new NotImplementedException();
         }
