@@ -1,4 +1,5 @@
 ﻿using CrawlerEngine.Model.DTO;
+using CrawlerEngine.Models;
 using CrawlerEngine.Repository.Common.Interface;
 using Dapper;
 using System;
@@ -53,29 +54,29 @@ namespace CrawlerEngine.Repository.Crawl
             }
         }
 
-        public int UpdateStatusEnd(CrawlDataJobListDto crawlDataJobListDto)
+        public int UpdateStatusEnd(JobInfo jobInfo)
         {
             string sqlCommand = $@"
                                     UPDATE [dbo].[CrawlDataJobList]
                                        SET  [JobStatus] = 'end'
-                                           ,[EndTime] = {DateTime.Now}
+                                           ,[EndTime] = '{DateTime.UtcNow.ToString("yyyy/MM/dd hh:mm:ss")}'
                                    WHERE [Seq] = @Seq";
             using (var conn = _DatabaseConnection.Create())
             {
-                return conn.Execute(sqlCommand, crawlDataJobListDto);
+                return conn.Execute(sqlCommand, jobInfo);
             }
         }
-        public int UpdateStatusStart(CrawlDataJobListDto crawlDataJobListDto)
+        public int UpdateStatusStart(JobInfo jobInfo)
         {
             string sqlCommand = $@"
                                 UPDATE [dbo].[CrawlDataJobList]
                                    SET [JobStatus] = 'start'
-                                      ,[StartTime] = {DateTime.Now}
+                                      ,[StartTime] = '{DateTime.UtcNow.ToString("yyyy/MM/dd hh:mm:ss")}'
                                  WHERE [Seq] = @Seq
                                 ";
             using (var conn = _DatabaseConnection.Create())
             {
-                return conn.Execute(sqlCommand, crawlDataJobListDto);
+                return conn.Execute(sqlCommand, jobInfo);
             }
         }
     }

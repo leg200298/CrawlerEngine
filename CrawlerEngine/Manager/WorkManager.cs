@@ -58,9 +58,9 @@ namespace CrawlerEngine.Manager
                 new JobWorkerFactory().GetJobWorker(jobInfo).DoJobFlow();
                 success = true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                var msg = ex.Message;
             }
             return success;
 

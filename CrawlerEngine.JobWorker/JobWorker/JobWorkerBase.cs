@@ -33,12 +33,7 @@ namespace CrawlerEngine.JobWorker
         }
 
         protected abstract void UpdateJobStatusEnd();
-
-
-
         protected abstract void UpdateJobStatusStart();
-
-
 
         protected abstract bool Crawl();
         protected abstract bool Validate();

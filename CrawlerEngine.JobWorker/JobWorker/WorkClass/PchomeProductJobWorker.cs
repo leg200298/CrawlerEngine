@@ -80,21 +80,13 @@ namespace CrawlerEngine.JobWorker.WorkClass
 
         protected override void UpdateJobStatusEnd()
         {
-            CrawlDataJobListDto crawlDataJobListDto = new CrawlDataJobListDto()
-            {
-                Seq = jobInfo.Seq
-            };
-            Repository.Factory.CrawlFactory.CrawlDataJobListRepository.UpdateStatusEnd(crawlDataJobListDto);
+            Repository.Factory.CrawlFactory.CrawlDataJobListRepository.UpdateStatusEnd(jobInfo);
 
         }
 
         protected override void UpdateJobStatusStart()
         {
-            CrawlDataJobListDto crawlDataJobListDto = new CrawlDataJobListDto()
-            {
-                Seq = jobInfo.Seq
-            };
-            Repository.Factory.CrawlFactory.CrawlDataJobListRepository.UpdateStatusStart(crawlDataJobListDto);
+            Repository.Factory.CrawlFactory.CrawlDataJobListRepository.UpdateStatusStart(jobInfo);
         }
 
         protected override bool Validate()

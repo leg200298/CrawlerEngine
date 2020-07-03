@@ -1,5 +1,4 @@
 ﻿using CrawlerEngine.Manager;
-using System;
 
 namespace CrawlerEngine
 {
@@ -7,10 +6,9 @@ namespace CrawlerEngine
     {
         static void Main(string[] args)
         {
-           
+
             WorkManager workManager = new WorkManager();
             workManager.Process();
-            Console.ReadLine();
         }
     }
 }
