@@ -3,7 +3,6 @@ using CrawlerEngine.Driver.WorkClass;
 using CrawlerEngine.Models;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace CrawlerEngine.Manager
 {
@@ -16,11 +15,8 @@ namespace CrawlerEngine.Manager
             Console.WriteLine("Process");
             try
             {
-                Parallel.ForEach(GetJobInfo(), item=>
-                {
-
-                    DoJob(item);
-                });
+                GetJobInfo();
+                DoJob();
             }
             catch (Exception e)
             {
@@ -39,7 +35,7 @@ namespace CrawlerEngine.Manager
 
             throw new Exception("沒做");
         }
-        public bool DoJob(JobInfo jobInfo)
+        public bool DoJob()
         {
             throw new Exception("沒做");
 

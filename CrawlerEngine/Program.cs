@@ -7,7 +7,8 @@ namespace CrawlerEngine
     {
         static void Main(string[] args)
         {
-            new WorkManager().Process();
+            WorkManager workManager = new WorkManager();
+            workManager.Process();
             Console.ReadLine();
         }
     }
