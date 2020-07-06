@@ -23,6 +23,23 @@ namespace CrawlerEngine.Models
             get { return GetUrl(); }
             set { SetUrl(value); }
         }
+        /// <summary>
+        /// 指定瀏覽器睡眠時間
+        /// </summary>
+        public decimal? DriverSleepTime
+        {
+            get { return GetSleepTime(); }
+        }
+        /// <summary>
+        /// 取得睡覺時間
+        /// </summary>
+        /// <returns></returns>
+        private decimal? GetSleepTime()
+        {
+            var st = GetString("_sleepTime"); ;
+            if (string.IsNullOrEmpty(st)) return null;
+            return Convert.ToDecimal(st);
+        }
 
         /// <summary>
         /// 資料紀錄時間
