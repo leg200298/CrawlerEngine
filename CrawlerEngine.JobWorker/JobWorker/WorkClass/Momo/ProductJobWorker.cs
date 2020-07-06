@@ -21,10 +21,6 @@ namespace CrawlerEngine.JobWorker.WorkClass.Momo
             throw new NotImplementedException();
         }
 
-        protected override decimal GetSleepTimeByJobInfo()
-        {
-            throw new NotImplementedException();
-        }
 
         protected override bool GotoNextPage(string url)
         {
