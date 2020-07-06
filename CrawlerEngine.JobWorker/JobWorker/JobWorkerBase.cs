@@ -2,6 +2,7 @@
 using CrawlerEngine.JobWorker.Interface;
 using CrawlerEngine.Models;
 using CrawlerEngine.Models.Models;
+using System;
 
 namespace CrawlerEngine.JobWorker
 {
@@ -10,6 +11,8 @@ namespace CrawlerEngine.JobWorker
         public abstract JobInfo jobInfo { get; set; }
         public abstract ICrawler crawler { get; set; }
         public string responseData;
+
+        private decimal sleepTime = 0;
         protected JsonOptions crawlDataDetailOptions = new JsonOptions();
         /// <summary>
         /// 執行工作流程 ()
@@ -45,7 +48,17 @@ namespace CrawlerEngine.JobWorker
         protected abstract bool SaveData();
         protected abstract (bool, string) HasNextPage();
         protected abstract bool GotoNextPage(string url);
-        protected abstract decimal GetSleepTimeByJobInfo();
+        protected  decimal GetSleepTimeByJobInfo()
+        {
+            try
+            {
+                sleepTime = jobInfo.DriverSleepTime ??
+                    2 + new Random().Next(3, 100) / 50;
+            }
+            catch (Exception) { }
+
+            return sleepTime;
+        }
         protected abstract void SleepForAWhile(decimal sleepTime);
     }
 }

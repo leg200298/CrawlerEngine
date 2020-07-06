@@ -35,10 +35,6 @@ namespace CrawlerEngine.JobWorker.WorkClass.Pchome
             return success;
         }
 
-        protected override decimal GetSleepTimeByJobInfo()
-        {
-            return 1000;
-        }
 
         protected override bool GotoNextPage(string url)
         {

@@ -17,7 +17,6 @@ namespace CrawlerEngine.JobWorker.WorkClass.Pchome
     class StoreJobWorker : JobWorkerBase
     {
         private List<JobInfo> jobInfos = new List<JobInfo>();
-        private decimal sleepTime = 0;
         private HtmlDocument htmlDoc = new HtmlDocument();
         public StoreJobWorker(JobInfo jobInfo)
         {
@@ -103,17 +102,6 @@ namespace CrawlerEngine.JobWorker.WorkClass.Pchome
 
         }
 
-        protected override decimal GetSleepTimeByJobInfo()
-        {
-            try
-            {
-                sleepTime = jobInfo.DriverSleepTime ??
-                    2 + new Random().Next(3, 100) / 50;
-            }
-            catch (Exception) { }
-
-            return sleepTime;
-        }
         protected override (bool, string) HasNextPage()
         {
 
