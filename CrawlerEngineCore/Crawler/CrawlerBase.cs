@@ -4,7 +4,7 @@ using System;
 
 namespace CrawlerEngine.Crawler
 {
-    abstract class CrawlerBase : ICrawler
+    public abstract class CrawlerBase : ICrawler
     {
         private int time;
 

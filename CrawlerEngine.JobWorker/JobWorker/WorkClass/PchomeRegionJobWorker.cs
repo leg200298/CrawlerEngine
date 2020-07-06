@@ -1,19 +1,20 @@
 ﻿using CrawlerEngine.Crawler.Interface;
 using CrawlerEngine.Crawler.WorkClass;
-using CrawlerEngine.Model.DTO;
 using CrawlerEngine.Models;
 using HtmlAgilityPack;
 using System;
+using System.Collections.Generic;
 
 namespace CrawlerEngine.JobWorker.WorkClass
 {
-    class PchomeProductJobWorker : JobWorkerBase
+    class PchomeRegionJobWorker : JobWorkerBase
     {
-        public PchomeProductJobWorker(JobInfo jobInfo)
+        public PchomeRegionJobWorker(JobInfo jobInfo)
         {
             this.jobInfo = jobInfo;
             this.crawler = new WebCrawler(jobInfo);
         }
+        private List<JobInfo> jobInfos = new List<JobInfo>();
         public override JobInfo jobInfo { get; set; }
         public override ICrawler crawler { get; set; }
 
@@ -52,24 +53,23 @@ namespace CrawlerEngine.JobWorker.WorkClass
 
             var htmlDoc = new HtmlDocument();
             htmlDoc.LoadHtml(responseData);
-            crawlDataDetailOptions.price = htmlDoc.DocumentNode.SelectSingleNode("//*[@id=\"PriceTotal\"]").InnerText;
-            crawlDataDetailOptions.name = htmlDoc.DocumentNode.SelectSingleNode("//*[@id=\"NickContainer\"]").InnerText;
-            crawlDataDetailOptions.category = htmlDoc.DocumentNode.SelectSingleNode("//*[@id=\"CONTENT\"]/div[1]/div[1]/div[2]").InnerText;
-            return false;
+            var nodes = htmlDoc.DocumentNode.SelectNodes("//*[@id=\"Block12Container50\"]/dd/div/h5/a");
+
+            foreach (var data in nodes)
+            {
+                var url = data.Attributes["href"].Value;
+                if (url.StartsWith("/prod/"))
+                {
+                    jobInfos.Add(new JobInfo() { JobType = "PCHOME-PRODUCT", Url = $"https://24h.pchome.com.tw{url}" });
+                }
+            }
+            return true;
         }
 
         protected override bool SaveData()
         {
-            CrawlDataDetailDto crawlDataDetailDto = new CrawlDataDetailDto()
-            {
-                Seq = jobInfo.Seq,
-                JobStatus = "end",
-                EndTime = DateTime.Now,
-                DetailData = crawlDataDetailOptions.GetJsonString()
-            };
-
-            Repository.Factory.CrawlFactory.CrawlDataDetailRepository.InsertDataDetail(crawlDataDetailDto);
-            return false;
+            Repository.Factory.CrawlFactory.CrawlDataJobListRepository.InsertMany(jobInfos);
+            return true;
 
         }
 

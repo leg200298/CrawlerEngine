@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace CrawlerEngine.Repository.Crawl
 {
-    public class CrawlDataDetailRepository : IDisposable
+    public class CrawlDataDetailRepository : BulkInsert<CrawlDataDetailDto>, IDisposable
     {
         private bool disposedValue = false;
         private IDatabaseConnectionHelper _DatabaseConnection;

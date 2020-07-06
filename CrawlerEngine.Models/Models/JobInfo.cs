@@ -12,8 +12,8 @@ namespace CrawlerEngine.Models
         public string JobType
         {
             get { return GetJobType(); }
+            set { SetJobType(value); }
         }
-
 
         /// <summary>
         /// 目標網址
@@ -21,6 +21,7 @@ namespace CrawlerEngine.Models
         public string Url
         {
             get { return GetUrl(); }
+            set { SetUrl(value); }
         }
 
         #region  private area
@@ -28,10 +29,23 @@ namespace CrawlerEngine.Models
         {
             return GetString("_url");
         }
+
+
+        private void SetUrl(string value)
+        {
+            PutToDic("_url", value);
+        }
+
         private string GetJobType()
         {
             return GetString("_jobType");
         }
+
+        private void SetJobType(string value)
+        {
+            PutToDic("_jobType", value);
+        }
+
         #endregion
     }
 }
