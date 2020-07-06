@@ -1,5 +1,4 @@
 ﻿using CrawlerEngine.JobWorker.Interface;
-using CrawlerEngine.JobWorker.WorkClass;
 using CrawlerEngine.Models;
 
 namespace CrawlerEngine.JobWorker
@@ -12,14 +11,19 @@ namespace CrawlerEngine.JobWorker
 
             switch (jobType.ToUpper())
             {
+                #region Momo
                 case "MOMO-PRODUCT":
-                    return new MomoProductJobWorker(jobInfo);
+                    return new WorkClass.Momo.ProductJobWorker(jobInfo);
+                #endregion
+
+                #region Pchome
                 case "PCHOME-PRODUCT":
-                    return new PchomeProductJobWorker(jobInfo);
+                    return new WorkClass.Pchome.ProductJobWorker(jobInfo);
                 case "PCHOME-REGION":
-                    return new PchomeRegionJobWorker(jobInfo);
+                    return new WorkClass.Pchome.RegionJobWorker(jobInfo);
                 case "PCHOME-STORE":
-                    return new PchomeStoreJobWorker(jobInfo);
+                    return new WorkClass.Pchome.StoreJobWorker(jobInfo);
+                #endregion
 
                 default:
                     return null;

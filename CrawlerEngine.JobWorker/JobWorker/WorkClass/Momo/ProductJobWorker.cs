@@ -3,12 +3,12 @@ using CrawlerEngine.Crawler.Interface;
 using CrawlerEngine.Models;
 using System;
 
-namespace CrawlerEngine.JobWorker.WorkClass
+namespace CrawlerEngine.JobWorker.WorkClass.Momo
 {
-    class MomoProductJobWorker : JobWorkerBase
+    class ProductJobWorker : JobWorkerBase
 
     {
-        public MomoProductJobWorker(JobInfo jobInfo)
+        public ProductJobWorker(JobInfo jobInfo)
         {
             this.jobInfo = jobInfo;
             this.crawler = new CrawlerFactory().GetCrawler(jobInfo);

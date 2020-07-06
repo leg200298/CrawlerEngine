@@ -6,14 +6,18 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 
-namespace CrawlerEngine.JobWorker.WorkClass
+namespace CrawlerEngine.JobWorker.WorkClass.Pchome
 {
-    class PchomeStoreJobWorker : JobWorkerBase
+
+    /// <summary>
+    /// 館分類頁
+    /// </summary>
+    class StoreJobWorker : JobWorkerBase
     {
         private List<JobInfo> jobInfos = new List<JobInfo>();
         private decimal sleepTime;
         private HtmlDocument htmlDoc = new HtmlDocument();
-        public PchomeStoreJobWorker(JobInfo jobInfo)
+        public StoreJobWorker(JobInfo jobInfo)
         {
             this.jobInfo = jobInfo;
             this.crawler = new WebCrawler(jobInfo);
