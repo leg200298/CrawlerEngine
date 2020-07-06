@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace CrawlerEngine.Repository.Crawl
 {
-    public class CrawlDataJobListRepository
+    public class CrawlDataJobListRepository : BulkInsert<CrawlDataJobListDto>, IDisposable
     {
         private bool disposedValue = false;
         private IDatabaseConnectionHelper _DatabaseConnection;
@@ -79,6 +79,26 @@ namespace CrawlerEngine.Repository.Crawl
             {
                 return conn.Execute(sqlCommand, jobInfo);
             }
+        }
+        public int InsertOne(JobInfo jobInfo)
+        {
+            string sqlCommand = $@"
+                                    INSERT INTO [dbo].[CrawlDataJobList]
+                                               ([JobInfo])
+                                         VALUES
+                                               (N'{jobInfo.GetJsonString()}')
+
+
+                                ";
+            using (var conn = _DatabaseConnection.Create())
+            {
+                return conn.Execute(sqlCommand);
+            }
+        }
+        public void InsertMany(List<JobInfo> jobInfos) {
+            BulkInsertRecords(ref jobInfos,"", _DatabaseConnection.Create().ConnectionString);
+
+
         }
     }
 }

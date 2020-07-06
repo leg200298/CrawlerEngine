@@ -3,7 +3,7 @@ using System;
 
 namespace CrawlerEngine.Crawler.WorkClass
 {
-    class HttpCrawler : CrawlerBase
+    public class HttpCrawler : CrawlerBase
     {
         private JobInfo jobInfo;
 

@@ -15,8 +15,13 @@ namespace CrawlerEngine.JobWorker
                 case "MOMO-PRODUCT":
                     return new MomoProductJobWorker(jobInfo);
                 case "PCHOME-PRODUCT":
-                default:
                     return new PchomeProductJobWorker(jobInfo);
+                case "PCHOME-REGION":
+                    return new PchomeRegionJobWorker(jobInfo);
+
+                default:
+                    return null;
+                    break;
             }
         }
     }

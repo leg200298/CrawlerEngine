@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace CrawlerEngine.Models
@@ -9,7 +11,7 @@ namespace CrawlerEngine.Models
         /// <summary>
         /// 工作所需內容轉入存放字典
         /// </summary>
-        public Dictionary<string, object> Info { get; set; }
+        public Dictionary<string, object> Info = new Dictionary<string, object>();
 
         /// <summary>
         /// 透過關鍵字取值(字串)
@@ -49,6 +51,12 @@ namespace CrawlerEngine.Models
             }
             return Info[key];
         }
+        public string GetJsonString()
+        {
+            PutToDic("_saveDataTime", DateTime.UtcNow.ToString("yyyy/MM/dd hh:mm:ss"));
+            return JObject.FromObject(Info).ToString();
+        }
+
 
     }
 }
