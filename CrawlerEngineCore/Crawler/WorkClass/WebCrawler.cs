@@ -1,9 +1,10 @@
-﻿using CrawlerEngine.Driver;
+﻿using CrawlerEngine.Crawler.Interface;
+using CrawlerEngine.Driver;
 using CrawlerEngine.Models;
 
 namespace CrawlerEngine.Crawler.WorkClass
 {
-    public class WebCrawler : CrawlerBase
+    public class WebCrawler : ICrawler
     {
         private JobInfo jobInfo;
 
@@ -13,7 +14,7 @@ namespace CrawlerEngine.Crawler.WorkClass
             this.jobInfo = jobInfo;
         }
 
-        public override string DoCrawlerFlow()
+        public  string DoCrawlerFlow()
         {
             GetDriver();
             OpenUrl();

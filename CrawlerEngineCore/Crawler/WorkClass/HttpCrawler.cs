@@ -1,9 +1,10 @@
-﻿using CrawlerEngine.Models;
+﻿using CrawlerEngine.Crawler.Interface;
+using CrawlerEngine.Models;
 using System.Net.Http;
 
 namespace CrawlerEngine.Crawler.WorkClass
 {
-    public class HttpCrawler : CrawlerBase
+    public class HttpCrawler : ICrawler
     {
         private JobInfo jobInfo;
 
@@ -13,7 +14,7 @@ namespace CrawlerEngine.Crawler.WorkClass
 
         }
 
-        public override string DoCrawlerFlow()
+        public  string DoCrawlerFlow()
         {
             return GetData();
 

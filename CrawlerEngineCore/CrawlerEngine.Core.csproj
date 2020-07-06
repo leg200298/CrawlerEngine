@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Crawler\CrawlerBase.cs" />
     <Compile Remove="Crawler\CrawlerFactory.cs" />
     <Compile Remove="Test.cs" />
   </ItemGroup>
