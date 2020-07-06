@@ -8,7 +8,14 @@ namespace CrawlerEngine.Repository
 {
     public class BulkInsert<T>
     {
-        public void BulkInsertRecords<T>(ref List<T> dt, string tableName, string connectString)
+        /// <summary>
+        ///  Ado.net BulkInset
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="dt">資料來源</param>
+        /// <param name="tableName">資料表名稱</param>
+        /// <param name="connectString">連線對象字串</param>
+        public void BulkInsertRecords(ref List<T> dt, string tableName, string connectString)
         {
             try
             {
@@ -18,16 +25,16 @@ namespace CrawlerEngine.Repository
                 bulkCopy.WriteToServer(ToDataTable(dt));
                 dt.Clear();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Console.WriteLine(ex.Message);
+                throw new Exception("BCP出錯");
             }
             finally
             {
             }
         }
 
-        public DataTable ToDataTable<T>(List<T> data)
+        private DataTable ToDataTable(List<T> data)
         {
             PropertyDescriptorCollection props = TypeDescriptor.GetProperties(typeof(T));
             DataTable table = new DataTable();

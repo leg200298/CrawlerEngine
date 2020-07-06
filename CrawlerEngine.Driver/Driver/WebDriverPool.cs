@@ -10,20 +10,21 @@ namespace CrawlerEngine.Driver
     {
         public static List<SeleniumDriver> DriverPool;
         private static object c = new object();
-
+        private static int waitingTimes = 0;
         public static int GetFreeDriver()
         {
             if (DriverPool.Any(x => x.Status == Common.Enums.ObjectStatus.Driver.FREE))
             {
                 lock (c)
                 {
+                    waitingTimes = 0;
                     return DriverPool.Where(x => x.Status == Common.Enums.ObjectStatus.Driver.FREE).First().id;
-                    //q.Status = DriverStatus.NOTFREE;
-                    //return q;
                 }
             }
             else
             {
+                waitingTimes++;
+                if (waitingTimes > 3) { throw new Exception("沒有閒置資源 請稍後"); }
                 Thread.Sleep(500);
                 return GetFreeDriver();
             }
@@ -44,7 +45,6 @@ namespace CrawlerEngine.Driver
             {
 
                 throw ex;
-                return false;
             }
             return true;
         }

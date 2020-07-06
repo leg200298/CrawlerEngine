@@ -1,6 +1,7 @@
 ﻿using CrawlerEngine.Crawler.Interface;
 using CrawlerEngine.Driver;
 using CrawlerEngine.Models;
+using System;
 
 namespace CrawlerEngine.Crawler.WorkClass
 {
@@ -16,9 +17,15 @@ namespace CrawlerEngine.Crawler.WorkClass
 
         public string DoCrawlerFlow()
         {
-            GetDriver();
-            OpenUrl();
-            return GetData();
+            try
+            {
+                GetDriver();
+                OpenUrl();
+                return GetData();
+            }
+            catch (Exception e) {
+                return null;
+            }
         }
 
         protected string GetData()
@@ -43,7 +50,9 @@ namespace CrawlerEngine.Crawler.WorkClass
 
         private void GetDriver()
         {
+            
             driverId = WebDriverPool.GetFreeDriver();
+
             WebDriverPool.DriverPool[driverId].Status = Common.Enums.ObjectStatus.Driver.NOTFREE;
 
         }

@@ -16,7 +16,6 @@ namespace CrawlerEngine.Manager
         private List<string> mailTo;
         public void Process(int resourceCount)
         {
-            resourceCount = resourceCount;
             WebDriverPool.InitDriver(resourceCount);
             while (1 == 1)
             {
@@ -48,11 +47,6 @@ namespace CrawlerEngine.Manager
                   Info = JsonUntityHelper.DeserializeStringToDictionary<string, object>(x.JobInfo),
                   Seq = x.Seq
               };
-        }
-        private List<JobInfo> Init()
-        {
-
-            throw new Exception("沒做");
         }
         private bool DoJob(JobInfo jobInfo)
         {
