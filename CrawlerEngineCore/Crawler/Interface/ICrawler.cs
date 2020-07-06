@@ -7,7 +7,6 @@ namespace CrawlerEngine.Crawler.Interface
     public interface ICrawler
     {
 
-        DateTime StartTime { get; set; }
         /// <summary>
         /// 執行爬蟲流程
         /// </summary>

@@ -13,9 +13,15 @@ namespace CrawlerEngine.Crawler.WorkClass
             this.jobInfo = jobInfo;
         }
 
-        protected override string GetData()
+        public override string DoCrawlerFlow()
         {
+            GetDriver();
+            OpenUrl();
+            return GetData();
+        }
 
+        protected string GetData()
+        {
             string responseData = string.Empty;
             try
             {
@@ -28,22 +34,17 @@ namespace CrawlerEngine.Crawler.WorkClass
             return responseData;
         }
 
-        protected override void OpenUrl(string url)
+        private void OpenUrl()
         {
-            url = jobInfo.Url;
-            WebDriverPool.DriverPool[driverId].Navigate().GoToUrl(url);
+            WebDriverPool.DriverPool[driverId].Navigate().GoToUrl(jobInfo.Url);
         }
 
 
-        protected override void Sleep(int time)
-        {
-            System.Threading.Thread.Sleep(time * 1000);
-        }
-
-        protected override void GetDriver()
+        private void GetDriver()
         {
             driverId = WebDriverPool.GetFreeDriver();
             WebDriverPool.DriverPool[driverId].Status = Common.NamingString.ObjectStatus.DriverStatus.NOTFREE;
+
         }
 
     }
