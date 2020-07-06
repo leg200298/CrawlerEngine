@@ -8,7 +8,10 @@ namespace CrawlerEngine.Crawler.Interface
     {
 
         DateTime StartTime { get; set; }
-
+        /// <summary>
+        /// 執行爬蟲流程
+        /// </summary>
+        /// <returns></returns>
         string DoCrawlerFlow();
     }
 }

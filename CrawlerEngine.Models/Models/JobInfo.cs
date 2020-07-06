@@ -1,9 +1,63 @@
-﻿namespace CrawlerEngine.Models
+﻿using System;
+
+namespace CrawlerEngine.Models
 {
-    public class JobInfo : SaveInfo
+    public class JobInfo : Options
     {
-        public string TargetUrl;
-        public int TargetType;
-        public string Selector;
+        public Guid Seq { get; set; }
+
+        /// <summary>
+        /// 決定工作屬於的類型  ("平台"-"網頁類型")
+        /// </summary>
+        public string JobType
+        {
+            get { return GetJobType(); }
+            set { SetJobType(value); }
+        }
+
+        /// <summary>
+        /// 目標網址
+        /// </summary>
+        public string Url
+        {
+            get { return GetUrl(); }
+            set { SetUrl(value); }
+        }
+
+        /// <summary>
+        /// 資料紀錄時間
+        /// </summary>
+        public string RegisterTime
+        {
+            get { return GetRegisterTime(); }
+        }
+
+        #region  private area
+        private string GetUrl()
+        {
+            return GetString("_url");
+        }
+
+
+        private void SetUrl(string value)
+        {
+            PutToDic("_url", value);
+        }
+
+        private string GetJobType()
+        {
+            return GetString("_jobType");
+        }
+        private string GetRegisterTime()
+        {
+            return GetString("_registerTime");
+        }
+
+        private void SetJobType(string value)
+        {
+            PutToDic("_jobType", value);
+        }
+
+        #endregion
     }
 }

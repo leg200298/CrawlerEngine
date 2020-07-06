@@ -1,8 +1,12 @@
-﻿using CrawlerEngine.Driver;
-using CrawlerEngine.Driver.WorkClass;
+﻿using CrawlerEngine.Common.Helper;
+using CrawlerEngine.Driver;
+using CrawlerEngine.JobWorker;
 using CrawlerEngine.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace CrawlerEngine.Manager
 {
@@ -10,39 +14,65 @@ namespace CrawlerEngine.Manager
     {
         private Condition resourseSetting;
         private List<string> mailTo;
-        public void Process()
+        public void Process(int resourceCount)
         {
-            Console.WriteLine("Process");
+            resourceCount = resourceCount;
+            WebDriverPool.InitDriver(resourceCount);
+            while (1 == 1)
+            {
+                try
+                {
+
+                    Parallel.ForEach(GetJobInfo(resourceCount), jobInfo =>
+                    {
+                        DoJob(jobInfo);
+                    });
+                }
+                catch (Exception e)
+                {
+                    SendErrorEmail();
+                }
+                Thread.Sleep(10000);
+            }
+        }
+
+
+        #region 工作區
+        private IEnumerable<JobInfo> GetJobInfo(int resourceCount)
+        {
+            return
+
+              from x in Repository.Factory.CrawlFactory.CrawlDataJobListRepository.GetCrawlDataJobListDtos(resourceCount)
+              select new JobInfo()
+              {
+                  Info = JsonUntityHelper.DeserializeStringToDictionary<string, object>(x.JobInfo),
+                  Seq = x.Seq
+              };
+        }
+        private List<JobInfo> Init()
+        {
+
+            throw new Exception("沒做");
+        }
+        private bool DoJob(JobInfo jobInfo)
+        {
+            var success = false;
             try
             {
-                GetJobInfo();
-                DoJob();
+                new JobWorkerFactory().GetJobWorker(jobInfo).DoJobFlow();
+                success = true;
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                SendErrorEmail();
+                var msg = ex.Message;
             }
-            WebDriverPool.DriverPool.Add(new SeleniumDriver());
-            // throw new Exception("沒做");
-        }
-        public List<JobInfo> GetJobInfo()
-        {
-
-            throw new Exception("沒做");
-        }
-        public List<JobInfo> Init()
-        {
-
-            throw new Exception("沒做");
-        }
-        public bool DoJob()
-        {
-            throw new Exception("沒做");
+            return success;
 
         }
-        public bool SendErrorEmail()
+        private bool SendErrorEmail()
         {
-            foreach (var user in mailTo) {
+            foreach (var user in mailTo)
+            {
 
                 //send error mail
 
@@ -50,5 +80,9 @@ namespace CrawlerEngine.Manager
             throw new Exception("沒做");
 
         }
+
+
+
+        #endregion
     }
 }

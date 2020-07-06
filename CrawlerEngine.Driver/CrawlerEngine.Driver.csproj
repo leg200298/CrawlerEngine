@@ -5,11 +5,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Driver\Interface\**" />
+    <EmbeddedResource Remove="Driver\Interface\**" />
+    <None Remove="Driver\Interface\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Class1.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Selenium.WebDriver" Version="3.141.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CrawlerEngine.Common\CrawlerEngine.Common.csproj" />
   </ItemGroup>
 
 </Project>

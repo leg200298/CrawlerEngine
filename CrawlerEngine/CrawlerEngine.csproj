@@ -21,10 +21,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CrawerEngineCore\CrawlerEngine.Core.csproj" />
     <ProjectReference Include="..\CrawlerEngine.Driver\CrawlerEngine.Driver.csproj" />
     <ProjectReference Include="..\CrawlerEngine.JobWorker\CrawlerEngine.JobWorker.csproj" />
     <ProjectReference Include="..\CrawlerEngine.Models\CrawlerEngine.Models.csproj" />
+    <ProjectReference Include="..\CrawlerEngine.Repository\CrawlerEngine.Repository.csproj" />
+    <ProjectReference Include="..\CrawlerEngineCore\CrawlerEngine.Core.csproj" />
   </ItemGroup>
 
 </Project>

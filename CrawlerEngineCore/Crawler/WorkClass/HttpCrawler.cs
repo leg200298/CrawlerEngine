@@ -1,20 +1,36 @@
-﻿using CrawlerEngine.Crawler;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using CrawlerEngine.Models;
+using System.Net.Http;
 
 namespace CrawlerEngine.Crawler.WorkClass
 {
-    class HttpCrawler : CrawlerBase
+    public class HttpCrawler : CrawlerBase
     {
+        private JobInfo jobInfo;
+
+        public HttpCrawler(JobInfo jobInfo)
+        {
+            this.jobInfo = jobInfo;
+
+        }
+
         protected override string GetData()
         {
-            throw new NotImplementedException();
+            var httpResponse = new HttpClient().GetAsync(jobInfo.Url).GetAwaiter().GetResult();
+            return httpResponse.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+        }
+
+        protected override void GetDriver()
+        {
+
         }
 
         protected override void OpenUrl(string url)
         {
-            throw new NotImplementedException();
+        }
+
+        protected override void Sleep(int time)
+        {
+            System.Threading.Thread.Sleep(time * 1000);
         }
     }
 }

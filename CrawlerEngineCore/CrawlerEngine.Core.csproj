@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Crawler\CrawlerFactory.cs" />
+    <Compile Remove="Test.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\CrawlerEngine.Driver\CrawlerEngine.Driver.csproj" />
     <ProjectReference Include="..\CrawlerEngine.Models\CrawlerEngine.Models.csproj" />
   </ItemGroup>

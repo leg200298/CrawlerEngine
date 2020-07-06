@@ -4,8 +4,11 @@ using System.Text;
 
 namespace CrawlerEngine.JobWorker.Interface
 {
-    interface IJobWorker
+   public interface IJobWorker
     {
-        void DoJobFlow();
+        /// <summary>
+        ///  執行工作流程
+        /// </summary>
+         void DoJobFlow();
     }
 }
