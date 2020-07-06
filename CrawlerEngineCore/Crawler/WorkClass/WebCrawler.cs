@@ -15,8 +15,16 @@ namespace CrawlerEngine.Crawler.WorkClass
 
         protected override string GetData()
         {
-            var responseData= WebDriverPool.DriverPool[driverId].FindElementByXPath("/html/body").GetAttribute("innerHTML");
-            WebDriverPool.DriverPool[driverId].Status = Common.NamingString.ObjectStatus.DriverStatus.FREE;
+
+            string responseData = string.Empty;
+            try
+            {
+                responseData = WebDriverPool.DriverPool[driverId].FindElementByXPath("/html/body").GetAttribute("innerHTML");
+            }
+            finally
+            {
+                WebDriverPool.DriverPool[driverId].Status = Common.NamingString.ObjectStatus.DriverStatus.FREE;
+            }
             return responseData;
         }
 
