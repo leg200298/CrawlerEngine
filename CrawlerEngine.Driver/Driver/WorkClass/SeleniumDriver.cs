@@ -1,5 +1,5 @@
 ﻿using OpenQA.Selenium.Chrome;
-using static CrawlerEngine.Common.NamingString.ObjectStatus;
+using static CrawlerEngine.Common.Enums.ObjectStatus;
 
 namespace CrawlerEngine.Driver.WorkClass
 {

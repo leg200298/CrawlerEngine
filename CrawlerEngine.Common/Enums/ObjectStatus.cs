@@ -1,4 +1,5 @@
-﻿namespace CrawlerEngine.Common.NamingString
+﻿namespace CrawlerEngine.Common.Enums
+
 {
     public class ObjectStatus
     {
