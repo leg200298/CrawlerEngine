@@ -23,7 +23,6 @@ namespace CrawlerEngine.Crawler
             Reset();
             OpenUrl(url);
             var returnData = GetData();
-            sd.Status = Common.NamingString.ObjectStatus.DriverStatus.FREE;
             return returnData;
         }
         protected abstract void GetDriver();

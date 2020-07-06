@@ -7,6 +7,7 @@ namespace CrawlerEngine.Crawler.WorkClass
     {
         private JobInfo jobInfo;
 
+        private int driverId;
         public WebCrawler(JobInfo jobInfo)
         {
             this.jobInfo = jobInfo;
@@ -14,15 +15,15 @@ namespace CrawlerEngine.Crawler.WorkClass
 
         protected override string GetData()
         {
-            var c = sd.FindElementById("ProdGridContainer");
-            var c2 = sd.FindElementByXPath("//*[@id=\"ProdGridContainer\"]/dd");
-            return sd.FindElementByXPath("/html/body").GetAttribute("innerHTML");
+            var responseData= WebDriverPool.DriverPool[driverId].FindElementByXPath("/html/body").GetAttribute("innerHTML");
+            WebDriverPool.DriverPool[driverId].Status = Common.NamingString.ObjectStatus.DriverStatus.FREE;
+            return responseData;
         }
 
         protected override void OpenUrl(string url)
         {
             url = jobInfo.Url;
-            sd.Navigate().GoToUrl(url);
+            WebDriverPool.DriverPool[driverId].Navigate().GoToUrl(url);
         }
 
         protected override void Reset()
@@ -36,7 +37,9 @@ namespace CrawlerEngine.Crawler.WorkClass
 
         protected override void GetDriver()
         {
-            sd = WebDriverPool.GetFreeDriver();
+            driverId = WebDriverPool.GetFreeDriver();
+            WebDriverPool.DriverPool[driverId].Status = Common.NamingString.ObjectStatus.DriverStatus.NOTFREE;
         }
+
     }
 }

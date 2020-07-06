@@ -58,7 +58,7 @@ namespace CrawlerEngine.JobWorker.WorkClass.Pchome
             crawlDataDetailOptions.price = htmlDoc.DocumentNode.SelectSingleNode("//*[@id=\"PriceTotal\"]").InnerText;
             crawlDataDetailOptions.name = htmlDoc.DocumentNode.SelectSingleNode("//*[@id=\"NickContainer\"]").InnerText;
             crawlDataDetailOptions.category = htmlDoc.DocumentNode.SelectSingleNode("//*[@id=\"CONTENT\"]/div[1]/div[1]/div[2]").InnerText;
-            return false;
+            return true;
         }
 
         protected override bool SaveData()
@@ -72,7 +72,7 @@ namespace CrawlerEngine.JobWorker.WorkClass.Pchome
             };
 
             Repository.Factory.CrawlFactory.CrawlDataDetailRepository.InsertDataDetail(crawlDataDetailDto);
-            return false;
+            return true;
 
         }
 

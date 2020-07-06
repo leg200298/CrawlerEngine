@@ -5,7 +5,7 @@ using CrawlerEngine.Models.Models;
 
 namespace CrawlerEngine.JobWorker
 {
-    abstract class JobWorkerBase : IJobWorker
+    public abstract class JobWorkerBase : IJobWorker
     {
         public abstract JobInfo jobInfo { get; set; }
         public abstract ICrawler crawler { get; set; }

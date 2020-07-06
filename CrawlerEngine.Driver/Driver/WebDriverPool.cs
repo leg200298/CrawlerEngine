@@ -12,15 +12,15 @@ namespace CrawlerEngine.Driver
         public static List<SeleniumDriver> DriverPool;
         private static object c = new object();
 
-        public static SeleniumDriver GetFreeDriver()
+        public static int GetFreeDriver()
         {
             if (DriverPool.Any(x => x.Status == DriverStatus.FREE))
             {
                 lock (c)
                 {
-                    var q = DriverPool.Where(x => x.Status == DriverStatus.FREE).First();
-                    q.Status = DriverStatus.NOTFREE;
-                    return q;
+                    return DriverPool.Where(x => x.Status == DriverStatus.FREE).First().id;
+                    //q.Status = DriverStatus.NOTFREE;
+                    //return q;
                 }
             }
             else
@@ -38,7 +38,7 @@ namespace CrawlerEngine.Driver
                 for (int i = 0; i < driverCount; ++i)
                 {
 
-                    DriverPool.Add(new SeleniumDriver().Init());
+                    DriverPool.Add(new SeleniumDriver().Init(i));
                 }
             }
             catch (Exception ex)
