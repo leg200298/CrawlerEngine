@@ -22,11 +22,15 @@ namespace CrawlerEngine.JobWorker
             {
                 GotoNextPage(temp.Item2);
                 Crawl();
-                Validate();
-                Parse();
-                SaveData();
-                temp = HasNextPage();
-                SleepForAWhile(GetSleepTimeByJobInfo());
+                if (Validate())
+                {
+                    if (Parse())
+                    {
+                        SaveData();
+                    }
+                    temp = HasNextPage();
+                    SleepForAWhile(GetSleepTimeByJobInfo());
+                }
             } while (temp.Item1);
             UpdateJobStatusEnd();
 
@@ -41,7 +45,7 @@ namespace CrawlerEngine.JobWorker
         protected abstract bool SaveData();
         protected abstract (bool, string) HasNextPage();
         protected abstract bool GotoNextPage(string url);
-        protected abstract int GetSleepTimeByJobInfo();
-        protected abstract void SleepForAWhile(int sleepTime);
+        protected abstract decimal GetSleepTimeByJobInfo();
+        protected abstract void SleepForAWhile(decimal sleepTime);
     }
 }

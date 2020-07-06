@@ -18,6 +18,8 @@ namespace CrawlerEngine.JobWorker
                     return new PchomeProductJobWorker(jobInfo);
                 case "PCHOME-REGION":
                     return new PchomeRegionJobWorker(jobInfo);
+                case "PCHOME-STORE":
+                    return new PchomeStoreJobWorker(jobInfo);
 
                 default:
                     return null;

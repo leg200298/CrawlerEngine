@@ -10,16 +10,18 @@ namespace CrawlerEngine.Crawler.WorkClass
         public WebCrawler(JobInfo jobInfo)
         {
             this.jobInfo = jobInfo;
-            url = jobInfo.Url;
         }
 
         protected override string GetData()
         {
+            var c = sd.FindElementById("ProdGridContainer");
+            var c2 = sd.FindElementByXPath("//*[@id=\"ProdGridContainer\"]/dd");
             return sd.FindElementByXPath("/html/body").GetAttribute("innerHTML");
         }
 
         protected override void OpenUrl(string url)
         {
+            url = jobInfo.Url;
             sd.Navigate().GoToUrl(url);
         }
 

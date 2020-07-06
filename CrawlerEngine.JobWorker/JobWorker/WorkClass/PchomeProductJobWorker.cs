@@ -31,7 +31,7 @@ namespace CrawlerEngine.JobWorker.WorkClass
             return success;
         }
 
-        protected override int GetSleepTimeByJobInfo()
+        protected override decimal GetSleepTimeByJobInfo()
         {
             return 1000;
         }
@@ -73,7 +73,7 @@ namespace CrawlerEngine.JobWorker.WorkClass
 
         }
 
-        protected override void SleepForAWhile(int sleepTime)
+        protected override void SleepForAWhile(decimal sleepTime)
         {
 
         }

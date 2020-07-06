@@ -21,7 +21,7 @@ namespace CrawlerEngine.JobWorker.WorkClass
             throw new NotImplementedException();
         }
 
-        protected override int GetSleepTimeByJobInfo()
+        protected override decimal GetSleepTimeByJobInfo()
         {
             throw new NotImplementedException();
         }
@@ -46,7 +46,7 @@ namespace CrawlerEngine.JobWorker.WorkClass
             throw new NotImplementedException();
         }
 
-        protected override void SleepForAWhile(int sleepTime)
+        protected override void SleepForAWhile(decimal sleepTime)
         {
             throw new NotImplementedException();
         }

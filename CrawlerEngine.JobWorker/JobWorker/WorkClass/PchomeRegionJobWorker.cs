@@ -32,7 +32,7 @@ namespace CrawlerEngine.JobWorker.WorkClass
             return success;
         }
 
-        protected override int GetSleepTimeByJobInfo()
+        protected override decimal GetSleepTimeByJobInfo()
         {
             return 1000;
         }
@@ -68,12 +68,15 @@ namespace CrawlerEngine.JobWorker.WorkClass
 
         protected override bool SaveData()
         {
-            Repository.Factory.CrawlFactory.CrawlDataJobListRepository.InsertMany(jobInfos);
+            foreach (var d in jobInfos)
+            {
+                Repository.Factory.CrawlFactory.CrawlDataJobListRepository.InsertOne(d);
+            }
             return true;
 
         }
 
-        protected override void SleepForAWhile(int sleepTime)
+        protected override void SleepForAWhile(decimal sleepTime)
         {
 
         }

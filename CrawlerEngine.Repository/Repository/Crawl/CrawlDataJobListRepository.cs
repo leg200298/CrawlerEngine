@@ -95,8 +95,9 @@ namespace CrawlerEngine.Repository.Crawl
                 return conn.Execute(sqlCommand);
             }
         }
-        public void InsertMany(List<JobInfo> jobInfos) {
-            BulkInsertRecords(ref jobInfos,"", _DatabaseConnection.Create().ConnectionString);
+        public void InsertMany(List<JobInfo> jobInfos)
+        {
+            BulkInsertRecords(ref jobInfos, "CrawlDataJobList", _DatabaseConnection.Create().ConnectionString);
 
 
         }
