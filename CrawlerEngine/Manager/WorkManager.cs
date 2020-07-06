@@ -13,23 +13,27 @@ namespace CrawlerEngine.Manager
     {
         private Condition resourseSetting;
         private List<string> mailTo;
+        private int resourceCount;
         public void Process()
         {
-            WebDriverPool.InitDriver(1);
-            try
+            resourceCount = 1;
+            WebDriverPool.InitDriver(resourceCount);
+            while (1 == 1)
             {
-
-                Parallel.ForEach(GetJobInfo(), jobInfo =>
+                try
                 {
-                    DoJob(jobInfo);
-                });
+
+                    Parallel.ForEach(GetJobInfo(), jobInfo =>
+                    {
+                        DoJob(jobInfo);
+                    });
+                }
+                catch (Exception e)
+                {
+                    SendErrorEmail();
+                }
+                Task.Delay(10000);
             }
-            catch (Exception e)
-            {
-                SendErrorEmail();
-            }
-            //
-            // throw new Exception("沒做");
         }
 
 
@@ -38,7 +42,7 @@ namespace CrawlerEngine.Manager
         {
             return
 
-              from x in Repository.Factory.CrawlFactory.CrawlDataJobListRepository.GetCrawlDataJobListDtos()
+              from x in Repository.Factory.CrawlFactory.CrawlDataJobListRepository.GetCrawlDataJobListDtos(resourceCount)
               select new JobInfo()
               {
                   Info = JsonUntityHelper.DeserializeStringToDictionary<string, object>(x.JobInfo),

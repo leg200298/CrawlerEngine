@@ -43,9 +43,9 @@ namespace CrawlerEngine.Repository.Crawl
         }
 
 
-        public IEnumerable<CrawlDataJobListDto> GetCrawlDataJobListDtos()
+        public IEnumerable<CrawlDataJobListDto> GetCrawlDataJobListDtos(int resourceCount)
         {
-            string sqlCommand = @"SELECT *
+            string sqlCommand = $@"SELECT top {resourceCount} *
                               FROM [dbo].[CrawlDataJobList] with(nolock)
                               where JobStatus='not start'";
             using (var conn = _DatabaseConnection.Create())
