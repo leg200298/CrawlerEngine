@@ -1,5 +1,8 @@
 ﻿using CrawlerEngine.JobWorker.Interface;
 using CrawlerEngine.Models;
+using CrawlerEngine.Common;
+using static CrawlerEngine.Common.Enums.ElectronicBusiness;
+using CrawlerEngine.Common.Extansion;
 
 namespace CrawlerEngine.JobWorker
 {
@@ -7,24 +10,34 @@ namespace CrawlerEngine.JobWorker
     {
         public IJobWorker GetJobWorker(JobInfo jobInfo)
         {
+
+            RuleString ruleString = new RuleString();
+
             var jobType = jobInfo.JobType;
 
-            switch (jobType.ToUpper())
+            #region Momo
+            if (jobType == Platform.MomoProduct.GetDescription())
             {
-                #region Momo
-                case "MOMO-PRODUCT":
-                    return new WorkClass.Momo.ProductJobWorker(jobInfo);
-                #endregion
+                return new WorkClass.Momo.ProductJobWorker(jobInfo);
+            }
+            #endregion
 
-                #region Pchome
-                case "PCHOME-PRODUCT":
-                    return new WorkClass.Pchome.ProductJobWorker(jobInfo);
-                case "PCHOME-REGION":
-                    return new WorkClass.Pchome.RegionJobWorker(jobInfo);
-                case "PCHOME-STORE":
-                    return new WorkClass.Pchome.StoreJobWorker(jobInfo);
-                #endregion
+            #region Pchome
+            if (jobType == Platform.PchomeProduct.GetDescription())
+            {
+                return new WorkClass.Pchome.ProductJobWorker(jobInfo);
+            }
+            if (jobType == Platform.PchomeRegion.GetDescription())
+            {
+                return new WorkClass.Pchome.RegionJobWorker(jobInfo);
+            }
+            if (jobType == Platform.PchomeStore.GetDescription())
+            {
+                return new WorkClass.Pchome.StoreJobWorker(jobInfo);
+            }
 
+            #endregion
+            return null;
 
                 // todo list
                 /*
@@ -82,10 +95,7 @@ https://www.buy123.com.tw/
 https://www.food123.com.tw/
               
                  */
-                default:
-                    return null;
-                    break;
-            }
+          
         }
     }
 }

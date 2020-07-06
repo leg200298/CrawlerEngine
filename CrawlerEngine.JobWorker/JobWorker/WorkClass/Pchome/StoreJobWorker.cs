@@ -1,10 +1,12 @@
-﻿using CrawlerEngine.Crawler.Interface;
+﻿using CrawlerEngine.Common.Extansion;
+using CrawlerEngine.Crawler.Interface;
 using CrawlerEngine.Crawler.WorkClass;
 using CrawlerEngine.Models;
 using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using static CrawlerEngine.Common.Enums.ElectronicBusiness;
 
 namespace CrawlerEngine.JobWorker.WorkClass.Pchome
 {
@@ -84,7 +86,7 @@ namespace CrawlerEngine.JobWorker.WorkClass.Pchome
                 var url = data.Attributes["href"].Value;
                 if (url.StartsWith("//24h.pchome.com.tw"))
                 {
-                    jobInfos.Add(new JobInfo() { JobType = "PCHOME-PRODUCT", Url = $"https:{url}" });
+                    jobInfos.Add(new JobInfo() { JobType = Platform.PchomeProduct.GetDescription(), Url = $"https:{url}" });
                 }
             }
             return true;
