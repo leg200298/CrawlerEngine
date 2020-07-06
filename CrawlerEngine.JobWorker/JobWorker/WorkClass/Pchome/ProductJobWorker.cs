@@ -67,7 +67,7 @@ namespace CrawlerEngine.JobWorker.WorkClass.Pchome
             {
                 Seq = jobInfo.Seq,
                 JobStatus = "end",
-                EndTime = DateTime.Now,
+                EndTime = DateTime.UtcNow,
                 DetailData = crawlDataDetailOptions.GetJsonString()
             };
 
