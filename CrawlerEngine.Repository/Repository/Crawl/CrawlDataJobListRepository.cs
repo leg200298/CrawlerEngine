@@ -15,7 +15,7 @@ namespace CrawlerEngine.Repository.Crawl
 
         internal CrawlDataJobListRepository(IDatabaseConnectionHelper databaseConnectionHelper)
         {
-            this._DatabaseConnection = databaseConnectionHelper;
+            _DatabaseConnection = databaseConnectionHelper;
         }
 
         protected virtual void Dispose(bool disposing)

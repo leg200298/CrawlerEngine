@@ -1,7 +1,5 @@
 ﻿using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace CrawlerEngine.Common.Helper
 {
@@ -10,7 +8,9 @@ namespace CrawlerEngine.Common.Helper
         public static string SerializeDictionaryToJsonString<TKey, TValue>(Dictionary<TKey, TValue> dict)
         {
             if (dict.Count == 0)
+            {
                 return "";
+            }
 
             string jsonStr = JsonConvert.SerializeObject(dict);
             return jsonStr;
@@ -19,7 +19,9 @@ namespace CrawlerEngine.Common.Helper
         public static Dictionary<TKey, TValue> DeserializeStringToDictionary<TKey, TValue>(string jsonStr)
         {
             if (string.IsNullOrEmpty(jsonStr))
+            {
                 return new Dictionary<TKey, TValue>();
+            }
 
             Dictionary<TKey, TValue> jsonDict = JsonConvert.DeserializeObject<Dictionary<TKey, TValue>>(jsonStr);
 

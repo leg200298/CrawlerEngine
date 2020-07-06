@@ -15,7 +15,7 @@ namespace CrawlerEngine.JobWorker.WorkClass.Pchome
         public ProductJobWorker(JobInfo jobInfo)
         {
             this.jobInfo = jobInfo;
-            this.crawler = new WebCrawler(jobInfo);
+            crawler = new WebCrawler(jobInfo);
         }
         public override JobInfo jobInfo { get; set; }
         public override ICrawler crawler { get; set; }
@@ -28,7 +28,7 @@ namespace CrawlerEngine.JobWorker.WorkClass.Pchome
                 responseData = crawler.DoCrawlerFlow();
                 success = true;
             }
-            catch (Exception e)
+            catch (Exception)
             {
             }
             return success;

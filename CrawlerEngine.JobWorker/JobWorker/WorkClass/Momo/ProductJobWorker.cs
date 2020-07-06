@@ -11,7 +11,7 @@ namespace CrawlerEngine.JobWorker.WorkClass.Momo
         public ProductJobWorker(JobInfo jobInfo)
         {
             this.jobInfo = jobInfo;
-            this.crawler = new WebCrawler(jobInfo);
+            crawler = new WebCrawler(jobInfo);
         }
         public override JobInfo jobInfo { get; set; }
         public override ICrawler crawler { get; set; }

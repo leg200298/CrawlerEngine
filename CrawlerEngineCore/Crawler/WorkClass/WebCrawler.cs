@@ -14,7 +14,7 @@ namespace CrawlerEngine.Crawler.WorkClass
             this.jobInfo = jobInfo;
         }
 
-        public  string DoCrawlerFlow()
+        public string DoCrawlerFlow()
         {
             GetDriver();
             OpenUrl();

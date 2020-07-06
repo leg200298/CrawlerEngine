@@ -14,13 +14,13 @@ namespace CrawlerEngine.Crawler.WorkClass
 
         }
 
-        public  string DoCrawlerFlow()
+        public string DoCrawlerFlow()
         {
             return GetData();
 
         }
 
-        private  string GetData()
+        private string GetData()
         {
             var httpResponse = new HttpClient().GetAsync(jobInfo.Url).GetAwaiter().GetResult();
             return httpResponse.Content.ReadAsStringAsync().GetAwaiter().GetResult();

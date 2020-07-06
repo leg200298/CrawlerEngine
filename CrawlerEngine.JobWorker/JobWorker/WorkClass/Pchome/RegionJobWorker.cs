@@ -15,7 +15,7 @@ namespace CrawlerEngine.JobWorker.WorkClass.Pchome
         public RegionJobWorker(JobInfo jobInfo)
         {
             this.jobInfo = jobInfo;
-            this.crawler = new WebCrawler(jobInfo);
+            crawler = new WebCrawler(jobInfo);
         }
         private List<JobInfo> jobInfos = new List<JobInfo>();
         public override JobInfo jobInfo { get; set; }
@@ -29,7 +29,7 @@ namespace CrawlerEngine.JobWorker.WorkClass.Pchome
                 responseData = crawler.DoCrawlerFlow();
                 success = true;
             }
-            catch (Exception e)
+            catch (Exception)
             {
             }
             return success;

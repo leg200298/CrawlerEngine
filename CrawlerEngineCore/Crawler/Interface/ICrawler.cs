@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace CrawlerEngine.Crawler.Interface
+﻿namespace CrawlerEngine.Crawler.Interface
 {
     public interface ICrawler
     {

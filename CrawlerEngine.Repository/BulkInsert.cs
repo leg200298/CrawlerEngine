@@ -15,7 +15,7 @@ namespace CrawlerEngine.Repository
                 var bulkCopy = new SqlBulkCopy(connectString, SqlBulkCopyOptions.TableLock);
                 bulkCopy.BulkCopyTimeout = 300;
                 bulkCopy.DestinationTableName = tableName;
-                bulkCopy.WriteToServer(this.ToDataTable(dt));
+                bulkCopy.WriteToServer(ToDataTable(dt));
                 dt.Clear();
             }
             catch (Exception ex)

@@ -14,9 +14,9 @@ namespace CrawlerEngine.Models.Models
         /// 字典暫存檔
         /// </summary>
         public Dictionary<string, object> Info = new Dictionary<string, object>();
-        public object price { set { PutToDic("_productPrice", value); } }
-        public object name { set { PutToDic("_productName", value); } }
-        public object category { set { PutToDic("_productCategory", value); } }
+        public object price { set => PutToDic("_productPrice", value); }
+        public object name { set => PutToDic("_productName", value); }
+        public object category { set => PutToDic("_productCategory", value); }
 
 
         /// <summary>

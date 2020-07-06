@@ -74,10 +74,14 @@ namespace CrawlerEngine.Common.Extansion
             var fieldInfo = type.GetField(objName);
 
             if (!(fieldInfo.GetCustomAttributes(typeof(TAttribute), false) is TAttribute[] attributes))
+            {
                 throw new NullReferenceException("型別轉換時發生錯誤");
+            }
 
             if (attributes.Length == 0)
+            {
                 throw new Exception("Cannot find specified attribute type from enum object.");
+            }
 
             return attributes[0];
         }

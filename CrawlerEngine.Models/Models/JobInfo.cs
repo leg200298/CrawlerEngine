@@ -11,8 +11,8 @@ namespace CrawlerEngine.Models
         /// </summary>
         public string JobType
         {
-            get { return GetJobType(); }
-            set { SetJobType(value); }
+            get => GetJobType();
+            set => SetJobType(value);
         }
 
         /// <summary>
@@ -20,16 +20,13 @@ namespace CrawlerEngine.Models
         /// </summary>
         public string Url
         {
-            get { return GetUrl(); }
-            set { SetUrl(value); }
+            get => GetUrl();
+            set => SetUrl(value);
         }
         /// <summary>
         /// 指定瀏覽器睡眠時間
         /// </summary>
-        public decimal? DriverSleepTime
-        {
-            get { return GetSleepTime(); }
-        }
+        public decimal? DriverSleepTime => GetSleepTime();
         /// <summary>
         /// 取得睡覺時間
         /// </summary>
@@ -37,17 +34,18 @@ namespace CrawlerEngine.Models
         private decimal? GetSleepTime()
         {
             var st = GetString("_sleepTime"); ;
-            if (string.IsNullOrEmpty(st)) return null;
+            if (string.IsNullOrEmpty(st))
+            {
+                return null;
+            }
+
             return Convert.ToDecimal(st);
         }
 
         /// <summary>
         /// 資料紀錄時間
         /// </summary>
-        public string RegisterTime
-        {
-            get { return GetRegisterTime(); }
-        }
+        public string RegisterTime => GetRegisterTime();
 
         #region  private area
         private string GetUrl()

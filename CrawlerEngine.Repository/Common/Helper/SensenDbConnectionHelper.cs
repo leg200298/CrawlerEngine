@@ -1,9 +1,6 @@
 ﻿using CrawlerEngine.Repository.Common.Interface;
-using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Text;
 
 namespace CrawlerEngine.Repository.Common.Helper
 {
@@ -13,7 +10,7 @@ namespace CrawlerEngine.Repository.Common.Helper
 
         public SensenDbConnectionHelper()
         {
-            this._connectionString = ConnectionString.SensenConnectionString;
+            _connectionString = ConnectionString.SensenConnectionString;
         }
 
         /// <summary>

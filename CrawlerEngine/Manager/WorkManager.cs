@@ -28,7 +28,7 @@ namespace CrawlerEngine.Manager
                         DoJob(jobInfo);
                     });
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     SendErrorEmail();
                 }

@@ -15,12 +15,12 @@ namespace CrawlerEngine.JobWorker.WorkClass.Pchome
     class StoreJobWorker : JobWorkerBase
     {
         private List<JobInfo> jobInfos = new List<JobInfo>();
-        private decimal sleepTime=0;
+        private decimal sleepTime = 0;
         private HtmlDocument htmlDoc = new HtmlDocument();
         public StoreJobWorker(JobInfo jobInfo)
         {
             this.jobInfo = jobInfo;
-            this.crawler = new WebCrawler(jobInfo);
+            crawler = new WebCrawler(jobInfo);
         }
         public override JobInfo jobInfo { get; set; }
         public override ICrawler crawler { get; set; }
@@ -56,7 +56,7 @@ namespace CrawlerEngine.JobWorker.WorkClass.Pchome
                 responseData = crawler.DoCrawlerFlow();
                 success = true;
             }
-            catch (Exception e)
+            catch (Exception)
             {
             }
             return success;
