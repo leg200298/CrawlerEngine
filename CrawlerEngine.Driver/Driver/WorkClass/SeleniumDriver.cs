@@ -1,11 +1,10 @@
 ﻿using OpenQA.Selenium.Chrome;
-using static CrawlerEngine.Common.Enums.ObjectStatus;
 
 namespace CrawlerEngine.Driver.WorkClass
 {
     public class SeleniumDriver : ChromeDriver
     {
-        public DriverStatus Status = DriverStatus.FREE;
+        public Common.Enums.ObjectStatus.Driver Status = Common.Enums.ObjectStatus.Driver.FREE;
         public int id;
 
         public SeleniumDriver Init(int id)

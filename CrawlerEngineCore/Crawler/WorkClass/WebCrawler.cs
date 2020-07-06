@@ -30,7 +30,7 @@ namespace CrawlerEngine.Crawler.WorkClass
             }
             finally
             {
-                WebDriverPool.DriverPool[driverId].Status = Common.Enums.ObjectStatus.DriverStatus.FREE;
+                WebDriverPool.DriverPool[driverId].Status = Common.Enums.ObjectStatus.Driver.FREE;
             }
             return responseData;
         }
@@ -44,7 +44,7 @@ namespace CrawlerEngine.Crawler.WorkClass
         private void GetDriver()
         {
             driverId = WebDriverPool.GetFreeDriver();
-            WebDriverPool.DriverPool[driverId].Status = Common.Enums.ObjectStatus.DriverStatus.NOTFREE;
+            WebDriverPool.DriverPool[driverId].Status = Common.Enums.ObjectStatus.Driver.NOTFREE;
 
         }
 

@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Text;
+﻿using System.ComponentModel;
 
 namespace CrawlerEngine.Common.Enums
 {
     public static class ElectronicBusiness
     {
-        public  enum Platform
+        public enum Platform
         {
 
             #region Momo

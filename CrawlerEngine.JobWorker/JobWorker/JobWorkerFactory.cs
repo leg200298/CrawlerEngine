@@ -1,8 +1,8 @@
-﻿using CrawlerEngine.JobWorker.Interface;
-using CrawlerEngine.Models;
-using CrawlerEngine.Common;
-using static CrawlerEngine.Common.Enums.ElectronicBusiness;
+﻿using CrawlerEngine.Common;
 using CrawlerEngine.Common.Extansion;
+using CrawlerEngine.JobWorker.Interface;
+using CrawlerEngine.Models;
+using static CrawlerEngine.Common.Enums.ElectronicBusiness;
 
 namespace CrawlerEngine.JobWorker
 {
@@ -39,9 +39,9 @@ namespace CrawlerEngine.JobWorker
             #endregion
             return null;
 
-                // todo list
-                /*
-                 PC Home 陣營電商通路平台：
+            // todo list
+            /*
+             PC Home 陣營電商通路平台：
 PC Home 24h 購物中心（入倉）
 https://24h.pchome.com.tw/index/
 PC Home購物中心
@@ -93,9 +93,9 @@ https://www.buy123.com.tw/
 
 好吃宅配網
 https://www.food123.com.tw/
-              
-                 */
-          
+
+             */
+
         }
     }
 }

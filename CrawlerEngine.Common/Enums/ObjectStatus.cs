@@ -3,7 +3,7 @@
 {
     public class ObjectStatus
     {
-        public enum DriverStatus
+        public enum Driver
         {
             FREE = 1,
             NOTFREE = 2,

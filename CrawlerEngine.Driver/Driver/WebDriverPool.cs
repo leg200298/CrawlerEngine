@@ -1,10 +1,8 @@
-﻿using CrawlerEngine.Common.Extansion;
-using CrawlerEngine.Driver.WorkClass;
+﻿using CrawlerEngine.Driver.WorkClass;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using static CrawlerEngine.Common.Enums.ObjectStatus;
 
 namespace CrawlerEngine.Driver
 {
@@ -15,11 +13,11 @@ namespace CrawlerEngine.Driver
 
         public static int GetFreeDriver()
         {
-            if (DriverPool.Any(x => x.Status == DriverStatus.FREE))
+            if (DriverPool.Any(x => x.Status == Common.Enums.ObjectStatus.Driver.FREE))
             {
                 lock (c)
                 {
-                    return DriverPool.Where(x => x.Status == DriverStatus.FREE).First().id;
+                    return DriverPool.Where(x => x.Status == Common.Enums.ObjectStatus.Driver.FREE).First().id;
                     //q.Status = DriverStatus.NOTFREE;
                     //return q;
                 }
