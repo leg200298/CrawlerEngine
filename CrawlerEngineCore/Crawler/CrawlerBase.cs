@@ -20,16 +20,15 @@ namespace CrawlerEngine.Crawler
         {
             GetDriver();
             Sleep(time);
-            Reset();
             OpenUrl(url);
             var returnData = GetData();
             return returnData;
         }
+
+        protected abstract string GetData();
         protected abstract void GetDriver();
         protected abstract void OpenUrl(string url);
 
-        protected abstract string GetData();
-        protected abstract void Reset();
         protected abstract void Sleep(int time);
     }
 }

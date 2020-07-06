@@ -34,9 +34,6 @@ namespace CrawlerEngine.Crawler.WorkClass
             WebDriverPool.DriverPool[driverId].Navigate().GoToUrl(url);
         }
 
-        protected override void Reset()
-        {
-        }
 
         protected override void Sleep(int time)
         {

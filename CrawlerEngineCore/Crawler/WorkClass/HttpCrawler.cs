@@ -15,8 +15,7 @@ namespace CrawlerEngine.Crawler.WorkClass
 
         protected override string GetData()
         {
-            HttpClient hc = new HttpClient();
-            var httpResponse = hc.GetAsync(jobInfo.Url).GetAwaiter().GetResult();
+            var httpResponse = new HttpClient().GetAsync(jobInfo.Url).GetAwaiter().GetResult();
             return httpResponse.Content.ReadAsStringAsync().GetAwaiter().GetResult();
         }
 
@@ -29,12 +28,9 @@ namespace CrawlerEngine.Crawler.WorkClass
         {
         }
 
-        protected override void Reset()
-        {
-        }
-
         protected override void Sleep(int time)
         {
+            System.Threading.Thread.Sleep(time * 1000);
         }
     }
 }
