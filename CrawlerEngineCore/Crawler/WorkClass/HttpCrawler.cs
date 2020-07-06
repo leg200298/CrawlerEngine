@@ -1,5 +1,5 @@
 ﻿using CrawlerEngine.Models;
-using System;
+using System.Net.Http;
 
 namespace CrawlerEngine.Crawler.WorkClass
 {
@@ -11,12 +11,13 @@ namespace CrawlerEngine.Crawler.WorkClass
         {
             this.jobInfo = jobInfo;
 
-            url = jobInfo.Info["url"].ToString();
         }
 
         protected override string GetData()
         {
-            throw new NotImplementedException();
+            HttpClient hc = new HttpClient();
+            var httpResponse = hc.GetAsync(jobInfo.Url).GetAwaiter().GetResult();
+            return httpResponse.Content.ReadAsStringAsync().GetAwaiter().GetResult();
         }
 
         protected override void GetDriver()
@@ -26,17 +27,14 @@ namespace CrawlerEngine.Crawler.WorkClass
 
         protected override void OpenUrl(string url)
         {
-            throw new NotImplementedException();
         }
 
         protected override void Reset()
         {
-            throw new NotImplementedException();
         }
 
         protected override void Sleep(int time)
         {
-            throw new NotImplementedException();
         }
     }
 }
