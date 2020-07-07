@@ -24,7 +24,7 @@ namespace CrawlerEngine.Common.Helper
         /// 取得父類別的相關資訊
         /// </summary>
         /// <returns></returns>
-        public static String GetParentInfo()
+        private String GetParentInfo()
         {
             MethodBase mb = new StackTrace(true).GetFrame(3).GetMethod();
             //取得呼叫當前方法之上一層類別(父方)的function 所屬class Name

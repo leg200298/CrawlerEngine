@@ -5,6 +5,7 @@ using CrawlerEngine.Repository.Common.Interface;
 using Dapper;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CrawlerEngine.Repository.Crawl
 {
@@ -97,7 +98,12 @@ namespace CrawlerEngine.Repository.Crawl
         }
         public void InsertMany(List<JobInfo> jobInfos)
         {
-            BulkInsertRecords(ref jobInfos, "CrawlDataJobList", _DatabaseConnection.Create().ConnectionString);
+            var CrawlDataJobListDtos = (from a in jobInfos
+                                        select new CrawlDataJobListDto
+                                        {
+                                            JobInfo = a.GetJsonString()
+                                        }).ToList();
+            BulkInsertRecords(ref CrawlDataJobListDtos, "CrawlDataJobList", _DatabaseConnection.Create().ConnectionString);
 
 
         }
