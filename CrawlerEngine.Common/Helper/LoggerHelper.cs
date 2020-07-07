@@ -21,107 +21,58 @@ namespace CrawlerEngine.Common.Helper
         }
 
         /// <summary>
-        /// 取得父類別的相關資訊(共用的Functiond可用)
+        /// 取得父類別的相關資訊
         /// </summary>
         /// <returns></returns>
         public static String GetParentInfo()
         {
-
-            //StackTrace st = new StackTrace(1, true);
-            //StackFrame[] stFrames = st.GetFrames();
-
-            //foreach (StackFrame sf in stFrames)
-            //{
-            //    Console.WriteLine("Method: {0}", sf.GetMethod().DeclaringType.FullName);
-            //}
-            String showString = "";
-            StackTrace ss = new StackTrace(true);
-            //取得呼叫當前方法之上一層類別(GetFrame(1))的屬性
-            MethodBase mb = ss.GetFrame(3).GetMethod();
-
-            ////取得呼叫當前方法之上一層類別(父方)的命名空間名稱
-            //showString += mb.DeclaringType.Namespace + "\n";
-
+            MethodBase mb = new StackTrace(true).GetFrame(3).GetMethod();
             //取得呼叫當前方法之上一層類別(父方)的function 所屬class Name
-            showString += mb.DeclaringType.Name + "." + mb.DeclaringType.FullName;
+            return mb.DeclaringType.FullName + "." + mb.Name;
 
-            ////取得呼叫當前方法之上一層類別(父方)的Full class Name
-            //showString += mb.DeclaringType.FullName + "\n";
-
-            ////取得呼叫當前方法之上一層類別(父方)的Function Name
-            //showString += mb.Name + "\n";
-
-            return showString;
         }
         #region Debug，除錯
-        public void Debug(string msg)
-        {
-            _logger.Debug(msg);
-        }
 
-        public void Debug(string msg, Exception err)
+        public void Debug(string msg, Exception err = null)
         {
-            _logger.Debug(err, msg);
+            Factory(msg, "Debug", err);
         }
         #endregion
 
         #region Info，資訊
-        public void Info(string msg)
-        {
-            Factory(msg, "Info");
-        }
 
-        public void Info(string msg, Exception err)
+        public void Info(string msg, Exception err = null)
         {
-            _logger.Info(err, msg);
+            Factory(msg, "Info", err);
         }
         #endregion
 
         #region Warn，警告
-        public void Warn(string msg)
+        public void Warn(string msg, Exception err = null)
         {
-            _logger.Warn(msg);
-        }
-
-        public void Warn(string msg, Exception err)
-        {
-            _logger.Warn(err, msg);
+            Factory(msg, "Warn", err);
         }
         #endregion
 
         #region Trace，追蹤
-        public void Trace(string msg)
+        public void Trace(string msg, Exception err = null)
         {
-            _logger.Trace(msg);
-        }
-
-        public void Trace(string msg, Exception err)
-        {
-            _logger.Trace(err, msg);
+            Factory(msg, "Trace", err);
         }
         #endregion
 
         #region Error，錯誤
-        public void Error(string msg)
+        public void Error(string msg, Exception err = null)
         {
-            _logger.Error(msg);
-        }
-
-        public void Error(string msg, Exception err)
-        {
-            _logger.Error(err, msg);
+            Factory(msg, "Error", err);
         }
         #endregion
 
         #region Fatal,致命錯誤
-        public void Fatal(string msg)
-        {
-            _logger.Fatal(msg);
-        }
 
-        public void Fatal(string msg, Exception err)
+        public void Fatal(string msg, Exception err = null)
         {
-            _logger.Fatal(err, msg);
+            Factory(msg, "Fatal", err);
         }
         #endregion
 
