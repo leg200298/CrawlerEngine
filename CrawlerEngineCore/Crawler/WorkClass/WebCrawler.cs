@@ -1,4 +1,5 @@
-﻿using CrawlerEngine.Crawler.Interface;
+﻿using CrawlerEngine.Common.Helper;
+using CrawlerEngine.Crawler.Interface;
 using CrawlerEngine.Driver;
 using CrawlerEngine.Models;
 using System;
@@ -23,7 +24,10 @@ namespace CrawlerEngine.Crawler.WorkClass
                 OpenUrl();
                 return GetData();
             }
-            catch (Exception e) {
+            catch (Exception ex)
+            {
+
+                LoggerHelper._.Error("DoCrawlerFlowError", ex);
                 return null;
             }
         }
@@ -34,6 +38,11 @@ namespace CrawlerEngine.Crawler.WorkClass
             try
             {
                 responseData = WebDriverPool.DriverPool[driverId].FindElementByXPath("/html/body").GetAttribute("innerHTML");
+            }
+            catch (Exception ex)
+            {
+
+                LoggerHelper._.Error("GetDataError", ex);
             }
             finally
             {
@@ -50,7 +59,7 @@ namespace CrawlerEngine.Crawler.WorkClass
 
         private void GetDriver()
         {
-            
+
             driverId = WebDriverPool.GetFreeDriver();
 
             WebDriverPool.DriverPool[driverId].Status = Common.Enums.ObjectStatus.Driver.NOTFREE;

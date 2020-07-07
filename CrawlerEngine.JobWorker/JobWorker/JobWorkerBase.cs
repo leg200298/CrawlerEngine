@@ -1,4 +1,5 @@
-﻿using CrawlerEngine.Crawler.Interface;
+﻿using CrawlerEngine.Common.Helper;
+using CrawlerEngine.Crawler.Interface;
 using CrawlerEngine.JobWorker.Interface;
 using CrawlerEngine.Models;
 using CrawlerEngine.Models.Models;
@@ -48,14 +49,18 @@ namespace CrawlerEngine.JobWorker
         protected abstract bool SaveData();
         protected abstract (bool, string) HasNextPage();
         protected abstract bool GotoNextPage(string url);
-        protected  decimal GetSleepTimeByJobInfo()
+        protected decimal GetSleepTimeByJobInfo()
         {
             try
             {
                 sleepTime = jobInfo.DriverSleepTime ??
                     2 + new Random().Next(3, 100) / 50;
             }
-            catch (Exception) { }
+            catch (Exception ex)
+            {
+
+                LoggerHelper._.Error("SleepTimeByJobInfoError", ex);
+            }
 
             return sleepTime;
         }

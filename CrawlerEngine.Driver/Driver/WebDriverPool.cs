@@ -1,4 +1,5 @@
-﻿using CrawlerEngine.Driver.WorkClass;
+﻿using CrawlerEngine.Common.Helper;
+using CrawlerEngine.Driver.WorkClass;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,6 +45,7 @@ namespace CrawlerEngine.Driver
             catch (Exception ex)
             {
 
+                LoggerHelper._.Error("InitDriverError", ex);
                 throw ex;
             }
             return true;

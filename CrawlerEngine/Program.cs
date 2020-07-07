@@ -39,6 +39,7 @@ namespace CrawlerEngine
                     }
                     catch (Exception)
                     {
+                        LoggerHelper._.Error("CommondError", ex);
                         Console.WriteLine("ResourceSettingError use default : 1");
                         Resource = 1;
 

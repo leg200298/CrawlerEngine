@@ -27,9 +27,10 @@ namespace CrawlerEngine.Manager
                         DoJob(jobInfo);
                     });
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     SendErrorEmail();
+                    LoggerHelper._.Error("ProcessError", ex);
                 }
                 Thread.Sleep(10000);
             }
@@ -58,7 +59,7 @@ namespace CrawlerEngine.Manager
             }
             catch (Exception ex)
             {
-                var msg = ex.Message;
+                LoggerHelper._.Error("DoJobError", ex);
             }
             return success;
 

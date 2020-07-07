@@ -1,4 +1,5 @@
 ﻿using CrawlerEngine.Common.Extansion;
+using CrawlerEngine.Common.Helper;
 using CrawlerEngine.Crawler.Interface;
 using CrawlerEngine.Crawler.WorkClass;
 using CrawlerEngine.Models;
@@ -57,8 +58,9 @@ namespace CrawlerEngine.JobWorker.WorkClass.Pchome
                 responseData = crawler.DoCrawlerFlow();
                 success = true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                LoggerHelper._.Error("CrawlError", ex);
             }
             return success;
         }

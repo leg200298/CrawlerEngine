@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CrawlerEngine.Common.Helper;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -114,8 +115,9 @@ namespace CrawlerEngine.Common.Extansion
             {
                 return GetAttribute<DisplayAttribute>(enumObj).Name;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                LoggerHelper._.Error("ExtensionDisplayNameError", ex);
                 return string.Empty;
             }
         }
@@ -135,8 +137,9 @@ namespace CrawlerEngine.Common.Extansion
             {
                 return GetAttribute<TEnum, DisplayAttribute>(enumValue).Name;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                LoggerHelper._.Error("ExtensionTDisplayNameError", ex);
                 return string.Empty;
             }
         }
@@ -156,8 +159,9 @@ namespace CrawlerEngine.Common.Extansion
             {
                 return GetAttribute<TEnum, DescriptionAttribute>(enumValue).Description;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                LoggerHelper._.Error("ExtensionTDescriptionError", ex);
                 return string.Empty;
             }
         }
@@ -176,8 +180,9 @@ namespace CrawlerEngine.Common.Extansion
             {
                 return GetAttribute<DisplayAttribute>(enumObj).ShortName;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                LoggerHelper._.Error("ExtensionShortNamesError", ex);
                 return string.Empty;
             }
         }
@@ -197,8 +202,9 @@ namespace CrawlerEngine.Common.Extansion
             {
                 return GetAttribute<TEnum, DisplayAttribute>(enumValue).ShortName;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                LoggerHelper._.Error("ExtensionTShortNamesError", ex);
                 return string.Empty;
             }
         }
