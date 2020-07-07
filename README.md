@@ -20,7 +20,8 @@ Description
 | CrawlerEngine.Driver     | 瀏覽器模式     |
 | CrawlerEngine.Models     | 模型     | 
 | CrawlerEngine.Test     | 測試專案     | 
-
+| CrawlerEngine.Common    | 通用性質的 |
+| CrawlerEngine.Repository|儲存體 |
 使用方法 
 先下載netcore sdk
 
