@@ -13,7 +13,7 @@ namespace CrawlerEngine.JobWorker
 
             RuleString ruleString = new RuleString();
 
-            var jobType = jobInfo.JobType;
+            var jobType = jobInfo.JobType.ToUpper();
 
             #region Momo
             if (jobType == Platform.MomoProduct.GetDescription())
