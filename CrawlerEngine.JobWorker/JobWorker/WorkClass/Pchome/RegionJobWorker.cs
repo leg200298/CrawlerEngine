@@ -63,7 +63,7 @@ namespace CrawlerEngine.JobWorker.WorkClass.Pchome
                 var url = data.Attributes["href"].Value;
                 if (url.StartsWith("/prod/"))
                 {
-                    jobInfos.Add(new JobInfo() { JobType = Platform.PchomeProduct.GetDescription(), Url = $"https://24h.pchome.com.tw{url}" });
+                    jobInfos.Add(new JobInfo() { JobType = Platform.Pchome24hProduct.GetDescription(), Url = $"https://24h.pchome.com.tw{url}" });
                 }
             }
             return true;

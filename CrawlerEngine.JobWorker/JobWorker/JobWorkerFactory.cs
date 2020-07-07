@@ -23,15 +23,15 @@ namespace CrawlerEngine.JobWorker
             #endregion
 
             #region Pchome
-            if (jobType == Platform.PchomeProduct.GetDescription())
+            if (jobType == Platform.Pchome24hProduct.GetDescription())
             {
                 return new WorkClass.Pchome.ProductJobWorker(jobInfo);
             }
-            if (jobType == Platform.PchomeRegion.GetDescription())
+            if (jobType == Platform.Pchome24hRegion.GetDescription())
             {
                 return new WorkClass.Pchome.RegionJobWorker(jobInfo);
             }
-            if (jobType == Platform.PchomeStore.GetDescription())
+            if (jobType == Platform.Pchome24hStore.GetDescription())
             {
                 return new WorkClass.Pchome.StoreJobWorker(jobInfo);
             }

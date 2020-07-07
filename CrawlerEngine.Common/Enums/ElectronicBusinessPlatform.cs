@@ -13,12 +13,12 @@ namespace CrawlerEngine.Common.Enums
             #endregion
 
             #region Pchome
-            [Description("PCHOME-PRODUCT")]
-            PchomeProduct = 0201,
-            [Description("PCHOME-REGION")]
-            PchomeRegion = 0202,
-            [Description("PCHOME-STORE")]
-            PchomeStore = 0203,
+            [Description("PCHOME24h-PRODUCT")]
+            Pchome24hProduct = 0201,
+            [Description("PCHOME24h-REGION")]
+            Pchome24hRegion = 0202,
+            [Description("PCHOME24h-STORE")]
+            Pchome24hStore = 0203,
             #endregion
         }
         /*
