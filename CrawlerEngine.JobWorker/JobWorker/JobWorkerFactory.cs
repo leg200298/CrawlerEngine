@@ -1,6 +1,7 @@
 ﻿using CrawlerEngine.Common;
 using CrawlerEngine.Common.Extansion;
 using CrawlerEngine.JobWorker.Interface;
+using CrawlerEngine.JobWorker.WorkClass;
 using CrawlerEngine.Models;
 using static CrawlerEngine.Common.Enums.ElectronicBusiness;
 
@@ -25,15 +26,15 @@ namespace CrawlerEngine.JobWorker
             #region Pchome
             if (jobType == Platform.Pchome24hProduct.GetDescription())
             {
-                return new WorkClass.Pchome.ProductJobWorker(jobInfo);
+                return new Pchome24hProductJobWorker(jobInfo);
             }
             if (jobType == Platform.Pchome24hRegion.GetDescription())
             {
-                return new WorkClass.Pchome.RegionJobWorker(jobInfo);
+                return new Pchome24hRegionJobWorker(jobInfo);
             }
             if (jobType == Platform.Pchome24hStore.GetDescription())
             {
-                return new WorkClass.Pchome.StoreJobWorker(jobInfo);
+                return new Pchome24hStoreJobWorker(jobInfo);
             }
 
             #endregion

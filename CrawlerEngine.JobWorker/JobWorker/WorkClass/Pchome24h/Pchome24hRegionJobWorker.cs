@@ -8,14 +8,14 @@ using System;
 using System.Collections.Generic;
 using static CrawlerEngine.Common.Enums.ElectronicBusiness;
 
-namespace CrawlerEngine.JobWorker.WorkClass.Pchome
+namespace CrawlerEngine.JobWorker.WorkClass
 {
     /// <summary>
     /// 中分類頁
     /// </summary>
-    class RegionJobWorker : JobWorkerBase
+    class Pchome24hRegionJobWorker : JobWorkerBase
     {
-        public RegionJobWorker(JobInfo jobInfo)
+        public Pchome24hRegionJobWorker(JobInfo jobInfo)
         {
             this.jobInfo = jobInfo;
             crawler = new WebCrawler(jobInfo);

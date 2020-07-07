@@ -6,14 +6,14 @@ using CrawlerEngine.Models;
 using HtmlAgilityPack;
 using System;
 
-namespace CrawlerEngine.JobWorker.WorkClass.Pchome
+namespace CrawlerEngine.JobWorker.WorkClass
 {
     /// <summary>
     /// 商品細節頁
     /// </summary>
-    public class ProductJobWorker : JobWorkerBase
+    public class Pchome24hProductJobWorker : JobWorkerBase
     {
-        public ProductJobWorker(JobInfo jobInfo)
+        public Pchome24hProductJobWorker(JobInfo jobInfo)
         {
             this.jobInfo = jobInfo;
             crawler = new WebCrawler(jobInfo);

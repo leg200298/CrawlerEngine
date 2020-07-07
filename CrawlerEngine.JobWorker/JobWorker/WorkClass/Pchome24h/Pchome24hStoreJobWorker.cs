@@ -9,17 +9,17 @@ using System.Collections.Generic;
 using System.Threading;
 using static CrawlerEngine.Common.Enums.ElectronicBusiness;
 
-namespace CrawlerEngine.JobWorker.WorkClass.Pchome
+namespace CrawlerEngine.JobWorker.WorkClass
 {
 
     /// <summary>
     /// 館分類頁
     /// </summary>
-    class StoreJobWorker : JobWorkerBase
+    class Pchome24hStoreJobWorker : JobWorkerBase
     {
         private List<JobInfo> jobInfos = new List<JobInfo>();
         private HtmlDocument htmlDoc = new HtmlDocument();
-        public StoreJobWorker(JobInfo jobInfo)
+        public Pchome24hStoreJobWorker(JobInfo jobInfo)
         {
             this.jobInfo = jobInfo;
             crawler = new WebCrawler(jobInfo);
