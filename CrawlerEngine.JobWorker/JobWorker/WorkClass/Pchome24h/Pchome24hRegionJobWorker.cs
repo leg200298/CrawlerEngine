@@ -84,16 +84,6 @@ namespace CrawlerEngine.JobWorker.WorkClass
 
         }
 
-        protected override void UpdateJobStatusEnd()
-        {
-            Repository.Factory.CrawlFactory.CrawlDataJobListRepository.UpdateStatusEnd(jobInfo);
-
-        }
-
-        protected override void UpdateJobStatusStart()
-        {
-            Repository.Factory.CrawlFactory.CrawlDataJobListRepository.UpdateStatusStart(jobInfo);
-        }
 
         protected override bool Validate()
         {

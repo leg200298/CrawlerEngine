@@ -47,16 +47,6 @@ namespace CrawlerEngine.JobWorker.WorkClass.Momo
             throw new NotImplementedException();
         }
 
-        protected override void UpdateJobStatusEnd()
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override void UpdateJobStatusStart()
-        {
-            throw new NotImplementedException();
-        }
-
         protected override bool Validate()
         {
             throw new NotImplementedException();

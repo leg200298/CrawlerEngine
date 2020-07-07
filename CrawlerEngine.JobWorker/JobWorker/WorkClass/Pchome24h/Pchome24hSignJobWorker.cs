@@ -27,12 +27,6 @@ namespace CrawlerEngine.JobWorker.WorkClass
         public override JobInfo jobInfo { get; set; }
         public override ICrawler crawler { get; set; }
 
-        protected override void UpdateJobStatusStart()
-        {
-            Repository.Factory.CrawlFactory.CrawlDataJobListRepository.UpdateStatusStart(jobInfo);
-        }
-
-
         protected override bool GotoNextPage(string url)
         {
             if (string.IsNullOrEmpty(url))
@@ -146,12 +140,6 @@ namespace CrawlerEngine.JobWorker.WorkClass
         protected override void SleepForAWhile(decimal sleepTime)
         {
             Thread.Sleep((int)(sleepTime * 1000));
-        }
-
-        protected override void UpdateJobStatusEnd()
-        {
-            Repository.Factory.CrawlFactory.CrawlDataJobListRepository.UpdateStatusEnd(jobInfo);
-
         }
 
 

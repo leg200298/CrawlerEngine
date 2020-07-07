@@ -46,9 +46,12 @@ namespace CrawlerEngine.Repository.Crawl
 
         public IEnumerable<CrawlDataJobListDto> GetCrawlDataJobListDtos(int resourceCount)
         {
-            string sqlCommand = $@"SELECT top {resourceCount} *
-                              FROM [dbo].[CrawlDataJobList] with(nolock)
-                              where JobStatus='not start'";
+            string sqlCommand = $@"
+                                    BEGIN TRAN
+                                                          UPDATE TOP({resourceCount}) CrawlDataJobList
+                                                          SET JobStatus='start'
+                                                          OUTPUT inserted.*
+                                    COMMIT TRAN";
             using (var conn = _DatabaseConnection.Create())
             {
                 var result = conn.Query<CrawlDataJobListDto>(sqlCommand);

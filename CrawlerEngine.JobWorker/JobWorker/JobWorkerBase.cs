@@ -39,9 +39,11 @@ namespace CrawlerEngine.JobWorker
             UpdateJobStatusEnd();
 
         }
+        private void UpdateJobStatusStart()
+        {
+            //  Repository.Factory.CrawlFactory.CrawlDataJobListRepository.UpdateStatusStart(jobInfo);
 
-        protected abstract void UpdateJobStatusEnd();
-        protected abstract void UpdateJobStatusStart();
+        }
 
         protected abstract bool Crawl();
         protected abstract bool Validate();
@@ -49,7 +51,7 @@ namespace CrawlerEngine.JobWorker
         protected abstract bool SaveData();
         protected abstract (bool, string) HasNextPage();
         protected abstract bool GotoNextPage(string url);
-        protected decimal GetSleepTimeByJobInfo()
+        private decimal GetSleepTimeByJobInfo()
         {
             try
             {
@@ -65,5 +67,11 @@ namespace CrawlerEngine.JobWorker
             return sleepTime;
         }
         protected abstract void SleepForAWhile(decimal sleepTime);
+        private void UpdateJobStatusEnd()
+        {
+            Repository.Factory.CrawlFactory.CrawlDataJobListRepository.UpdateStatusEnd(jobInfo);
+        }
+
+
     }
 }
