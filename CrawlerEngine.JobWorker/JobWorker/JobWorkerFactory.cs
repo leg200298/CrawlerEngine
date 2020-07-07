@@ -38,7 +38,7 @@ namespace CrawlerEngine.JobWorker
             }
             if (jobType == Platform.Pchome24hSign.GetDescription())
             {
-                return new  JobWorker(jobInfo);
+                return new Pchome24hSignJobWorker(jobInfo);
             }
 
             #endregion
