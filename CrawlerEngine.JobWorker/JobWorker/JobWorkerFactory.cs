@@ -23,7 +23,7 @@ namespace CrawlerEngine.JobWorker
             }
             #endregion
 
-            #region Pchome
+            #region Pchome 24h
             if (jobType == Platform.Pchome24hProduct.GetDescription())
             {
                 return new Pchome24hProductJobWorker(jobInfo);
@@ -35,6 +35,10 @@ namespace CrawlerEngine.JobWorker
             if (jobType == Platform.Pchome24hStore.GetDescription())
             {
                 return new Pchome24hStoreJobWorker(jobInfo);
+            }
+            if (jobType == Platform.Pchome24hSign.GetDescription())
+            {
+                return new  JobWorker(jobInfo);
             }
 
             #endregion

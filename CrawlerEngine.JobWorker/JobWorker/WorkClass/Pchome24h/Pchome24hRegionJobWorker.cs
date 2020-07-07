@@ -57,7 +57,7 @@ namespace CrawlerEngine.JobWorker.WorkClass
             var htmlDoc = new HtmlDocument();
             htmlDoc.LoadHtml(responseData);
             var nodes = htmlDoc.DocumentNode.SelectNodes("//*[@id=\"Block12Container50\"]/dd/div/h5/a");
-
+            if (nodes is null) { return false; }
             foreach (var data in nodes)
             {
                 var url = data.Attributes["href"].Value;

@@ -15,11 +15,11 @@ namespace CrawlerEngine.JobWorker.WorkClass
     /// <summary>
     /// 館分類頁
     /// </summary>
-    class Pchome24hStoreJobWorker : JobWorkerBase
+    class Pchome24hSignJobWorker : JobWorkerBase
     {
         private List<JobInfo> jobInfos = new List<JobInfo>();
         private HtmlDocument htmlDoc = new HtmlDocument();
-        public Pchome24hStoreJobWorker(JobInfo jobInfo)
+        public Pchome24hSignJobWorker(JobInfo jobInfo)
         {
             this.jobInfo = jobInfo;
             crawler = new WebCrawler(jobInfo);
@@ -80,14 +80,36 @@ namespace CrawlerEngine.JobWorker.WorkClass
         {
 
             htmlDoc.LoadHtml(responseData);
-            var nodes = htmlDoc.DocumentNode.SelectNodes("//*[@id=\"ProdGridContainer\"]/dd/div/h5/a");
+            #region region
+            HtmlNodeCollection nodes = htmlDoc.DocumentNode.SelectNodes("//*[@id=\"ToothContainer\"]/div/ul/li/a");
             if (nodes is null) { return false; }
             foreach (var data in nodes)
             {
                 var url = data.Attributes["href"].Value;
                 if (url.StartsWith("//24h.pchome.com.tw"))
                 {
-                    jobInfos.Add(new JobInfo() { JobType = Platform.Pchome24hProduct.GetDescription(), Url = $"https:{url}" });
+                    jobInfos.Add(new JobInfo() { JobType = Platform.Pchome24hRegion.GetDescription(), Url = $"https:{url}" });
+                }
+            }
+            #endregion store
+            nodes = htmlDoc.DocumentNode.SelectNodes("//*[@id=\"BLK10\"]/dl/dd[2]/div/ul/li/a");
+            if (nodes is null) { return false; }
+            foreach (var data in nodes)
+            {
+                var url = data.Attributes["href"].Value;
+                if (url.StartsWith("//24h.pchome.com.tw"))
+                {
+                    jobInfos.Add(new JobInfo() { JobType = Platform.Pchome24hStore.GetDescription(), Url = $"https:{url}" });
+                }
+            }
+            nodes = htmlDoc.DocumentNode.SelectNodes("//*[@id=\"BLK09\"]/dl/dd[2]/div/ul/li/a");
+            if (nodes is null) { return false; }
+            foreach (var data in nodes)
+            {
+                var url = data.Attributes["href"].Value;
+                if (url.StartsWith("//24h.pchome.com.tw"))
+                {
+                    jobInfos.Add(new JobInfo() { JobType = Platform.Pchome24hStore.GetDescription(), Url = $"https:{url}" });
                 }
             }
             return true;
@@ -107,17 +129,17 @@ namespace CrawlerEngine.JobWorker.WorkClass
         protected override (bool, string) HasNextPage()
         {
 
-            htmlDoc.LoadHtml(responseData);
+            //htmlDoc.LoadHtml(responseData);
 
-            var nodes = htmlDoc.DocumentNode.SelectNodes("//*[@id=\"PaginationContainer\"]/ul/li/a");
+            //var nodes = htmlDoc.DocumentNode.SelectNodes("//*[@id=\"PaginationContainer\"]/ul/li/a");
 
-            foreach (var node in nodes)
-            {
-                if (node.InnerText == "下一頁")
-                {
-                    return (true, node.Attributes["href"].Value);
-                }
-            }
+            //foreach (var node in nodes)
+            //{
+            //    if (node.InnerText == "下一頁")
+            //    {
+            //        return (true, node.Attributes["href"].Value);
+            //    }
+            //}
             return (false, "");
         }
 
