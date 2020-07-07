@@ -31,7 +31,7 @@ namespace CrawlerEngine.JobWorker.WorkClass.Pchome
             }
             catch (Exception ex)
             {
-                LoggerHelper._.Error("CrawlError", ex);
+                LoggerHelper._.Error(ex);
             }
             return success;
         }

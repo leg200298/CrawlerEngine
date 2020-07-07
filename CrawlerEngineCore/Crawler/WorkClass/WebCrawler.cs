@@ -27,7 +27,7 @@ namespace CrawlerEngine.Crawler.WorkClass
             catch (Exception ex)
             {
 
-                LoggerHelper._.Error("DoCrawlerFlowError", ex);
+                LoggerHelper._.Error(ex);
                 return null;
             }
         }
@@ -42,7 +42,7 @@ namespace CrawlerEngine.Crawler.WorkClass
             catch (Exception ex)
             {
 
-                LoggerHelper._.Error("GetDataError", ex);
+                LoggerHelper._.Error(ex);
             }
             finally
             {

@@ -8,7 +8,7 @@ namespace CrawlerEngine
         private static int Resource = 1;
         static void Main(string[] args)
         {
-            LoggerHelper._.Info("process Start");
+            LoggerHelper._.Error(ex: new System.Exception());
             check(args);
 
             WorkManager workManager = new WorkManager();

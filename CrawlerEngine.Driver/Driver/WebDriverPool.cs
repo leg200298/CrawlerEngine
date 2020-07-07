@@ -45,7 +45,7 @@ namespace CrawlerEngine.Driver
             catch (Exception ex)
             {
 
-                LoggerHelper._.Error("InitDriverError", ex);
+                LoggerHelper._.Error(ex);
                 throw ex;
             }
             return true;

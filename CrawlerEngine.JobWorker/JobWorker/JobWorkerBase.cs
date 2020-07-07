@@ -59,7 +59,7 @@ namespace CrawlerEngine.JobWorker
             catch (Exception ex)
             {
 
-                LoggerHelper._.Error("SleepTimeByJobInfoError", ex);
+                LoggerHelper._.Error(ex);
             }
 
             return sleepTime;

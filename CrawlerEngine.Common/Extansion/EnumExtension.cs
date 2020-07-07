@@ -117,7 +117,7 @@ namespace CrawlerEngine.Common.Extansion
             }
             catch (Exception ex)
             {
-                LoggerHelper._.Error("ExtensionDisplayNameError", ex);
+                LoggerHelper._.Error(ex);
                 return string.Empty;
             }
         }
@@ -139,7 +139,7 @@ namespace CrawlerEngine.Common.Extansion
             }
             catch (Exception ex)
             {
-                LoggerHelper._.Error("ExtensionTDisplayNameError", ex);
+                LoggerHelper._.Error(ex);
                 return string.Empty;
             }
         }
@@ -161,7 +161,7 @@ namespace CrawlerEngine.Common.Extansion
             }
             catch (Exception ex)
             {
-                LoggerHelper._.Error("ExtensionTDescriptionError", ex);
+                LoggerHelper._.Error(ex);
                 return string.Empty;
             }
         }
@@ -182,7 +182,7 @@ namespace CrawlerEngine.Common.Extansion
             }
             catch (Exception ex)
             {
-                LoggerHelper._.Error("ExtensionShortNamesError", ex);
+                LoggerHelper._.Error(ex);
                 return string.Empty;
             }
         }
@@ -204,7 +204,7 @@ namespace CrawlerEngine.Common.Extansion
             }
             catch (Exception ex)
             {
-                LoggerHelper._.Error("ExtensionTShortNamesError", ex);
+                LoggerHelper._.Error(ex);
                 return string.Empty;
             }
         }
