@@ -119,17 +119,5 @@ namespace CrawlerEngine.JobWorker.WorkClass
         {
             Thread.Sleep((int)(sleepTime * 1000));
         }
-
-        protected override void UpdateJobStatusStart()
-        {
-            Repository.Factory.CrawlFactory.CrawlDataJobListRepository.UpdateStatusStart(jobInfo);
-        }
-
-        protected override void UpdateJobStatusEnd()
-        {
-            Repository.Factory.CrawlFactory.CrawlDataJobListRepository.UpdateStatusEnd(jobInfo);
-        }
-
-
     }
 }

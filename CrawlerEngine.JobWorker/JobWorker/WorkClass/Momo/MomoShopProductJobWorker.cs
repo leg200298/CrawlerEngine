@@ -99,19 +99,6 @@ namespace CrawlerEngine.JobWorker.WorkClass
         protected override void SleepForAWhile(decimal sleepTime)
         {
 
-        }
-
-        protected override void UpdateJobStatusStart()
-        {
-            Repository.Factory.CrawlFactory.CrawlDataJobListRepository.UpdateStatusStart(jobInfo);
-        }
-
-        protected override void UpdateJobStatusEnd()
-        {
-            Repository.Factory.CrawlFactory.CrawlDataJobListRepository.UpdateStatusEnd(jobInfo);
-
-        }
-
-      
+        }      
     }
 }
