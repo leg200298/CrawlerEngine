@@ -42,6 +42,14 @@ namespace CrawlerEngine.JobWorker
             }
 
             #endregion
+
+            #region yahoo
+
+            if (jobType == Platform.YahooMallProduct.GetDescription())
+            {
+                return new YaooMallProductJobWorker(jobInfo);
+            }
+            #endregion
             return null;
 
             // todo list

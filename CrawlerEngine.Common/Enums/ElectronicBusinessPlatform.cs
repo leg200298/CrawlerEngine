@@ -23,6 +23,10 @@ namespace CrawlerEngine.Common.Enums
             Pchome24hSign = 0204,
 
             #endregion
+            #region Yahoo
+            [Description("YAHOOMALL-PRODUCT")]
+            YahooMallProduct = 0301,
+            #endregion
         }
         /*
               PC Home 陣營電商通路平台：
