@@ -1,4 +1,5 @@
-﻿using CrawlerEngine.Manager;
+﻿using CrawlerEngine.Common.Helper;
+using CrawlerEngine.Manager;
 
 namespace CrawlerEngine
 {
@@ -8,6 +9,7 @@ namespace CrawlerEngine
         static void Main(string[] args)
         {
             check(args);
+            LoggerHelper._.Info("test");
             WorkManager workManager = new WorkManager();
             workManager.Process(Resource);
         }
