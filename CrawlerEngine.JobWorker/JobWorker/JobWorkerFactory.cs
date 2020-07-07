@@ -16,11 +16,25 @@ namespace CrawlerEngine.JobWorker
 
             var jobType = jobInfo.JobType.ToUpper();
 
-            #region Momo
-            if (jobType == Platform.MomoProduct.GetDescription())
+            #region Momo           
+
+            if (jobType == Platform.MomoShopStore.GetDescription())
             {
-                return new WorkClass.Momo.ProductJobWorker(jobInfo);
+                return new MomoShopStoreJobWorker(jobInfo);
             }
+            if (jobType == Platform.MomoShopLgrpCategory.GetDescription())
+            {
+                return new MomoShopLgrpCategoryJobWorker(jobInfo);
+            }
+            if (jobType == Platform.MomoShopDgrpCategory.GetDescription())
+            {
+                return new MomoShopDgrpCategoryJobWorker(jobInfo);
+            }
+            if (jobType == Platform.MomoShopProduct.GetDescription())
+            {
+                return new MomoShopProductJobWorker(jobInfo);
+            }
+
             #endregion
 
             #region Pchome

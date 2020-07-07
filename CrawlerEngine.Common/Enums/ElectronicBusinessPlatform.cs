@@ -7,10 +7,18 @@ namespace CrawlerEngine.Common.Enums
         public enum Platform
         {
 
-            #region Momo
-            [Description("MOMO-PRODUCT")]
-            MomoProduct = 0101,
+           
+            #region MOMOShop
+            [Description("MOMOSHOP-PRODUCT")]
+            MomoShopProduct = 0101,
+            [Description("MOMOSHOP-DGRPCATEGORY")]
+            MomoShopDgrpCategory = 0102,
+            [Description("MOMOSHOP-LGRPCATEGORY")]
+            MomoShopLgrpCategory = 0103,
+            [Description("MOMOSHOP-STORE")]
+            MomoShopStore = 0104,
             #endregion
+           
 
             #region Pchome
             [Description("PCHOME24h-PRODUCT")]
