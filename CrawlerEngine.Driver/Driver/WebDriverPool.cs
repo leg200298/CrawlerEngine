@@ -47,7 +47,7 @@ namespace CrawlerEngine.Driver
             }
             catch (Exception ex)
             {
-
+                Console.WriteLine(ex.Message);
                 LoggerHelper._.Error(ex);
                 throw ex;
             }

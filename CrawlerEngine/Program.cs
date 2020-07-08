@@ -7,16 +7,25 @@ namespace CrawlerEngine
         private static int Resource = 1;
         static void Main(string[] args)
         {
-            // LoggerHelper._.Error(ex: new System.Exception());
+            //  LoggerHelper._.Error(ex: new System.Exception());
             check(args);
 
             WorkManager workManager = new WorkManager();
             workManager.Process(Resource);
+            //foreach (var data in Repository.Factory.CrawlFactory.CrawlDataJobListRepository.GetCrawlDataJobListDtos(2))
+            //{
+
+            //    Console.WriteLine(data.JobInfo);
+            //}
+
+            //new ChromeDriver();
+            //Console.WriteLine("get gegegege");
+            // Console.ReadLine();
         }
         static void check(string[] args)
         {
 
-#if (Release)
+#if (!DEBUG)
             if (args.Count() == 0)
             {
                 Console.WriteLine(" use default setting ");
