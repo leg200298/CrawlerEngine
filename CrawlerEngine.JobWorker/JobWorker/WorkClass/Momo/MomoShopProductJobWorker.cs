@@ -1,4 +1,5 @@
-﻿using CrawlerEngine.Crawler.Interface;
+﻿using CrawlerEngine.Common.Helper;
+using CrawlerEngine.Crawler.Interface;
 using CrawlerEngine.Crawler.WorkClass;
 using CrawlerEngine.Model.DTO;
 using CrawlerEngine.Models;
@@ -6,6 +7,7 @@ using HtmlAgilityPack;
 using System;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading;
 
 namespace CrawlerEngine.JobWorker.WorkClass
 {
@@ -32,10 +34,10 @@ namespace CrawlerEngine.JobWorker.WorkClass
                 responseData = crawler.DoCrawlerFlow();
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return false;
-                throw;
+                LoggerHelper._.Error(ex);
+                return false;                
             }
         }
 
@@ -69,26 +71,33 @@ namespace CrawlerEngine.JobWorker.WorkClass
 
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return false;
-                throw;
+                LoggerHelper._.Error(ex);
+                return false;                
             }
         }
 
         protected override bool SaveData()
         {
-
-            CrawlDataDetailDto crawlDataDetailDto = new CrawlDataDetailDto()
+            try
             {
-                Seq = jobInfo.Seq,
-                JobStatus = "end",
-                EndTime = DateTime.Now,
-                DetailData = crawlDataDetailOptions.GetJsonString()
-            };
+                CrawlDataDetailDto crawlDataDetailDto = new CrawlDataDetailDto()
+                {
+                    Seq = jobInfo.Seq,
+                    JobStatus = "end",
+                    EndTime = DateTime.Now,
+                    DetailData = crawlDataDetailOptions.GetJsonString()
+                };
 
-            Repository.Factory.CrawlFactory.CrawlDataDetailRepository.InsertDataDetail(crawlDataDetailDto);
-            return false;
+                Repository.Factory.CrawlFactory.CrawlDataDetailRepository.InsertDataDetail(crawlDataDetailDto);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                LoggerHelper._.Error(ex);
+                return false;                
+            }            
         }
 
         protected override (bool, string) HasNextPage()
@@ -98,7 +107,7 @@ namespace CrawlerEngine.JobWorker.WorkClass
 
         protected override void SleepForAWhile(decimal sleepTime)
         {
-
+            Thread.Sleep((int)(sleepTime * 1000));
         }      
     }
 }

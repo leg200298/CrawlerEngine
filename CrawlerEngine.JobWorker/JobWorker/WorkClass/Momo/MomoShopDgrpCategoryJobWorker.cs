@@ -1,4 +1,5 @@
-﻿using CrawlerEngine.Crawler.Interface;
+﻿using CrawlerEngine.Common.Helper;
+using CrawlerEngine.Crawler.Interface;
 using CrawlerEngine.Crawler.WorkClass;
 using CrawlerEngine.Models;
 using HtmlAgilityPack;
@@ -45,10 +46,10 @@ namespace CrawlerEngine.JobWorker.WorkClass
                 responseData = crawler.DoCrawlerFlow();
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return false;
-                throw;
+                LoggerHelper._.Error(ex);
+                return false;                
             }
         }
 
@@ -85,10 +86,10 @@ namespace CrawlerEngine.JobWorker.WorkClass
                 }
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return false;
-                throw;
+                LoggerHelper._.Error(ex);
+                return false;                
             }
         }
 
@@ -102,9 +103,10 @@ namespace CrawlerEngine.JobWorker.WorkClass
                 }
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                LoggerHelper._.Error(ex);
+                return false;
             }
         }
 
