@@ -1,5 +1,6 @@
 ﻿using CrawlerEngine.Common.Helper;
 using CrawlerEngine.Driver.WorkClass;
+using OpenQA.Selenium.Chrome;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,12 +33,14 @@ namespace CrawlerEngine.Driver
         }
         public static bool InitDriver(int driverCount)
         {
+          
             try
             {
                 if (DriverPool == null) { DriverPool = new List<SeleniumDriver>(); }
                 DriverPool.Clear();
                 for (int i = 0; i < driverCount; ++i)
                 {
+
 
                     DriverPool.Add(new SeleniumDriver().Init(i));
                 }

@@ -37,7 +37,11 @@ namespace CrawlerEngine.Crawler.WorkClass
             string responseData = string.Empty;
             try
             {
-                responseData = WebDriverPool.DriverPool[driverId].FindElementByXPath("/html/body").GetAttribute("innerHTML");
+                //WebDriverPool.DriverPool[driverId].ChromeDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
+                ////var wait = new WebDriverWait(WebDriverPool.DriverPool[driverId].ChromeDriver, TimeSpan.FromSeconds(10));
+                ////var t = wait.Until<string>(WebDriverPool.DriverPool[driverId].ChromeDriver.FindElementByXPath("/html/body").GetAttribute("innerHTML"));
+                //Thread.Sleep(10);
+                responseData = WebDriverPool.DriverPool[driverId].ChromeDriver.FindElementByXPath("/html/body").GetAttribute("innerHTML");
             }
             catch (Exception ex)
             {
@@ -53,7 +57,7 @@ namespace CrawlerEngine.Crawler.WorkClass
 
         private void OpenUrl()
         {
-            WebDriverPool.DriverPool[driverId].Navigate().GoToUrl(jobInfo.Url);
+            WebDriverPool.DriverPool[driverId].ChromeDriver.Navigate().GoToUrl(jobInfo.Url);
         }
 
 
