@@ -51,6 +51,7 @@ namespace CrawlerEngine.Repository.Crawl
                                                           UPDATE TOP({resourceCount}) CrawlDataJobList
                                                           SET JobStatus='start'
                                                           OUTPUT inserted.*
+                                                          where JobStatus ='not start'
                                     COMMIT TRAN";
             using (var conn = _DatabaseConnection.Create())
             {

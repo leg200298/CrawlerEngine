@@ -1,5 +1,4 @@
-﻿using CrawlerEngine.Common.Helper;
-using CrawlerEngine.Manager;
+﻿using CrawlerEngine.Manager;
 
 namespace CrawlerEngine
 {
@@ -8,7 +7,7 @@ namespace CrawlerEngine
         private static int Resource = 1;
         static void Main(string[] args)
         {
-            LoggerHelper._.Error(ex: new System.Exception());
+            // LoggerHelper._.Error(ex: new System.Exception());
             check(args);
 
             WorkManager workManager = new WorkManager();
@@ -20,8 +19,8 @@ namespace CrawlerEngine
 #if (Release)
             if (args.Count() == 0)
             {
-                Console.WriteLine(" no parameter");
-                throw new ApplicationException(" no parameter");
+                Console.WriteLine(" use default setting ");
+               return ;
             }
             for (int i = 0; i < args.Count(); ++i)
             {
