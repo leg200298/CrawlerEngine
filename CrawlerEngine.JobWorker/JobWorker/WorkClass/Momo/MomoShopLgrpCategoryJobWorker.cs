@@ -68,22 +68,17 @@ namespace CrawlerEngine.JobWorker.WorkClass
             try
             {
                 htmlDoc.LoadHtml(responseData);
-                var nodes = htmlDoc.DocumentNode.SelectNodes(@"//*[@id='bt_category_Content']//a");
-                if (nodes != null)
+                var nodes = htmlDoc.DocumentNode.SelectNodes("//*[@class='newClassificationFilterArea']//a[contains(@href, 'category.momo')]");
+                if (nodes is null) { return false; }
+                foreach (var data in nodes)
                 {
-                    foreach (var data in nodes)
+                    string href = HtmlEntity.DeEntitize(data.Attributes["href"].Value);
+                    jobInfos.Add(new JobInfo()
                     {
-                        if (data.InnerText != "更多")
-                        {
-                            string href = HtmlEntity.DeEntitize(data.Attributes["href"].Value);
-                            jobInfos.Add(new JobInfo()
-                            {
-                                Seq = Guid.NewGuid(),
-                                JobType = "MOMOSHOP-DGRPCATEGORY",
-                                Url = href.StartsWith("https://www.momoshop.com.tw") ? href : "https://www.momoshop.com.tw" + href
-                            });
-                        }                        
-                    }
+                        Seq = Guid.NewGuid(),
+                        JobType = "MOMOSHOP-MGRPCATEGORY",
+                        Url = href.StartsWith("https://m.momoshop.com.tw") ? href : $"https://m.momoshop.com.tw{href}"
+                    });
                 }
                 return true;
             }

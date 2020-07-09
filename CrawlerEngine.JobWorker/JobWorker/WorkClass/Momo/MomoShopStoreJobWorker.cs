@@ -70,18 +70,17 @@ namespace CrawlerEngine.JobWorker.WorkClass
             try
             {
                 htmlDoc.LoadHtml(responseData);
-                var nodes = htmlDoc.DocumentNode.SelectNodes(@"//*[@id='menuList']/li[*]/a");
-                if (nodes != null)
+                var nodes = htmlDoc.DocumentNode.SelectNodes("//*[@class='newClassificationFilterArea']//a[contains(@href, 'category.momo')]");
+                if (nodes is null) { return false; }
+                foreach (var data in nodes)
                 {
-                    foreach (var data in nodes)
+                    string href = HtmlEntity.DeEntitize(data.Attributes["href"].Value);
+                    jobInfos.Add(new JobInfo()
                     {
-                        jobInfos.Add(new JobInfo()
-                        {
-                            Seq = Guid.NewGuid(),
-                            JobType = "MOMOSHOP-LGRPCATEGORY",
-                            Url = HtmlEntity.DeEntitize(data.Attributes["href"].Value)
-                        });
-                    }
+                        Seq = Guid.NewGuid(),
+                        JobType = "MOMOSHOP-LGRPCATEGORY",
+                        Url = href.StartsWith("https://m.momoshop.com.tw") ? href : $"https://m.momoshop.com.tw{href}"
+                    });
                 }
                 return true;
             }
