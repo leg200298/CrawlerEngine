@@ -22,21 +22,30 @@ namespace CrawlerEngine.JobWorker
         {
             UpdateJobStatusStart();
             (bool, string) temp = (false, "");
-            do
+            try
             {
-                GotoNextPage(temp.Item2);
-                Crawl();
-                if (Validate())
+                do
                 {
-                    if (Parse())
+                    GotoNextPage(temp.Item2);
+                    Crawl();
+                    if (Validate())
                     {
-                        SaveData();
+                        if (Parse())
+                        {
+                            SaveData();
+                        }
+                        temp = HasNextPage();
+                        SleepForAWhile(GetSleepTimeByJobInfo());
                     }
-                    temp = HasNextPage();
-                    SleepForAWhile(GetSleepTimeByJobInfo());
-                }
-            } while (temp.Item1);
-            UpdateJobStatusEnd();
+                } while (temp.Item1);
+                UpdateJobStatusEnd();
+            }
+            catch (Exception e)
+            {
+                LoggerHelper._.Error(e,jobInfo.Seq.ToString()+responseData);
+                UpdateJobStatusFail();
+
+            }
 
         }
         private void UpdateJobStatusStart()
@@ -71,7 +80,10 @@ namespace CrawlerEngine.JobWorker
         {
             Repository.Factory.CrawlFactory.CrawlDataJobListRepository.UpdateStatusEnd(jobInfo);
         }
-
+        private void UpdateJobStatusFail()
+        {
+            Repository.Factory.CrawlFactory.CrawlDataJobListRepository.UpdateJobStatusFail(jobInfo);
+        }
 
     }
 }

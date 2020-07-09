@@ -79,12 +79,13 @@ namespace CrawlerEngine.Common.Helper
         private void Factory(string type, string msg = null, Exception ex = null)
         {
             var detailInfo = GetParentInfo() + " | " + msg;
-            if (type == "Debug") _logger.Debug(ex, detailInfo);
-            if (type == "Info") _logger.Info(ex, detailInfo);
-            if (type == "Warn") _logger.Warn(ex, detailInfo);
-            if (type == "Trace") _logger.Trace(ex, detailInfo);
-            if (type == "Error") _logger.Error(ex, detailInfo);
-            if (type == "Fatal") _logger.Fatal(ex, detailInfo);
+            var structmsg="msg {ex} detail:{detailInfo}";
+            if (type == "Debug") _logger.Debug(structmsg, ex, detailInfo);
+            if (type == "Info") _logger.Info(structmsg, ex, detailInfo);
+            if (type == "Warn") _logger.Warn(structmsg, ex, detailInfo);
+            if (type == "Trace") _logger.Trace(structmsg, ex, detailInfo);
+            if (type == "Error") _logger.Error(structmsg, ex, detailInfo);
+            if (type == "Fatal") _logger.Fatal(structmsg, ex, detailInfo);
         }
     }
 }

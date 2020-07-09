@@ -26,6 +26,7 @@ namespace CrawlerEngine.JobWorker.WorkClass
             var success = false;
             try
             {
+                // new HttpCrawler(new JobInfo() { Url = "https://24h.pchome.com.tw/store/DSAACI" }).DoCrawlerFlow();
                 responseData = crawler.DoCrawlerFlow();
                 success = true;
             }
@@ -51,10 +52,12 @@ namespace CrawlerEngine.JobWorker.WorkClass
 
             var htmlDoc = new HtmlDocument();
             htmlDoc.LoadHtml(responseData);
+
             crawlDataDetailOptions.price = htmlDoc.DocumentNode.SelectSingleNode("//*[@id=\"PriceTotal\"]").InnerText;
             crawlDataDetailOptions.name = htmlDoc.DocumentNode.SelectSingleNode("//*[@id=\"NickContainer\"]").InnerText;
             crawlDataDetailOptions.category = htmlDoc.DocumentNode.SelectSingleNode("//*[@id=\"CONTENT\"]/div[1]/div[1]/div[2]").InnerText;
             return true;
+
         }
 
         protected override bool SaveData()

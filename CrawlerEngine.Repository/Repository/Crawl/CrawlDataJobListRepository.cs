@@ -50,6 +50,7 @@ namespace CrawlerEngine.Repository.Crawl
                                     BEGIN TRAN
                                                           UPDATE TOP({resourceCount}) CrawlDataJobList
                                                           SET JobStatus='start'
+                                                             ,[StartTime] = '{DateTime.UtcNow.ToString(RuleString.DateTimeFormat)}'
                                                           OUTPUT inserted.*
                                                           where JobStatus ='not start'
                                     COMMIT TRAN";
@@ -72,6 +73,19 @@ namespace CrawlerEngine.Repository.Crawl
                 return conn.Execute(sqlCommand, jobInfo);
             }
         }
+        public int UpdateJobStatusFail(JobInfo jobInfo)
+        {
+            string sqlCommand = $@"
+                                    UPDATE [dbo].[CrawlDataJobList]
+                                       SET  [JobStatus] = 'Fail'
+                                           ,[EndTime] = '{DateTime.UtcNow.ToString(RuleString.DateTimeFormat)}'
+                                   WHERE [Seq] = @Seq";
+            using (var conn = _DatabaseConnection.Create())
+            {
+                return conn.Execute(sqlCommand, jobInfo);
+            }
+        }
+        
         public int UpdateStatusStart(JobInfo jobInfo)
         {
             string sqlCommand = $@"
