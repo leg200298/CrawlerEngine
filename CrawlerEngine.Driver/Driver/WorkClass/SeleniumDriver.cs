@@ -13,6 +13,9 @@ namespace CrawlerEngine.Driver.WorkClass
             var chromeOptions = new ChromeOptions();
             chromeOptions.AddArguments("headless");
             chromeOptions.AddArguments("no-sandbox");
+            chromeOptions.AddArguments("User-Agent=Googlebot");
+            chromeOptions.AddArguments("Referer=https://www.google.com");
+
             chromeOptions.AddArguments("disable-dev-shm-usage");
             chromeOptions.AddArguments("blink-settings=imagesEnabled=false");
             chromeOptions.AddArguments("disable-gpu");
