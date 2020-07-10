@@ -34,7 +34,7 @@ Description
 
 ```
 --liuux(Red hat) 
-1.$ sudo dnf install aspnetcore-runtime-3.
+1.$ sudo dnf install aspnetcore-runtime-3.1
 2.$ sudo yum install google-chrome-stable_current_x86_64.rpm
 3.$ cd netcoreapp3.1
 4.$ sudo cp chromedriver /usr/bin/
