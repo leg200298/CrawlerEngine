@@ -1,6 +1,5 @@
 ﻿using CrawlerEngine.Common.Helper;
 using CrawlerEngine.Driver.WorkClass;
-using OpenQA.Selenium.Chrome;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,7 +32,7 @@ namespace CrawlerEngine.Driver
         }
         public static bool InitDriver(int driverCount)
         {
-          
+
             try
             {
                 if (DriverPool == null) { DriverPool = new List<SeleniumDriver>(); }
@@ -52,6 +51,16 @@ namespace CrawlerEngine.Driver
                 throw ex;
             }
             return true;
+        }
+
+        public static int GetFreeDriverConut()
+        {
+
+            lock (c)
+            {
+                return DriverPool.Where(x => x.Status == Common.Enums.ObjectStatus.Driver.FREE).Count();
+            }
+
         }
     }
 }

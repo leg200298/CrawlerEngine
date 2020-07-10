@@ -17,12 +17,15 @@ namespace CrawlerEngine.Manager
         public void Process(int resourceCount)
         {
             WebDriverPool.InitDriver(resourceCount);
+            var freeDriverCount = resourceCount;
             while (1 == 1)
             {
+
+                freeDriverCount = WebDriverPool.GetFreeDriverConut();
                 try
                 {
 
-                    Parallel.ForEach(GetJobInfo(resourceCount), jobInfo =>
+                    Parallel.ForEach(GetJobInfo(freeDriverCount), jobInfo =>
                     {
                         DoJob(jobInfo);
                     });
