@@ -23,8 +23,12 @@ namespace CrawlerEngine.Crawler.WorkClass
         private string GetData()
         {
             var httpClient = new HttpClient();
-            httpClient.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36");
-            httpClient.DefaultRequestHeaders.Add("Referer", "https://ecshweb.pchome.com.tw/search/v3.3/");
+            foreach (var key in jobInfo.HeaderDic.Keys)
+            {
+                httpClient.DefaultRequestHeaders.Add(key, jobInfo.HeaderDic[key]);
+            }
+            //httpClient.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36");
+            //httpClient.DefaultRequestHeaders.Add("Referer", "https://ecshweb.pchome.com.tw/search/v3.3/");
             var httpResponse = httpClient.GetAsync(jobInfo.Url).GetAwaiter().GetResult();
             return httpResponse.Content.ReadAsStringAsync().GetAwaiter().GetResult();
         }

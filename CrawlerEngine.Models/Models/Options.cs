@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace CrawlerEngine.Models
 {
-    public class Options
+    public class Options : HttpHeaderOptions
     {
 
         /// <summary>
