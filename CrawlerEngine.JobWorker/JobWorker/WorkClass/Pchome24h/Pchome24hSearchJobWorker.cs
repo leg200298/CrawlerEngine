@@ -22,10 +22,11 @@ namespace CrawlerEngine.JobWorker.WorkClass
         private HtmlDocument htmlDoc = new HtmlDocument();
         public Pchome24hSearchJobWorker(JobInfo jobInfo)
         {
+            jobInfo.PutToHeaderDic("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36");
+            jobInfo.PutToHeaderDic("Referer", "https://ecshweb.pchome.com.tw/search/v3.3/");
+
             this.jobInfo = jobInfo;
             crawler = new HttpCrawler(jobInfo);
-            this.jobInfo.PutToHeaderDic("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36");
-            this.jobInfo.PutToHeaderDic("Referer", "https://ecshweb.pchome.com.tw/search/v3.3/");
         }
         public override JobInfo jobInfo { get; set; }
         public override ICrawler crawler { get; set; }
