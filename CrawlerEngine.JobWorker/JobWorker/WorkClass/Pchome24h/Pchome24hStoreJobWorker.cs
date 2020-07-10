@@ -74,9 +74,9 @@ namespace CrawlerEngine.JobWorker.WorkClass
 
         protected override bool Parse()
         {
-
+            responseData = responseData.Replace("<div class=\"prod_info\">", "");
             htmlDoc.LoadHtml(responseData);
-            var nodes = htmlDoc.DocumentNode.SelectNodes("//*[@id=\"ProdGridContainer\"]/dd/div/h5/a");
+            var nodes = htmlDoc.DocumentNode.SelectNodes("//*[@id=\"ProdGridContainer\"]/dd/h5/a");
             if (nodes is null) { return false; }
             foreach (var data in nodes)
             {
@@ -106,12 +106,14 @@ namespace CrawlerEngine.JobWorker.WorkClass
             htmlDoc.LoadHtml(responseData);
 
             var nodes = htmlDoc.DocumentNode.SelectNodes("//*[@id=\"PaginationContainer\"]/ul/li/a");
-
-            foreach (var node in nodes)
+            if (nodes != null)
             {
-                if (node.InnerText == "下一頁")
+                foreach (var node in nodes)
                 {
-                    return (true, node.Attributes["href"].Value);
+                    if (node.InnerText == "下一頁")
+                    {
+                        return (true, node.Attributes["href"].Value);
+                    }
                 }
             }
             return (false, "");
