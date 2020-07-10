@@ -47,6 +47,16 @@ namespace CrawlerEngine.Models
         /// </summary>
         public string RegisterTime => GetRegisterTime();
 
+
+        /// <summary>
+        /// 錯誤訊息
+        /// </summary>
+        public string ErrorInfo
+        {
+            get => GetErrorInfo();
+            set => SetErrorInfo(value);
+        }
+
         #region  private area
         private string GetUrl()
         {
@@ -63,14 +73,25 @@ namespace CrawlerEngine.Models
         {
             return GetString("_jobType");
         }
+
+        private void SetJobType(string value)
+        {
+            PutToDic("_jobType", value);
+        }
+
         private string GetRegisterTime()
         {
             return GetString("_registerTime");
         }
 
-        private void SetJobType(string value)
+        private string GetErrorInfo()
         {
-            PutToDic("_jobType", value);
+            return GetString("_errorInfo");
+        }
+
+        private void SetErrorInfo(string value)
+        {
+            PutToDic("_errorInfo", value);
         }
 
         #endregion

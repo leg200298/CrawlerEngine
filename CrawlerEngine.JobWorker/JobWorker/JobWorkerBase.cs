@@ -42,7 +42,8 @@ namespace CrawlerEngine.JobWorker
             }
             catch (Exception e)
             {
-                LoggerHelper._.Error(e,jobInfo.Seq.ToString()+responseData);
+                LoggerHelper._.Error(e, jobInfo.Seq.ToString() + responseData);
+                jobInfo.ErrorInfo = e.Message;
                 UpdateJobStatusFail();
 
             }

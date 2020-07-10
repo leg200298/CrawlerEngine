@@ -10,5 +10,7 @@ namespace CrawlerEngine.Model.DTO
         public string JobStatus { get; set; }
         public DateTime? StartTime { get; set; }
         public DateTime? EndTime { get; set; }
+        public string ErrorInfo { get; set; }
+
     }
 }

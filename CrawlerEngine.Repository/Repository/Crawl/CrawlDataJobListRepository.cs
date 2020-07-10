@@ -79,13 +79,14 @@ namespace CrawlerEngine.Repository.Crawl
                                     UPDATE [dbo].[CrawlDataJobList]
                                        SET  [JobStatus] = 'Fail'
                                            ,[EndTime] = '{DateTime.UtcNow.ToString(RuleString.DateTimeFormat)}'
+                                           ,[ErrorInfo]='{jobInfo.ErrorInfo}'
                                    WHERE [Seq] = @Seq";
             using (var conn = _DatabaseConnection.Create())
             {
                 return conn.Execute(sqlCommand, jobInfo);
             }
         }
-        
+
         public int UpdateStatusStart(JobInfo jobInfo)
         {
             string sqlCommand = $@"
