@@ -49,7 +49,6 @@ namespace CrawlerEngine.JobWorker.WorkClass
 
         protected override bool Parse()
         {
-
             var htmlDoc = new HtmlDocument();
             htmlDoc.LoadHtml(responseData);
 

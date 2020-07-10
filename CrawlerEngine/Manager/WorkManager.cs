@@ -43,6 +43,11 @@ namespace CrawlerEngine.Manager
         #region 工作區
         private IEnumerable<JobInfo> GetJobInfo(int resourceCount)
         {
+#if (DEBUG)
+            List<JobInfo> lj = new List<JobInfo>();
+            lj.Add(new JobInfo() { Seq =new Guid("D608BE51-D170-4056-ADD4-A54EA20DC1C4"), Info = JsonUntityHelper.DeserializeStringToDictionary<string, object>("{\"_url\": \"https://ecshweb.pchome.com.tw/search/v3.3/all/results?q=%E5%95%86%E5%93%81&page=1&sort=sale/dc\",   \"_jobType\": \"PCHOME24H-SEARCH\"}") });
+            return lj.AsEnumerable();
+#else
             return
 
               from x in Repository.Factory.CrawlFactory.CrawlDataJobListRepository.GetCrawlDataJobListDtos(resourceCount)
@@ -51,6 +56,8 @@ namespace CrawlerEngine.Manager
                   Info = JsonUntityHelper.DeserializeStringToDictionary<string, object>(x.JobInfo),
                   Seq = x.Seq
               };
+
+#endif
         }
         private bool DoJob(JobInfo jobInfo)
         {
@@ -81,6 +88,6 @@ namespace CrawlerEngine.Manager
 
 
 
-        #endregion
+#endregion
     }
 }

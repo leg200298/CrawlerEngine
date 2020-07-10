@@ -7,7 +7,7 @@ namespace CrawlerEngine.Common.Enums
         public enum Platform
         {
 
-           
+
             #region MOMOShop
             [Description("MOMOSHOP-PRODUCT")]
             MomoShopProduct = 0101,
@@ -20,7 +20,7 @@ namespace CrawlerEngine.Common.Enums
             [Description("MOMOSHOP-STORE")]
             MomoShopStore = 0105,
             #endregion
-           
+
 
             #region Pchome
             [Description("PCHOME24H-PRODUCT")]
@@ -31,6 +31,8 @@ namespace CrawlerEngine.Common.Enums
             Pchome24hStore = 0203,
             [Description("PCHOME24H-SIGN")]
             Pchome24hSign = 0204,
+            [Description("PCHOME24H-SEARCH")]
+            Pchome24hSearch = 0205,
 
             #endregion
             #region Yahoo

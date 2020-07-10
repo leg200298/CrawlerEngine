@@ -4,6 +4,7 @@ using CrawlerEngine.JobWorker.Interface;
 using CrawlerEngine.Models;
 using CrawlerEngine.Models.Models;
 using System;
+using System.Collections.Generic;
 
 namespace CrawlerEngine.JobWorker
 {
@@ -15,6 +16,7 @@ namespace CrawlerEngine.JobWorker
 
         private decimal sleepTime = 0;
         protected JsonOptions crawlDataDetailOptions = new JsonOptions();
+        protected List<JsonOptions> lCrawlDataDetailOptions = new List<JsonOptions>();
         /// <summary>
         /// 執行工作流程 ()
         /// </summary>
