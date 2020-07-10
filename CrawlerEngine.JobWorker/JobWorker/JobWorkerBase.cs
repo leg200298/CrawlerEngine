@@ -24,21 +24,28 @@ namespace CrawlerEngine.JobWorker
             (bool, string) temp = (false, "");
             try
             {
+                LoggerHelper._.Info($"{jobInfo.Seq}  Start");
                 do
                 {
                     GotoNextPage(temp.Item2);
                     Crawl();
+
+                    LoggerHelper._.Info($"{jobInfo.Seq}  GetData");
                     if (Validate())
                     {
+                        LoggerHelper._.Info($"{jobInfo.Seq}  Validate");
                         if (Parse())
                         {
+                            LoggerHelper._.Info($"{jobInfo.Seq}  Parse");
                             SaveData();
+                            LoggerHelper._.Info($"{jobInfo.Seq}  SaveData");
                         }
                         temp = HasNextPage();
                         SleepForAWhile(GetSleepTimeByJobInfo());
                     }
                 } while (temp.Item1);
                 UpdateJobStatusEnd();
+                LoggerHelper._.Info($"{jobInfo.Seq}  End");
             }
             catch (Exception e)
             {
@@ -51,7 +58,7 @@ namespace CrawlerEngine.JobWorker
         }
         private void UpdateJobStatusStart()
         {
-            //  Repository.Factory.CrawlFactory.CrawlDataJobListRepository.UpdateStatusStart(jobInfo);
+            Repository.Factory.CrawlFactory.CrawlDataJobListRepository.UpdateStatusStart(jobInfo);
 
         }
 

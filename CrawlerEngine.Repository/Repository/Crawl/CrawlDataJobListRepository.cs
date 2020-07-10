@@ -49,7 +49,7 @@ namespace CrawlerEngine.Repository.Crawl
             string sqlCommand = $@"
                                     BEGIN TRAN
                                                           UPDATE TOP({resourceCount}) CrawlDataJobList
-                                                          SET JobStatus='start'
+                                                          SET JobStatus='get'
                                                              ,[StartTime] = '{DateTime.UtcNow.ToString(RuleString.DateTimeFormat)}'
                                                           OUTPUT inserted.*
                                                           where JobStatus ='not start'
