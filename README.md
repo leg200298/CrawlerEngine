@@ -22,13 +22,24 @@ Description
 | CrawlerEngine.Test     | 測試專案     | 
 | CrawlerEngine.Common    | 通用性質的 |
 | CrawlerEngine.Repository|儲存體 |
-使用方法 
-先下載netcore sdk
+
+使用方法   
+1.先把要跑的程式+CHROME安裝黨(83)丟過去  
+2.下載netcore runtime  
+3.安裝chrome  
+4.將 chromedriver送入bin  
+5.給予權限  
+6.可以開跑了
 
 
 ```
-run
-dotnet CrawlerEngine.dll
+--liuux(Red hat) 
+1.$ sudo dnf install aspnetcore-runtime-3.
+2.$ sudo yum install google-chrome-stable_current_x86_64.rpm
+3.$ cd netcoreapp3.1
+4.$ sudo cp chromedriver /usr/bin/
+5.$ sudo chmod +x chromedriver
+6.$ sudo dotnet CrawlerEngine.dll
 ```
 
 
