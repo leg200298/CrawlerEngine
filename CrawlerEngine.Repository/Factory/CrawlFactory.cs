@@ -8,6 +8,7 @@ namespace CrawlerEngine.Repository.Factory
         //#if DEBUG
         private static CrawlDataDetailRepository _crawlDataDetailRepository => new CrawlDataDetailRepository(new AzureDbConnectionHelper());
         private static CrawlDataJobListRepository _crawlDataJobListRepository => new CrawlDataJobListRepository(new AzureDbConnectionHelper());
+        private static PublicToiletInfoRepository _publicToiletInfoRepository => new PublicToiletInfoRepository(new AzureDbConnectionHelper());
 
         //#else
 
@@ -17,6 +18,10 @@ namespace CrawlerEngine.Repository.Factory
         //#endif
         public static CrawlDataDetailRepository CrawlDataDetailRepository = _crawlDataDetailRepository;
         public static CrawlDataJobListRepository CrawlDataJobListRepository = _crawlDataJobListRepository;
+
+        public static PublicToiletInfoRepository PublicToiletInfoRepository = _publicToiletInfoRepository;
+
+        
 
     }
 }

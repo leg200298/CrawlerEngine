@@ -39,6 +39,12 @@ namespace CrawlerEngine.Common.Enums
             [Description("YAHOOMALL-PRODUCT")]
             YahooMallProduct = 0301,
             #endregion
+
+
+            #region google
+            [Description("GOOGLEMAP-OIL")]
+            GoogleMapOil = 0401,
+            #endregion
         }
         /*
               PC Home 陣營電商通路平台：

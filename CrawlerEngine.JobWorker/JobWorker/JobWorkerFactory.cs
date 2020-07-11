@@ -16,60 +16,70 @@ namespace CrawlerEngine.JobWorker
 
             var jobType = jobInfo.JobType.ToUpper();
 
-            #region Momo           
+            //#region Momo           
 
-            if (jobType == Platform.MomoShopStore.GetDescription())
-            {
-                return new MomoShopStoreJobWorker(jobInfo);
-            }
-            if (jobType == Platform.MomoShopLgrpCategory.GetDescription())
-            {
-                return new MomoShopLgrpCategoryJobWorker(jobInfo);
-            }
-            if (jobType == Platform.MomoShopMgrpCategory.GetDescription())
-            {
-                return new MomoShopMgrpCategoryJobWorker(jobInfo);
-            }
-            if (jobType == Platform.MomoShopDgrpCategory.GetDescription())
-            {
-                return new MomoShopDgrpCategoryJobWorker(jobInfo);
-            }
-            if (jobType == Platform.MomoShopProduct.GetDescription())
-            {
-                return new MomoShopProductJobWorker(jobInfo);
-            }
+            //if (jobType == Platform.MomoShopStore.GetDescription())
+            //{
+            //    return new MomoShopStoreJobWorker(jobInfo);
+            //}
+            //if (jobType == Platform.MomoShopLgrpCategory.GetDescription())
+            //{
+            //    return new MomoShopLgrpCategoryJobWorker(jobInfo);
+            //}
+            //if (jobType == Platform.MomoShopMgrpCategory.GetDescription())
+            //{
+            //    return new MomoShopMgrpCategoryJobWorker(jobInfo);
+            //}
+            //if (jobType == Platform.MomoShopDgrpCategory.GetDescription())
+            //{
+            //    return new MomoShopDgrpCategoryJobWorker(jobInfo);
+            //}
+            //if (jobType == Platform.MomoShopProduct.GetDescription())
+            //{
+            //    return new MomoShopProductJobWorker(jobInfo);
+            //}
 
-            #endregion
+            //#endregion
 
-            #region Pchome 24h
-            if (jobType == Platform.Pchome24hProduct.GetDescription())
-            {
-                return new Pchome24hProductJobWorker(jobInfo);
-            }
-            if (jobType == Platform.Pchome24hRegion.GetDescription())
-            {
-                return new Pchome24hRegionJobWorker(jobInfo);
-            }
-            if (jobType == Platform.Pchome24hStore.GetDescription())
-            {
-                return new Pchome24hStoreJobWorker(jobInfo);
-            }
-            if (jobType == Platform.Pchome24hSign.GetDescription())
-            {
-                return new Pchome24hSignJobWorker(jobInfo);
-            }
-            if (jobType == Platform.Pchome24hSearch.GetDescription())
-            {
-                return new Pchome24hSearchJobWorker(jobInfo);
-            }
+            //#region Pchome 24h
+            //if (jobType == Platform.Pchome24hProduct.GetDescription())
+            //{
+            //    return new Pchome24hProductJobWorker(jobInfo);
+            //}
+            //if (jobType == Platform.Pchome24hRegion.GetDescription())
+            //{
+            //    return new Pchome24hRegionJobWorker(jobInfo);
+            //}
+            //if (jobType == Platform.Pchome24hStore.GetDescription())
+            //{
+            //    return new Pchome24hStoreJobWorker(jobInfo);
+            //}
+            //if (jobType == Platform.Pchome24hSign.GetDescription())
+            //{
+            //    return new Pchome24hSignJobWorker(jobInfo);
+            //}
+            //if (jobType == Platform.Pchome24hSearch.GetDescription())
+            //{
+            //    return new Pchome24hSearchJobWorker(jobInfo);
+            //}
 
-            #endregion
+            //#endregion
+
+            //#region yahoo
+
+            //if (jobType == Platform.YahooMallProduct.GetDescription())
+            //{
+            //    return new YaooMallProductJobWorker(jobInfo);
+            //}
+            //#endregion
+
+
 
             #region yahoo
 
-            if (jobType == Platform.YahooMallProduct.GetDescription())
+            if (jobType == Platform.GoogleMapOil.GetDescription())
             {
-                return new YaooMallProductJobWorker(jobInfo);
+                return new GoogleMapJobWorker(jobInfo);
             }
             #endregion
             return null;
