@@ -65,15 +65,10 @@ namespace CrawlerEngine.JobWorker.WorkClass
 
 
             //address
+            publicToiletInfoDto.toilet_id = jobInfo.Seq.ToString();
             publicToiletInfoDto.toilet_address = qqqq[4].ToString();
             publicToiletInfoDto.toilet_latitude = Convert.ToDouble(qqqqq[2].ToString());
             publicToiletInfoDto.toilet_longitude = Convert.ToDouble(qqqqq[3].ToString());
-            //var htmlDoc = new HtmlDocument();
-            //htmlDoc.LoadHtml(responseData);
-
-            //crawlDataDetailOptions.price = htmlDoc.DocumentNode.SelectSingleNode("//*[@id=\"PriceTotal\"]").InnerText;
-            //crawlDataDetailOptions.name = htmlDoc.DocumentNode.SelectSingleNode("//*[@id=\"NickContainer\"]").InnerText;
-            //crawlDataDetailOptions.category = htmlDoc.DocumentNode.SelectSingleNode("//*[@id=\"CONTENT\"]/div[1]/div[1]/div[2]").InnerText;
             return true;
 
         }
