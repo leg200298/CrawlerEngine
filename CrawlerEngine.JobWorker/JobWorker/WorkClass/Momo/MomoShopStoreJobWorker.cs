@@ -1,4 +1,5 @@
 ﻿using CrawlerEngine.Common;
+using CrawlerEngine.Common.Extansion;
 using CrawlerEngine.Common.Helper;
 using CrawlerEngine.Crawler.Interface;
 using CrawlerEngine.Crawler.WorkClass;
@@ -8,7 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
-
+using static CrawlerEngine.Common.Enums.ElectronicBusiness;
 
 namespace CrawlerEngine.JobWorker.WorkClass
 {
@@ -70,7 +71,7 @@ namespace CrawlerEngine.JobWorker.WorkClass
             try
             {
                 htmlDoc.LoadHtml(responseData);
-                var nodes = htmlDoc.DocumentNode.SelectNodes("//*[@class='newClassificationFilterArea']//a[contains(@href, 'category.momo')]");
+                var nodes = htmlDoc.DocumentNode.SelectNodes("//*[@id='bt_category_Content']//a[contains(@href, 'category')]");
                 if (nodes is null) { return false; }
                 foreach (var data in nodes)
                 {
@@ -78,8 +79,8 @@ namespace CrawlerEngine.JobWorker.WorkClass
                     jobInfos.Add(new JobInfo()
                     {
                         Seq = Guid.NewGuid(),
-                        JobType = "MOMOSHOP-LGRPCATEGORY",
-                        Url = href.StartsWith("https://m.momoshop.com.tw") ? href : $"https://m.momoshop.com.tw{href}"
+                        JobType = Platform.MomoShopLgrpCategory.GetDescription(),
+                        Url = href.StartsWith("https://www.momoshop.com.tw") ? href : $"https://www.momoshop.com.tw{href}"
                     });
                 }
                 return true;

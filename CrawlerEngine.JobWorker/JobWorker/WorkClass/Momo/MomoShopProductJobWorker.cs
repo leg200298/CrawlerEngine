@@ -60,19 +60,19 @@ namespace CrawlerEngine.JobWorker.WorkClass
 
                 htmlDoc.LoadHtml(responseData);
 
-                crawlDataDetailOptions.price = htmlDoc.DocumentNode.SelectSingleNode("//*[@class='priceTxtArea']//b").InnerText;
-                crawlDataDetailOptions.name = htmlDoc.DocumentNode.SelectSingleNode("//*[@id='goodsName']").InnerText;
-                crawlDataDetailOptions.category = string.Join(@">"
-                        , htmlDoc.DocumentNode.SelectNodes("//*[@class='pathArea']//a").Select(x => x.InnerText));
+                //crawlDataDetailOptions.price = htmlDoc.DocumentNode.SelectSingleNode("//*[@class='priceTxtArea']//b").InnerText;
+                //crawlDataDetailOptions.name = htmlDoc.DocumentNode.SelectSingleNode("//*[@id='goodsName']").InnerText;
+                //crawlDataDetailOptions.category = string.Join(@">"
+                //        , htmlDoc.DocumentNode.SelectNodes("//*[@class='pathArea']//a").Select(x => x.InnerText));
 
-                //crawlDataDetailOptions.price = string.Join(@"\"
-                //    , htmlDoc.DocumentNode.SelectNodes("//*[@class='prdnoteArea']//*[contains(@class, 'prdPrice')]//li")
-                //    .Where(x => Regex.IsMatch(x.InnerText, @"\D+(價|價格)+(\d{1,3},)*\d+元"))
-                //    .Select(x => Regex.Match(x.InnerText, @"\D+(價|價格)+(\d{1,3},)*\d+元").Value?
-                //        .Replace(System.Environment.NewLine, string.Empty).Trim()));
+                crawlDataDetailOptions.price = string.Join(@"\"
+                    , htmlDoc.DocumentNode.SelectNodes("//*[@class='prdnoteArea']//*[contains(@class, 'prdPrice')]//li")
+                    .Where(x => Regex.IsMatch(x.InnerText, @"\D+(價|價格)+(\d{1,3},)*\d+元"))
+                    .Select(x => Regex.Match(x.InnerText, @"\D+(價|價格)+(\d{1,3},)*\d+元").Value?
+                        .Replace(System.Environment.NewLine, string.Empty).Trim()));
 
-                //crawlDataDetailOptions.name = htmlDoc.DocumentNode.SelectSingleNode("//*[@class=\"prdnoteArea\"]/h1").InnerText;
-                //crawlDataDetailOptions.category = string.Join(@"\", htmlDoc.DocumentNode.SelectNodes("//*[@id=\"bt_2_layout_NAV\"]/ul//li").Select(x => x.InnerText));
+                crawlDataDetailOptions.name = htmlDoc.DocumentNode.SelectSingleNode("//*[@class=\"prdnoteArea\"]/h1").InnerText;
+                crawlDataDetailOptions.category = string.Join(@"\", htmlDoc.DocumentNode.SelectNodes("//*[@id=\"bt_2_layout_NAV\"]/ul//li").Select(x => x.InnerText));
 
                 return true;
             }

@@ -1,12 +1,18 @@
-﻿using CrawlerEngine.Common.Helper;
+﻿using CrawlerEngine.Common.Extansion;
+using CrawlerEngine.Common.Helper;
 using CrawlerEngine.Crawler.Interface;
 using CrawlerEngine.Crawler.WorkClass;
 using CrawlerEngine.Models;
 using HtmlAgilityPack;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Security.Policy;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
+using static CrawlerEngine.Common.Enums.ElectronicBusiness;
 
 namespace CrawlerEngine.JobWorker.WorkClass
 {
@@ -68,17 +74,28 @@ namespace CrawlerEngine.JobWorker.WorkClass
             try
             {
                 htmlDoc.LoadHtml(responseData);
-                var nodes = htmlDoc.DocumentNode.SelectNodes("//*[@class='newClassificationFilterArea']//a[contains(@href, 'category.momo')]");
+                var nodes = htmlDoc.DocumentNode.SelectNodes("//*[@id='bt_category_Content']//a[contains(@href, 'category')]");
                 if (nodes is null) { return false; }
                 foreach (var data in nodes)
                 {
-                    string href = HtmlEntity.DeEntitize(data.Attributes["href"].Value);
-                    jobInfos.Add(new JobInfo()
+                    
+                    JobInfo jobInfo = new JobInfo()
                     {
                         Seq = Guid.NewGuid(),
-                        JobType = "MOMOSHOP-MGRPCATEGORY",
-                        Url = href.StartsWith("https://m.momoshop.com.tw") ? href : $"https://m.momoshop.com.tw{href}"
-                    });
+                        JobType = Platform.MomoShopDgrpCategory.GetDescription(),                      
+                        Url = "https://www.momoshop.com.tw/ajax/ajaxTool.jsp?n=2035"
+                    };
+
+                    Int64.TryParse(Regex.Match(data.Attributes["href"].Value, @"(d_code=\d+|m_code=\d+)").Value.Split('=')
+                        .Where(x => Regex.IsMatch(x, @"\d+")).FirstOrDefault(), out Int64 cateCode);
+
+                    string postData = "data=" + Uri.EscapeDataString(
+                        $"{{\"flag\":2035,\"data\":{{\"params\":{{\"cateCode\":\"{cateCode}\",\"cateLevel\":\"3\",\"curPage\":\"1\"}}}}}}");
+
+                    string href = HtmlEntity.DeEntitize(data.Attributes["href"].Value);
+                    jobInfo.PutToDic("_webSiteUrl", href.StartsWith("https://www.momoshop.com.tw") ? href : $"https://www.momoshop.com.tw{href}");
+                    jobInfo.PutToDic("_postData", postData);
+                    jobInfos.Add(jobInfo);
                 }
                 return true;
             }

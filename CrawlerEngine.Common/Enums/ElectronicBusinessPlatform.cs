@@ -12,13 +12,11 @@ namespace CrawlerEngine.Common.Enums
             [Description("MOMOSHOP-PRODUCT")]
             MomoShopProduct = 0101,
             [Description("MOMOSHOP-DGRPCATEGORY")]
-            MomoShopDgrpCategory = 0102,
-            [Description("MOMOSHOP-MGRPCATEGORY")]
-            MomoShopMgrpCategory = 0103,
+            MomoShopDgrpCategory = 0102,            
             [Description("MOMOSHOP-LGRPCATEGORY")]
-            MomoShopLgrpCategory = 0104,
+            MomoShopLgrpCategory = 0103,
             [Description("MOMOSHOP-STORE")]
-            MomoShopStore = 0105,
+            MomoShopStore = 0104,
             #endregion
 
 
