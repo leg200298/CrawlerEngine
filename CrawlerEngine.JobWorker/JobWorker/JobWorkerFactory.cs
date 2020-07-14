@@ -1,5 +1,6 @@
 ﻿using CrawlerEngine.Common;
 using CrawlerEngine.JobWorker.Interface;
+using CrawlerEngine.JobWorker.WorkClass;
 using CrawlerEngine.Models;
 
 namespace CrawlerEngine.JobWorker
@@ -13,6 +14,7 @@ namespace CrawlerEngine.JobWorker
 
             var jobType = jobInfo.JobType.ToUpper();
 
+            return new BankExchangeJobWorker(jobInfo);
             //#region Momo           
 
             //if (jobType == Platform.MomoShopStore.GetDescription())
