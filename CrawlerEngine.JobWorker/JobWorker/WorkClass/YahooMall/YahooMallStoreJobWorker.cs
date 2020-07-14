@@ -1,10 +1,14 @@
-﻿using CrawlerEngine.Common.Helper;
+﻿
+using CrawlerEngine.Common.Extansion;
+using CrawlerEngine.Common.Helper;
 using CrawlerEngine.Crawler.Interface;
 using CrawlerEngine.Crawler.WorkClass;
-using CrawlerEngine.Model.DTO;
 using CrawlerEngine.Models;
 using HtmlAgilityPack;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using static CrawlerEngine.Common.Enums.ElectronicBusiness;
 
 namespace CrawlerEngine.JobWorker.WorkClass
 {
@@ -18,6 +22,8 @@ namespace CrawlerEngine.JobWorker.WorkClass
             this.jobInfo = jobInfo;
             crawler = new WebCrawler(jobInfo);
         }
+        private List<JobInfo> jobInfos = new List<JobInfo>();
+        private HtmlDocument htmlDoc = new HtmlDocument();
         public override JobInfo jobInfo { get; set; }
         public override ICrawler crawler { get; set; }
 
@@ -37,39 +43,65 @@ namespace CrawlerEngine.JobWorker.WorkClass
         }
         protected override bool GotoNextPage(string url)
         {
-            return false;
+            if (string.IsNullOrEmpty(url))
+            {
+                return false;
+            }
+            else
+            {
+
+                jobInfo.Url = url;
+
+                return true;
+            }
         }
 
         protected override (bool, string) HasNextPage()
         {
 
-            return (false, "");
-        }
 
+            htmlDoc.LoadHtml(responseData);
+            //   node = htmlDoc.DocumentNode.SelectSingleNode("//*[@id=\"ypsaupg\"]/div[2]/a");
+            var nodes = htmlDoc.DocumentNode.SelectNodes("//*[@id=\"ypsaupg\"]/div/a");
+
+            var node = nodes.Where(x => x.InnerText.Contains("下一頁")).FirstOrDefault();
+            if (node != null)
+            {
+                var url = new Uri(new Uri(jobInfo.Url), node.Attributes["href"].Value.Replace("&amp;", "&")).ToString();
+
+                return (true, url);
+            }
+            else
+            {
+                return (false, "");
+            }
+
+        }
         protected override bool Parse()
         {
-            //未完成
-            var htmlDoc = new HtmlDocument();
+
             htmlDoc.LoadHtml(responseData);
-            crawlDataDetailOptions.price = htmlDoc.DocumentNode.SelectSingleNode("//*[@id=\"ypsiif\"]/div/div[1]/div[4]/table/tbody/tr[1]/td/div/span").InnerText;
-            crawlDataDetailOptions.name = htmlDoc.DocumentNode.SelectSingleNode("//*[@id=\"ypsiif\"]/div/div[1]/div[4]/div[1]/h1/span[1]").InnerText;
-            crawlDataDetailOptions.category = "";
+            var nodes = htmlDoc.DocumentNode.SelectNodes("//*[@id=\"ypsausi\"]/div[2]/ul/li/div[1]/table/tbody/tr/td/a");
+            if (nodes is null) { return false; }
+            foreach (var data in nodes)
+            {
+                var url = data.Attributes["href"].Value;
+                if (url.StartsWith("https://tw.mall.yahoo.com/item"))
+                {
+                    jobInfos.Add(new JobInfo() { JobType = Platform.YahooMallProduct.GetDescription(), Url = $"{url}" });
+                }
+            }
             return true;
         }
 
         protected override bool SaveData()
-        { //未完成
-            CrawlDataDetailDto crawlDataDetailDto = new CrawlDataDetailDto()
+        {
+            foreach (var d in jobInfos)
             {
-                Seq = jobInfo.Seq,
-                JobStatus = "end",
-                EndTime = DateTime.UtcNow,
-                DetailData = crawlDataDetailOptions.GetJsonString()
-            };
-
-            Repository.Factory.CrawlFactory.CrawlDataDetailRepository.InsertDataDetail(crawlDataDetailDto);
+                Repository.Factory.CrawlFactory.CrawlDataJobListRepository.InsertOne(d);
+            }
+            jobInfos.Clear();
             return true;
-
         }
 
         protected override void SleepForAWhile(decimal sleepTime)

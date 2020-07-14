@@ -49,7 +49,7 @@ namespace CrawlerEngine.Manager
             {
                 Seq = new Guid("D608BE51-D170-4056-ADD4-A54EA20DC1C4"),
                 Info = JsonUntityHelper.DeserializeStringToDictionary<string, object>(
-                    "{\"_url\": \"https://tw.search.mall.yahoo.com/search/mall/product?p=AAA&qt=product&cid=0&clv=0\",   \"_jobType\": \"YAHOOMALL-SEARCH\"}")
+                    "{\"_url\": \"https://tw.mall.yahoo.com/store/dcking\",   \"_jobType\": \"YAHOOMALL-STORE\"}")
             });
             return lj.AsEnumerable();
 #else

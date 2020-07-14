@@ -96,6 +96,7 @@ namespace CrawlerEngine.JobWorker.WorkClass
             {
                 Repository.Factory.CrawlFactory.CrawlDataJobListRepository.InsertOne(d);
             }
+            jobInfos.Clear();
             return true;
 
         }

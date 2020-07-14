@@ -83,7 +83,6 @@ namespace CrawlerEngine.JobWorker.WorkClass
 
         protected override bool Parse()
         {
-            //未完成
             responseData = responseData.Replace("<div class=\"prod_info\">", "");
             htmlDoc.LoadHtml(responseData);
             var nodes = htmlDoc.DocumentNode.SelectNodes("//*[@id=\"isoredux-root\"]/div/div/div/div/div/ul/li/a");
@@ -101,11 +100,11 @@ namespace CrawlerEngine.JobWorker.WorkClass
 
         protected override bool SaveData()
         {
-            //未完成
             foreach (var d in jobInfos)
             {
                 Repository.Factory.CrawlFactory.CrawlDataJobListRepository.InsertOne(d);
             }
+            jobInfos.Clear();
             return true;
 
         }
