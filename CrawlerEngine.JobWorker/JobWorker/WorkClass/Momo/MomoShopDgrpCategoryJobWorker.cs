@@ -4,6 +4,7 @@ using CrawlerEngine.Crawler.Interface;
 using CrawlerEngine.Crawler.WorkClass;
 using CrawlerEngine.Models;
 using HtmlAgilityPack;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -23,7 +24,7 @@ namespace CrawlerEngine.JobWorker.WorkClass
 
         private List<JobInfo> jobInfos = new List<JobInfo>();
         private HtmlDocument htmlDoc = new HtmlDocument();
-        private JObject jObject = null;
+        private ResponseJObject responseJObject = null;
 
         public MomoShopDgrpCategoryJobWorker(JobInfo jobInfo)
         {
@@ -40,7 +41,6 @@ namespace CrawlerEngine.JobWorker.WorkClass
         protected override bool GotoNextPage(string url)
         {
             jobInfos = new List<JobInfo>();
-            jObject = null;
             if (string.IsNullOrEmpty(url))
             {
                 return false;
@@ -57,10 +57,8 @@ namespace CrawlerEngine.JobWorker.WorkClass
             try
             {
                 responseData = crawler.DoCrawlerFlow();
-                JObject Result = JObject.Parse(responseData);
-                //if (string.IsNullOrEmpty(Regex.Replace(responseData, @"\\r\\n", "")))
-                bool.TryParse(Convert.ToString(Result["rtnData"]["rtnGoodsData"]["success"]), out bool checkResult);
-                if (!checkResult)
+                responseJObject = JsonConvert.DeserializeObject<ResponseJObject>(responseData);
+                if (!responseJObject.rtnData.rtnGoodsData.success)
                 {
                     responseData = webCrawler.DoCrawlerFlow();
                 }
@@ -103,19 +101,19 @@ namespace CrawlerEngine.JobWorker.WorkClass
                             Url = href.StartsWith("https://www.momoshop.com.tw") ? href : "https://www.momoshop.com.tw" + href
                         });
                     }
+                    return true;
                 }
-                else
-                {
-                    jObject = JObject.Parse(responseData);
 
-                    foreach (var item in jObject["rtnData"]["rtnGoodsData"]["rtnGoodsData"]["goodsInfoList"])
+                if (responseJObject != null && responseJObject.rtnData.rtnGoodsData.success)
+                {
+                    foreach (var item in responseJObject.rtnData.rtnGoodsData.rtnGoodsData.goodsInfoList)
                     {
-                        string goodsCode = item.Value<string>("goodsCode");
+                        string goodsCode = item.goodsCode;
                         string url = $"https://www.momoshop.com.tw/goods/GoodsDetail.jsp?i_code={goodsCode}";
-                        string goodsName = item.Value<string>("goodsName");
-                        string imgUrl = item.Value<string>("imgUrl");
-                        string goodsPrice = item.Value<string>("goodsPrice");
-                        string SALE_PRICE = item.Value<string>("SALE_PRICE");
+                        string goodsName = item.goodsName;
+                        string imgUrl = item.imgUrl;
+                        string goodsPrice = item.goodsPrice;
+                        string SALE_PRICE = item.SALE_PRICE;
 
                         jobInfos.Add(new JobInfo()
                         {
@@ -124,8 +122,10 @@ namespace CrawlerEngine.JobWorker.WorkClass
                             Url = url
                         });
                     }
+                    return true;
                 }
-                return true;
+
+                return false;
             }
             catch (Exception ex)
             {
@@ -154,21 +154,22 @@ namespace CrawlerEngine.JobWorker.WorkClass
         protected override (bool, string) HasNextPage()
         {
             try
-            {                
+            {
                 var page = htmlDoc.DocumentNode.SelectSingleNode("//*[(@class='pageArea topEnPageArea')]//a[contains(@name,'nextPage')]");
                 if (page != null && page.Attributes["page"] != null)
                 {
                     string next = Regex.Replace(jobInfo.Url, @"&pageNum=\d+", "") + $"&pageNum={page.Attributes["page"].Value}";
                     return (true, next);
                 }
-                else if (jObject != null)
+                else if (responseJObject != null && responseJObject.rtnData.rtnGoodsData.success)
                 {
-                    int maxPage = jObject["rtnData"]["rtnGoodsData"].Value<int>("maxPage");
-                    int curPage = jObject["rtnData"]["rtnGoodsData"].Value<int>("curPage");
+
+                    int maxPage = int.Parse(responseJObject.rtnData.rtnGoodsData.maxPage);
+                    int curPage = int.Parse(responseJObject.rtnData.rtnGoodsData.curPage);
 
                     if (maxPage > curPage)
                     {
-                        Int64.TryParse(Regex.Match(Convert.ToString(jobInfo.Url), @"(d_code=\d+|m_code=\d+)").Value.Split('=')
+                        Int64.TryParse(Regex.Match(Convert.ToString(jobInfo.Url), @"d_code=\d+").Value.Split('=')
                             .Where(x => Regex.IsMatch(x, @"\d+")).FirstOrDefault(), out Int64 cateCode);
 
                         string postData = "data=" + Uri.EscapeDataString(
@@ -198,4 +199,220 @@ namespace CrawlerEngine.JobWorker.WorkClass
             Thread.Sleep((int)(sleepTime * 1000));
         }
     }
+
+    public class ExtraValue
+    {
+        public string urlParameter { get; set; }
+        public string cateType { get; set; }
+        public string isWebPage { get; set; }
+        public string categoryCode { get; set; }
+    }
+
+    public class Action
+    {
+        public int? actionType { get; set; }
+        public string actionValue { get; set; }
+        public bool? useDefault { get; set; }
+        public ExtraValue extraValue { get; set; }
+
+    }
+
+    public class Top123
+    {
+        public string orderqty { get; set; }
+        public string contentType { get; set; }
+        public string imgUrl { get; set; }
+        public List<string> imgUrlArray { get; set; }
+        public string imgTagUrl { get; set; }
+        public string goodsName { get; set; }
+        public string goodsSubName { get; set; }
+        public string @operator { get; set; }
+        public string TvYn { get; set; }
+        public string ArdYN { get; set; }
+        public string ArsDiscount { get; set; }
+        public string isSetGoods { get; set; }
+        public string delyType { get; set; }
+        public string delyTemp { get; set; }
+        public string goodsPrice { get; set; }
+        public string SALE_PRICE { get; set; }
+        public string goodsStock { get; set; }
+        public string canTipStock { get; set; }
+        public string norestAllotMonth { get; set; }
+        public string shopWay { get; set; }
+        public bool? isTracked { get; set; }
+        public string categoryCode { get; set; }
+        public string categoryName { get; set; }
+        public string goodsCode { get; set; }
+        public string vodUrl { get; set; }
+        public string promotUrl { get; set; }
+        public bool? isAdultLimit { get; set; }
+        public string edmBackgroundUrl { get; set; }
+        public Action action { get; set; }
+        public string goodsFeatureUrl { get; set; }
+
+    }
+
+    public class ExtraValue2
+    {
+        public string cateLevel { get; set; }
+        public string cateName { get; set; }
+
+    }
+
+    public class Action2
+    {
+        public int? actionType { get; set; }
+        public string actionValue { get; set; }
+        public bool? useDefault { get; set; }
+        public ExtraValue2 extraValue { get; set; }
+
+    }
+
+    public class CategoryCrumb
+    {
+        public string categoryCode { get; set; }
+        public string categoryName { get; set; }
+        public Action2 action { get; set; }
+
+    }
+
+    public class Icon
+    {
+        public string iconBgColor { get; set; }
+        public string iconContentColor { get; set; }
+        public string iconContent { get; set; }
+        public string iconContentType { get; set; }
+
+    }
+
+    public class ExtraValue3
+    {
+        public string urlParameter { get; set; }
+        public string cateType { get; set; }
+        public string isWebPage { get; set; }
+        public string categoryCode { get; set; }
+
+    }
+
+    public class Action3
+    {
+        public int? actionType { get; set; }
+        public string actionValue { get; set; }
+        public bool? useDefault { get; set; }
+        public ExtraValue3 extraValue { get; set; }
+
+    }
+
+    public class GoodsInfoList
+    {
+        public string orderqty { get; set; }
+        public string contentType { get; set; }
+        public string imgUrl { get; set; }
+        public List<string> imgUrlArray { get; set; }
+        public string imgTagUrl { get; set; }
+        public bool? isTVGoods { get; set; }
+        public string goodsIconType { get; set; }
+        public bool? isRegister { get; set; }
+        public bool? useCounpon { get; set; }
+        public bool? isDiscount { get; set; }
+        public bool? haveGift { get; set; }
+        public string cycleYn { get; set; }
+        public string goodsName { get; set; }
+        public string goodsSubName { get; set; }
+        public string @operator { get; set; }
+        public string TvYn { get; set; }
+        public string ArdYN { get; set; }
+        public string ArsDiscount { get; set; }
+        public string isSetGoods { get; set; }
+        public string delyType { get; set; }
+        public string delyTemp { get; set; }
+        public string goodsPrice { get; set; }
+        public string SALE_PRICE { get; set; }
+        public string goodsStock { get; set; }
+        public string canTipStock { get; set; }
+        public string norestAllotMonth { get; set; }
+        public string shopWay { get; set; }
+        public bool? isTracked { get; set; }
+        public List<Icon> icon { get; set; }
+        public string categoryCode { get; set; }
+        public string categoryName { get; set; }
+        public string goodsCode { get; set; }
+        public string promotUrl { get; set; }
+        public bool? isAdultLimit { get; set; }
+        public string edmBackgroundUrl { get; set; }
+        public Action3 action { get; set; }
+        public string goodsFeatureUrl { get; set; }
+        public string vodUrl { get; set; }
+
+    }
+
+    public class BrandName
+    {
+        public string brandTitle { get; set; }
+        public List<string> brandName { get; set; }
+        public List<int?> brandCount { get; set; }
+        public List<string> brandNameStr { get; set; }
+
+    }
+
+    public class IndexInfoList
+    {
+        public string indexName { get; set; }
+        public string indexNameNo { get; set; }
+        public List<string> groupId { get; set; }
+        public List<string> indexContent { get; set; }
+        public List<string> indexContentStr { get; set; }
+        public List<int?> indexContentCnt { get; set; }
+
+    }
+
+    public class RtnGoodsData2
+    {
+        public List<Top123> top123 { get; set; }
+        public List<CategoryCrumb> categoryCrumbs { get; set; }
+        public List<object> categoryList { get; set; }
+        public List<GoodsInfoList> goodsInfoList { get; set; }
+        public List<BrandName> brandName { get; set; }
+        public List<IndexInfoList> indexInfoList { get; set; }
+
+    }
+
+    public class RtnGoodsData
+    {
+        public bool success { get; set; }
+        public string resultCode { get; set; }
+        public string resultMessage { get; set; }
+        public string resultException { get; set; }
+        public string maxPage { get; set; }
+        public string minPage { get; set; }
+        public string curPage { get; set; }
+        public string pageSize { get; set; }
+        public string totalCnt { get; set; }
+        public string curPageGoodsCnt { get; set; }
+        public string cateLevel { get; set; }
+        public string shareTitle { get; set; }
+        public bool? isAdultLimit { get; set; }
+        public string categoryType { get; set; }
+        public bool? isBrandCategory { get; set; }
+        public RtnGoodsData2 rtnGoodsData { get; set; }
+        public string endYn { get; set; }
+        public string showSieveCondition { get; set; }
+        public bool? isV2 { get; set; }
+        public string MOMOMSGID { get; set; }
+
+    }
+
+    public class RtnData
+    {
+        public RtnGoodsData rtnGoodsData { get; set; }
+    }
+
+    public class ResponseJObject
+    {
+        public RtnData rtnData { get; set; }
+        public string rtnMsg { get; set; }
+        public int rtnCode { get; set; }
+
+    }
+
 }
