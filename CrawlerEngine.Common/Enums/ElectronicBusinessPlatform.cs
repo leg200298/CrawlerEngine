@@ -38,6 +38,10 @@ namespace CrawlerEngine.Common.Enums
             #region Yahoo
             [Description("YAHOOMALL-PRODUCT")]
             YahooMallProduct = 0301,
+            [Description("YAHOOMALL-STORE")]
+            YahooMallStore = 0302,
+            [Description("YAHOOMALL-SEARCH")]
+            YahooMallSearch = 0305,
             #endregion
         }
         /*
