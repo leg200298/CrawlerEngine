@@ -11,9 +11,9 @@ namespace CrawlerEngine.JobWorker.WorkClass
     /// <summary>
     /// 商品細節頁
     /// </summary>
-    public class YaooMallProductJobWorker : JobWorkerBase
+    public class YahooMallStoreJobWorker : JobWorkerBase
     {
-        public YaooMallProductJobWorker(JobInfo jobInfo)
+        public YahooMallStoreJobWorker(JobInfo jobInfo)
         {
             this.jobInfo = jobInfo;
             crawler = new WebCrawler(jobInfo);
@@ -48,7 +48,7 @@ namespace CrawlerEngine.JobWorker.WorkClass
 
         protected override bool Parse()
         {
-
+            //未完成
             var htmlDoc = new HtmlDocument();
             htmlDoc.LoadHtml(responseData);
             crawlDataDetailOptions.price = htmlDoc.DocumentNode.SelectSingleNode("//*[@id=\"ypsiif\"]/div/div[1]/div[4]/table/tbody/tr[1]/td/div/span").InnerText;
@@ -58,7 +58,7 @@ namespace CrawlerEngine.JobWorker.WorkClass
         }
 
         protected override bool SaveData()
-        {
+        { //未完成
             CrawlDataDetailDto crawlDataDetailDto = new CrawlDataDetailDto()
             {
                 Seq = jobInfo.Seq,
