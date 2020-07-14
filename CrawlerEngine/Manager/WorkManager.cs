@@ -45,7 +45,12 @@ namespace CrawlerEngine.Manager
         {
 #if (DEBUG)
             List<JobInfo> lj = new List<JobInfo>();
-            lj.Add(new JobInfo() { Seq =new Guid("D608BE51-D170-4056-ADD4-A54EA20DC1C4"), Info = JsonUntityHelper.DeserializeStringToDictionary<string, object>("{\"_url\": \"https://ecshweb.pchome.com.tw/search/v3.3/all/results?q=%E5%95%86%E5%93%81&page=1&sort=sale/dc\",   \"_jobType\": \"PCHOME24H-SEARCH\"}") });
+            lj.Add(new JobInfo()
+            {
+                Seq = new Guid("D608BE51-D170-4056-ADD4-A54EA20DC1C4"),
+                Info = JsonUntityHelper.DeserializeStringToDictionary<string, object>(
+                    "{\"_url\": \"https://tw.mall.yahoo.com/store/dcking\",   \"_jobType\": \"YAHOOMALL-STORE\"}")
+            });
             return lj.AsEnumerable();
 #else
             return
@@ -88,6 +93,6 @@ namespace CrawlerEngine.Manager
 
 
 
-#endregion
+        #endregion
     }
 }
