@@ -1,9 +1,6 @@
 ﻿using CrawlerEngine.Common;
-using CrawlerEngine.Common.Extansion;
 using CrawlerEngine.JobWorker.Interface;
-using CrawlerEngine.JobWorker.WorkClass;
 using CrawlerEngine.Models;
-using static CrawlerEngine.Common.Enums.ElectronicBusiness;
 
 namespace CrawlerEngine.JobWorker
 {
@@ -16,73 +13,73 @@ namespace CrawlerEngine.JobWorker
 
             var jobType = jobInfo.JobType.ToUpper();
 
-            #region Momo           
+            //#region Momo           
 
-            if (jobType == Platform.MomoShopStore.GetDescription())
-            {
-                return new MomoShopStoreJobWorker(jobInfo);
-            }
-            if (jobType == Platform.MomoShopLgrpCategory.GetDescription())
-            {
-                return new MomoShopLgrpCategoryJobWorker(jobInfo);
-            }
-            if (jobType == Platform.MomoShopMgrpCategory.GetDescription())
-            {
-                return new MomoShopMgrpCategoryJobWorker(jobInfo);
-            }
-            if (jobType == Platform.MomoShopDgrpCategory.GetDescription())
-            {
-                return new MomoShopDgrpCategoryJobWorker(jobInfo);
-            }
-            if (jobType == Platform.MomoShopProduct.GetDescription())
-            {
-                return new MomoShopProductJobWorker(jobInfo);
-            }
+            //if (jobType == Platform.MomoShopStore.GetDescription())
+            //{
+            //    return new MomoShopStoreJobWorker(jobInfo);
+            //}
+            //if (jobType == Platform.MomoShopLgrpCategory.GetDescription())
+            //{
+            //    return new MomoShopLgrpCategoryJobWorker(jobInfo);
+            //}
+            //if (jobType == Platform.MomoShopMgrpCategory.GetDescription())
+            //{
+            //    return new MomoShopMgrpCategoryJobWorker(jobInfo);
+            //}
+            //if (jobType == Platform.MomoShopDgrpCategory.GetDescription())
+            //{
+            //    return new MomoShopDgrpCategoryJobWorker(jobInfo);
+            //}
+            //if (jobType == Platform.MomoShopProduct.GetDescription())
+            //{
+            //    return new MomoShopProductJobWorker(jobInfo);
+            //}
 
-            #endregion
+            //#endregion
 
-            #region Pchome 24h
-            if (jobType == Platform.Pchome24hProduct.GetDescription())
-            {
-                return new Pchome24hProductJobWorker(jobInfo);
-            }
-            if (jobType == Platform.Pchome24hRegion.GetDescription())
-            {
-                return new Pchome24hRegionJobWorker(jobInfo);
-            }
-            if (jobType == Platform.Pchome24hStore.GetDescription())
-            {
-                return new Pchome24hStoreJobWorker(jobInfo);
-            }
-            if (jobType == Platform.Pchome24hSign.GetDescription())
-            {
-                return new Pchome24hSignJobWorker(jobInfo);
-            }
-            if (jobType == Platform.Pchome24hSearch.GetDescription())
-            {
-                return new Pchome24hSearchJobWorker(jobInfo);
-            }
+            //#region Pchome 24h
+            //if (jobType == Platform.Pchome24hProduct.GetDescription())
+            //{
+            //    return new Pchome24hProductJobWorker(jobInfo);
+            //}
+            //if (jobType == Platform.Pchome24hRegion.GetDescription())
+            //{
+            //    return new Pchome24hRegionJobWorker(jobInfo);
+            //}
+            //if (jobType == Platform.Pchome24hStore.GetDescription())
+            //{
+            //    return new Pchome24hStoreJobWorker(jobInfo);
+            //}
+            //if (jobType == Platform.Pchome24hSign.GetDescription())
+            //{
+            //    return new Pchome24hSignJobWorker(jobInfo);
+            //}
+            //if (jobType == Platform.Pchome24hSearch.GetDescription())
+            //{
+            //    return new Pchome24hSearchJobWorker(jobInfo);
+            //}
 
-            #endregion
+            //#endregion
 
-            #region yahoo
+            //#region yahoo
 
-            if (jobType == Platform.YahooMallProduct.GetDescription())
-            {
-                return new YahooMallProductJobWorker(jobInfo);
-            }
-            if (jobType == Platform.YahooMallStore.GetDescription())
-            {
-                return new YahooMallStoreJobWorker(jobInfo);
-            }
+            //if (jobType == Platform.YahooMallProduct.GetDescription())
+            //{
+            //    return new YahooMallProductJobWorker(jobInfo);
+            //}
+            //if (jobType == Platform.YahooMallStore.GetDescription())
+            //{
+            //    return new YahooMallStoreJobWorker(jobInfo);
+            //}
 
-            if (jobType == Platform.YahooMallSearch.GetDescription())
-            {
-                return new YahooMallSearchJobWorker(jobInfo);
-            }
+            //if (jobType == Platform.YahooMallSearch.GetDescription())
+            //{
+            //    return new YahooMallSearchJobWorker(jobInfo);
+            //}
 
 
-            #endregion
+            //#endregion
             return null;
 
             // todo list
