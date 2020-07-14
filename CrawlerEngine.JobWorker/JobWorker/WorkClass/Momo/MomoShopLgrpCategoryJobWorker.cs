@@ -74,26 +74,25 @@ namespace CrawlerEngine.JobWorker.WorkClass
             try
             {
                 htmlDoc.LoadHtml(responseData);
-                var nodes = htmlDoc.DocumentNode.SelectNodes("//*[@id='bt_category_Content']//a[contains(@href, 'category')]");
+                var nodes = htmlDoc.DocumentNode.SelectNodes("//*[@id='bt_category_Content']//a[contains(@href, 'category') and contains(@href, 'd_code')]");
                 if (nodes is null) { return false; }
                 foreach (var data in nodes)
                 {
-                    
+                    string href = HtmlEntity.DeEntitize(data.Attributes["href"].Value);
                     JobInfo jobInfo = new JobInfo()
                     {
                         Seq = Guid.NewGuid(),
                         JobType = Platform.MomoShopDgrpCategory.GetDescription(),                      
-                        Url = "https://www.momoshop.com.tw/ajax/ajaxTool.jsp?n=2035"
+                        Url = href.StartsWith("https://www.momoshop.com.tw") ? href : $"https://www.momoshop.com.tw{href}"
                     };
 
-                    Int64.TryParse(Regex.Match(data.Attributes["href"].Value, @"(d_code=\d+|m_code=\d+)").Value.Split('=')
+                    Int64.TryParse(Regex.Match(data.Attributes["href"].Value, @"(d_code=\d+)").Value.Split('=')
                         .Where(x => Regex.IsMatch(x, @"\d+")).FirstOrDefault(), out Int64 cateCode);
 
                     string postData = "data=" + Uri.EscapeDataString(
                         $"{{\"flag\":2035,\"data\":{{\"params\":{{\"cateCode\":\"{cateCode}\",\"cateLevel\":\"3\",\"curPage\":\"1\"}}}}}}");
-
-                    string href = HtmlEntity.DeEntitize(data.Attributes["href"].Value);
-                    jobInfo.PutToDic("_webSiteUrl", href.StartsWith("https://www.momoshop.com.tw") ? href : $"https://www.momoshop.com.tw{href}");
+                    
+                    jobInfo.PutToDic("_apiUrl", "https://www.momoshop.com.tw/ajax/ajaxTool.jsp?n=2035");
                     jobInfo.PutToDic("_postData", postData);
                     jobInfos.Add(jobInfo);
                 }

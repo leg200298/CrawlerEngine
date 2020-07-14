@@ -19,10 +19,11 @@ namespace CrawlerEngine.JobWorker.WorkClass
     {
         public override JobInfo jobInfo { get; set; }
         public override ICrawler crawler { get; set; }
+        private ICrawler webCrawler = null;
 
         private List<JobInfo> jobInfos = new List<JobInfo>();
         private HtmlDocument htmlDoc = new HtmlDocument();
-        private JObject jObject = new JObject();
+        private JObject jObject = null;
 
         public MomoShopDgrpCategoryJobWorker(JobInfo jobInfo)
         {
@@ -33,10 +34,13 @@ namespace CrawlerEngine.JobWorker.WorkClass
 
             this.jobInfo = jobInfo;
             crawler = new MomoHttpCrawler(jobInfo);
+            webCrawler = new WebCrawler(jobInfo);
         }
 
         protected override bool GotoNextPage(string url)
         {
+            jobInfos = new List<JobInfo>();
+            jObject = null;
             if (string.IsNullOrEmpty(url))
             {
                 return false;
@@ -53,6 +57,13 @@ namespace CrawlerEngine.JobWorker.WorkClass
             try
             {
                 responseData = crawler.DoCrawlerFlow();
+                JObject Result = JObject.Parse(responseData);
+                //if (string.IsNullOrEmpty(Regex.Replace(responseData, @"\\r\\n", "")))
+                bool.TryParse(Convert.ToString(Result["rtnData"]["rtnGoodsData"]["success"]), out bool checkResult);
+                if (!checkResult)
+                {
+                    responseData = webCrawler.DoCrawlerFlow();
+                }
                 return true;
             }
             catch (Exception ex)
@@ -78,28 +89,41 @@ namespace CrawlerEngine.JobWorker.WorkClass
         {
             try
             {
-                //htmlDoc.LoadHtml(responseData);
-                //var nodes = htmlDoc.DocumentNode.SelectNodes("//*[@class='prdListArea']//a[contains(@href, 'goods.momo')]");
-                //if (nodes is null) { return false; }
-
-                jobInfos = new List<JobInfo>();
-                jObject = JObject.Parse(responseData);
-
-                foreach (var item in jObject["rtnData"]["rtnGoodsData"]["rtnGoodsData"]["goodsInfoList"])
+                htmlDoc.LoadHtml(responseData);
+                var nodes = htmlDoc.DocumentNode.SelectNodes(@"//*[@id='prdlistArea' or contains(@class, 'prdListArea')]//a[contains(@href, 'GoodsDetail')]");
+                if (nodes != null)
                 {
-                    string goodsCode = item.Value<string>("goodsCode");
-                    string url = $"https://www.momoshop.com.tw/goods/GoodsDetail.jsp?i_code={goodsCode}";
-                    string goodsName = item.Value<string>("goodsName");
-                    string imgUrl = item.Value<string>("imgUrl");
-                    string goodsPrice = item.Value<string>("goodsPrice");
-                    string SALE_PRICE = item.Value<string>("SALE_PRICE");
-
-                    jobInfos.Add(new JobInfo()
+                    foreach (var data in nodes)
                     {
-                        Seq = Guid.NewGuid(),
-                        JobType = Platform.MomoShopProduct.GetDescription(),                       
-                        Url = url
-                    });
+                        string href = HtmlEntity.DeEntitize(data.Attributes["href"].Value);
+                        jobInfos.Add(new JobInfo()
+                        {
+                            Seq = Guid.NewGuid(),
+                            JobType = Platform.MomoShopProduct.GetDescription(),
+                            Url = href.StartsWith("https://www.momoshop.com.tw") ? href : "https://www.momoshop.com.tw" + href
+                        });
+                    }
+                }
+                else
+                {
+                    jObject = JObject.Parse(responseData);
+
+                    foreach (var item in jObject["rtnData"]["rtnGoodsData"]["rtnGoodsData"]["goodsInfoList"])
+                    {
+                        string goodsCode = item.Value<string>("goodsCode");
+                        string url = $"https://www.momoshop.com.tw/goods/GoodsDetail.jsp?i_code={goodsCode}";
+                        string goodsName = item.Value<string>("goodsName");
+                        string imgUrl = item.Value<string>("imgUrl");
+                        string goodsPrice = item.Value<string>("goodsPrice");
+                        string SALE_PRICE = item.Value<string>("SALE_PRICE");
+
+                        jobInfos.Add(new JobInfo()
+                        {
+                            Seq = Guid.NewGuid(),
+                            JobType = Platform.MomoShopProduct.GetDescription(),
+                            Url = url
+                        });
+                    }
                 }
                 return true;
             }
@@ -130,44 +154,35 @@ namespace CrawlerEngine.JobWorker.WorkClass
         protected override (bool, string) HasNextPage()
         {
             try
-            {
-
-                int maxPage = jObject["rtnData"]["rtnGoodsData"].Value<int>("maxPage");
-                int curPage = jObject["rtnData"]["rtnGoodsData"].Value<int>("curPage");
-
-                if (maxPage > curPage)
+            {                
+                var page = htmlDoc.DocumentNode.SelectSingleNode("//*[(@class='pageArea topEnPageArea')]//a[contains(@name,'nextPage')]");
+                if (page != null && page.Attributes["page"] != null)
                 {
-                    Int64.TryParse(Regex.Match(Convert.ToString(jobInfo.GetFromDic("_webSiteUrl")), @"(d_code=\d+|m_code=\d+)").Value.Split('=')
-                        .Where(x => Regex.IsMatch(x, @"\d+")).FirstOrDefault(), out Int64 cateCode);
-
-                    string postData = "data=" + Uri.EscapeDataString(
-                        $"{{\"flag\":2035,\"data\":{{\"params\":{{\"cateCode\":\"{cateCode}\",\"cateLevel\":\"3\",\"curPage\":\"{curPage + 1}\"}}}}}}");
-
-                    jobInfo.PutToDic("_postData", postData);
-                    return (true, jobInfo.Url);
+                    string next = Regex.Replace(jobInfo.Url, @"&pageNum=\d+", "") + $"&pageNum={page.Attributes["page"].Value}";
+                    return (true, next);
                 }
-                return (false, "");
+                else if (jObject != null)
+                {
+                    int maxPage = jObject["rtnData"]["rtnGoodsData"].Value<int>("maxPage");
+                    int curPage = jObject["rtnData"]["rtnGoodsData"].Value<int>("curPage");
 
+                    if (maxPage > curPage)
+                    {
+                        Int64.TryParse(Regex.Match(Convert.ToString(jobInfo.Url), @"(d_code=\d+|m_code=\d+)").Value.Split('=')
+                            .Where(x => Regex.IsMatch(x, @"\d+")).FirstOrDefault(), out Int64 cateCode);
 
-                //var pages = htmlDoc.DocumentNode.SelectNodes("//*[@class='pageArea']//dd//a");
-                //if (pages is null) { return (false, ""); }
+                        string postData = "data=" + Uri.EscapeDataString(
+                            $"{{\"flag\":2035,\"data\":{{\"params\":{{\"cateCode\":\"{cateCode}\",\"cateLevel\":\"3\",\"curPage\":\"{curPage + 1}\"}}}}}}");
 
-                //int lastPageIndex = pages.Select(x => new { r = int.TryParse(x.InnerText, out int i), lastPageIndex = i })
-                //    .Select(i => i.lastPageIndex)
-                //    .OrderByDescending(o => o)
-                //    .FirstOrDefault();
-
-                //int.TryParse(Regex.Match(jobInfo.Url, @"&page=\d+").Value.Split('=')
-                //         .Where(x => Regex.IsMatch(x, @"\d+")).FirstOrDefault(), out int pageIndex);
-
-                //pageIndex = pageIndex == 0 ? pageIndex + 1 : pageIndex;
-
-                //if (lastPageIndex > pageIndex)
-                //{
-                //    string next = Regex.Replace(jobInfo.Url, @"&page=\d+", "") + $"&page={pageIndex + 1}";
-                //    return (true, next);
-                //}
-                //return (false, "");
+                        jobInfo.PutToDic("_postData", postData);
+                        return (true, jobInfo.Url);
+                    }
+                    return (false, "");
+                }
+                else
+                {
+                    return (false, "");
+                }
             }
             catch (Exception ex)
             {

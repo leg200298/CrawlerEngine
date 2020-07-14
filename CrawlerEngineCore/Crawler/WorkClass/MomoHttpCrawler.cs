@@ -42,8 +42,8 @@ namespace CrawlerEngine.Crawler.WorkClass
             string url = jobInfo.Url + "&t=" 
                 + ((Int64)new TimeSpan(DateTime.UtcNow.Ticks - new DateTime(1970, 1, 1).Ticks)
                                .TotalMilliseconds).ToString();
-
-            var httpResponse = httpClient.PostAsync(url, postData).GetAwaiter().GetResult();
+            
+            var httpResponse = httpClient.PostAsync(Convert.ToString(jobInfo.GetFromDic("_apiUrl")), postData).GetAwaiter().GetResult();
             return httpResponse.Content.ReadAsStringAsync().GetAwaiter().GetResult();
         }
     }
