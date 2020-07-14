@@ -49,7 +49,13 @@ namespace CrawlerEngine.Manager
             {
                 Seq = new Guid("D608BE51-D170-4056-ADD4-A54EA20DC1C4"),
                 Info = JsonUntityHelper.DeserializeStringToDictionary<string, object>(
-                    "{\"_url\": \"https://tw.rter.info/capi.php\",   \"_jobType\": \"YAHOOMALL-STORE\"}")
+                    "{\"_url\": \"https://rate.bot.com.tw/gold?Lang=zh-TW\",   \"_jobType\": \"BANK-GOLD\"}")
+            });
+            lj.Add(new JobInfo()
+            {
+                Seq = new Guid("D608BE51-D170-4056-ADD4-A54EA20DC1C4"),
+                Info = JsonUntityHelper.DeserializeStringToDictionary<string, object>(
+                    "{\"_url\": \"https://rate.bot.com.tw/xrt?Lang=zh-TW\",   \"_jobType\": \"BANK-EXCHANGE\"}")
             });
             return lj.AsEnumerable();
 #else

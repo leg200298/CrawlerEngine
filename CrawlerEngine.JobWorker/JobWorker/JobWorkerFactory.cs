@@ -1,7 +1,9 @@
 ﻿using CrawlerEngine.Common;
+using CrawlerEngine.Common.Extansion;
 using CrawlerEngine.JobWorker.Interface;
 using CrawlerEngine.JobWorker.WorkClass;
 using CrawlerEngine.Models;
+using static CrawlerEngine.Common.Enums.ElectronicBusiness;
 
 namespace CrawlerEngine.JobWorker
 {
@@ -14,7 +16,16 @@ namespace CrawlerEngine.JobWorker
 
             var jobType = jobInfo.JobType.ToUpper();
 
-            return new BankExchangeJobWorker(jobInfo);
+
+            if (jobType == Platform.BankGold.GetDescription())
+            {
+                return new GoldJobWorker(jobInfo);
+            }
+            if (jobType == Platform.BankExchange.GetDescription())
+            {
+                return new BankExchangeJobWorker(jobInfo);
+            }
+           
             //#region Momo           
 
             //if (jobType == Platform.MomoShopStore.GetDescription())

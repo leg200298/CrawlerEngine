@@ -43,6 +43,13 @@ namespace CrawlerEngine.Common.Enums
             [Description("YAHOOMALL-SEARCH")]
             YahooMallSearch = 0305,
             #endregion
+
+            #region Bank
+            [Description("BANK-GOLD")]
+            BankGold = 9901,
+            [Description("BANK-EXCHANGE")]
+            BankExchange = 9902,
+            #endregion
         }
         /*
               PC Home 陣營電商通路平台：
