@@ -158,8 +158,8 @@ namespace CrawlerEngine.JobWorker.WorkClass
                 var page = htmlDoc.DocumentNode.SelectSingleNode("//*[(@class='pageArea topEnPageArea')]//a[contains(@name,'nextPage')]");
                 if (page != null && page.Attributes["page"] != null)
                 {
-                    string next = Regex.Replace(jobInfo.Url, @"&pageNum=\d+", "") + $"&pageNum={page.Attributes["page"].Value}";
-                    return (true, next);
+                    string nextUrl = Regex.Replace(jobInfo.Url, @"&pageNum=\d+", "") + $"&pageNum={page.Attributes["page"].Value}";
+                    return (true, nextUrl);
                 }
                 else if (responseJObject != null && responseJObject.rtnData.rtnGoodsData.success)
                 {

@@ -17,6 +17,8 @@ namespace CrawlerEngine.Common.Enums
             MomoShopLgrpCategory = 0103,
             [Description("MOMOSHOP-STORE")]
             MomoShopStore = 0104,
+            [Description("MOMOSHOP-SEARCH")]
+            MomoShopSearch = 0105,
             #endregion
 
 
