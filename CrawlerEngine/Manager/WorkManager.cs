@@ -49,7 +49,8 @@ namespace CrawlerEngine.Manager
             {
                 Seq = new Guid("D608BE51-D170-4056-ADD4-A54EA20DC1C4"),
                 Info = JsonUntityHelper.DeserializeStringToDictionary<string, object>(
-                    "{\"_url\": \"https://tw.mall.yahoo.com/store/dcking\",   \"_jobType\": \"YAHOOMALL-STORE\"}")
+                    "{\"_url\": \"http://www.twse.com.tw/exchangeReport/STOCK_DAY_ALL?response=open_data\",  " +
+                    " \"_jobType\": \"STOCK-ALL\"}")
             });
             return lj.AsEnumerable();
 #else

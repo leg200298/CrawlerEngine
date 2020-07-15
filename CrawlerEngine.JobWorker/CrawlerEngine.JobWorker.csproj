@@ -31,8 +31,4 @@
     <ProjectReference Include="..\CrawlerEngineCore\CrawlerEngine.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="JobWorker\WorkClass\" />
-  </ItemGroup>
-
 </Project>

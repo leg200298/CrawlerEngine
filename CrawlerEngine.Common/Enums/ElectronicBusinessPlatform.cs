@@ -43,6 +43,11 @@ namespace CrawlerEngine.Common.Enums
             [Description("YAHOOMALL-SEARCH")]
             YahooMallSearch = 0305,
             #endregion
+            #region Stock
+            [Description("STOCK-ALL")]
+            StockAll = 9801,
+            #endregion
+
         }
         /*
               PC Home 陣營電商通路平台：
