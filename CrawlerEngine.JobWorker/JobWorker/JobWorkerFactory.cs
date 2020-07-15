@@ -25,16 +25,20 @@ namespace CrawlerEngine.JobWorker
             if (jobType == Platform.MomoShopLgrpCategory.GetDescription())
             {
                 return new MomoShopLgrpCategoryJobWorker(jobInfo);
-            }           
+            }
             if (jobType == Platform.MomoShopDgrpCategory.GetDescription())
             {
                 return new MomoShopDgrpCategoryJobWorker(jobInfo);
+            }
+            if (jobType == Platform.MomoShopProduct.GetDescription())
+            {
+                return new MomoShopProductJobWorker(jobInfo);
             }
             if (jobType == Platform.MomoShopSearch.GetDescription())
             {
                 return new MomoShopSearchJobWorker(jobInfo);
             }
-            
+
 
 
             #endregion
