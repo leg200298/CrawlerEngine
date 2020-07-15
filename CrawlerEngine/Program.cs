@@ -1,4 +1,7 @@
-﻿using CrawlerEngine.Manager;
+﻿using CrawlerEngine.Common.Helper;
+using CrawlerEngine.Manager;
+using System;
+using System.Linq;
 
 namespace CrawlerEngine
 {
@@ -29,7 +32,7 @@ namespace CrawlerEngine
             if (args.Count() == 0)
             {
                 Console.WriteLine(" use default setting ");
-               return ;
+                return;
             }
             for (int i = 0; i < args.Count(); ++i)
             {
@@ -45,9 +48,9 @@ namespace CrawlerEngine
                     {
                         Resource = Convert.ToInt32(args[i + 1]);
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        LoggerHelper._.Error("CommondError", ex);
+                        LoggerHelper._.Error(ex);
                         Console.WriteLine("ResourceSettingError use default : 1");
                         Resource = 1;
 

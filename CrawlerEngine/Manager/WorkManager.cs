@@ -1,11 +1,9 @@
 ﻿using CrawlerEngine.Common.Helper;
-using CrawlerEngine.Driver;
 using CrawlerEngine.JobWorker;
 using CrawlerEngine.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace CrawlerEngine.Manager
@@ -16,12 +14,12 @@ namespace CrawlerEngine.Manager
         private List<string> mailTo;
         public void Process(int resourceCount)
         {
-            WebDriverPool.InitDriver(resourceCount);
+            //WebDriverPool.InitDriver(resourceCount);
             var freeDriverCount = resourceCount;
-            while (1 == 1)
+            //  while (1 == 1)
             {
 
-                freeDriverCount = WebDriverPool.GetFreeDriverConut();
+                //freeDriverCount = WebDriverPool.GetFreeDriverConut();
                 try
                 {
 
@@ -35,7 +33,8 @@ namespace CrawlerEngine.Manager
                     SendErrorEmail();
                     LoggerHelper._.Error(ex);
                 }
-                Thread.Sleep(10000);
+               // int sleepTime = 24 * 60 * 60 * 1000;  //24小時 60分 60秒 1000毫秒
+                //Thread.Sleep(sleepTime);
             }
         }
 
@@ -43,7 +42,6 @@ namespace CrawlerEngine.Manager
         #region 工作區
         private IEnumerable<JobInfo> GetJobInfo(int resourceCount)
         {
-#if (DEBUG)
             List<JobInfo> lj = new List<JobInfo>();
             lj.Add(new JobInfo()
             {
@@ -58,17 +56,6 @@ namespace CrawlerEngine.Manager
                     "{\"_url\": \"https://rate.bot.com.tw/xrt?Lang=zh-TW\",   \"_jobType\": \"BANK-EXCHANGE\"}")
             });
             return lj.AsEnumerable();
-#else
-            return
-
-              from x in Repository.Factory.CrawlFactory.CrawlDataJobListRepository.GetCrawlDataJobListDtos(resourceCount)
-              select new JobInfo()
-              {
-                  Info = JsonUntityHelper.DeserializeStringToDictionary<string, object>(x.JobInfo),
-                  Seq = x.Seq
-              };
-
-#endif
         }
         private bool DoJob(JobInfo jobInfo)
         {
@@ -90,7 +77,6 @@ namespace CrawlerEngine.Manager
             foreach (var user in mailTo)
             {
 
-                //send error mail
 
             }
             throw new Exception("沒做");
