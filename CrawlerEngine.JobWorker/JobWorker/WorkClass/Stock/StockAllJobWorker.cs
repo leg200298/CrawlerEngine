@@ -5,6 +5,7 @@ using CrawlerEngine.Model.DTO;
 using CrawlerEngine.Models;
 using HtmlAgilityPack;
 using System;
+using System.Linq;
 
 namespace CrawlerEngine.JobWorker.WorkClass
 {
@@ -16,7 +17,7 @@ namespace CrawlerEngine.JobWorker.WorkClass
         public StockAllJobWorker(JobInfo jobInfo)
         {
             this.jobInfo = jobInfo;
-            crawler = new WebCrawler(jobInfo);
+            crawler = new HttpCrawler(jobInfo);
         }
         public override JobInfo jobInfo { get; set; }
         public override ICrawler crawler { get; set; }
@@ -49,12 +50,17 @@ namespace CrawlerEngine.JobWorker.WorkClass
 
         protected override bool Parse()
         {
-            var htmlDoc = new HtmlDocument();
-            htmlDoc.LoadHtml(responseData);
 
-            crawlDataDetailOptions.price = htmlDoc.DocumentNode.SelectSingleNode("//*[@id=\"PriceTotal\"]").InnerText;
-            crawlDataDetailOptions.name = htmlDoc.DocumentNode.SelectSingleNode("//*[@id=\"NickContainer\"]").InnerText;
-            crawlDataDetailOptions.category = htmlDoc.DocumentNode.SelectSingleNode("//*[@id=\"CONTENT\"]/div[1]/div[1]/div[2]").InnerText;
+            Console.WriteLine(responseData);
+            var t = responseData.Split('\n');
+
+            var t2 = t.Select(x =>  x.Split(',') );
+            //var htmlDoc = new HtmlDocument();
+            //htmlDoc.LoadHtml(responseData);
+
+            //crawlDataDetailOptions.price = htmlDoc.DocumentNode.SelectSingleNode("//*[@id=\"PriceTotal\"]").InnerText;
+            //crawlDataDetailOptions.name = htmlDoc.DocumentNode.SelectSingleNode("//*[@id=\"NickContainer\"]").InnerText;
+            //crawlDataDetailOptions.category = htmlDoc.DocumentNode.SelectSingleNode("//*[@id=\"CONTENT\"]/div[1]/div[1]/div[2]").InnerText;
             return true;
 
         }
