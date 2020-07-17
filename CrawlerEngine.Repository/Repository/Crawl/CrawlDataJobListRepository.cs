@@ -106,7 +106,7 @@ namespace CrawlerEngine.Repository.Crawl
                                     INSERT INTO [dbo].[CrawlDataJobList]
                                                ([JobInfo],[JobType])
                                          VALUES
-                                               (N'{jobInfo.GetJsonString()}', {jobType})
+                                               (N'{jobInfo.GetJsonString()}', N'{jobType}')
 
 
                                 ";
