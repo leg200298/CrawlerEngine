@@ -114,7 +114,7 @@ namespace CrawlerEngine.JobWorker.WorkClass
 
             foreach (var d in jobInfos)
             {
-                Repository.Factory.CrawlFactory.CrawlDataJobListRepository.InsertOne(d);
+                Repository.Factory.CrawlFactory.CrawlDataJobListRepository.InsertOne(d, Platform.Pchome24hStore.GetDescription());
             }
             return true;
 

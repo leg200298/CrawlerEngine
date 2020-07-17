@@ -100,13 +100,13 @@ namespace CrawlerEngine.Repository.Crawl
                 return conn.Execute(sqlCommand, jobInfo);
             }
         }
-        public int InsertOne(JobInfo jobInfo)
+        public int InsertOne(JobInfo jobInfo, string jobType)
         {
             string sqlCommand = $@"
                                     INSERT INTO [dbo].[CrawlDataJobList]
-                                               ([JobInfo])
+                                               ([JobInfo],[JobType])
                                          VALUES
-                                               (N'{jobInfo.GetJsonString()}')
+                                               (N'{jobInfo.GetJsonString()}', {jobType})
 
 
                                 ";

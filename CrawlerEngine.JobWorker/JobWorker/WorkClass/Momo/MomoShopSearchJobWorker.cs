@@ -102,7 +102,7 @@ namespace CrawlerEngine.JobWorker.WorkClass
             {
                 foreach (var job in jobInfos)
                 {
-                    Repository.Factory.CrawlFactory.CrawlDataJobListRepository.InsertOne(job);
+                    Repository.Factory.CrawlFactory.CrawlDataJobListRepository.InsertOne(job, Platform.MomoShopProduct.GetDescription());
                 }
                 return true;
             }
