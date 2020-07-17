@@ -13,6 +13,8 @@ namespace CrawlerEngine.JobWorker.WorkClass
     /// </summary>
     public class E0001JobWorker : JobWorkerBase
     {
+        StockPriceDailyDto stockPriceDailyDto = new StockPriceDailyDto();
+        Rootobject t = new Rootobject();
         public E0001JobWorker(JobInfo jobInfo)
         {
             this.jobInfo = jobInfo;
@@ -51,32 +53,32 @@ namespace CrawlerEngine.JobWorker.WorkClass
         {
 
 
-            var t = JsonConvert.DeserializeObject<Rootobject>(responseData);
-            var 股價 = t.data.display.ua80010_cp.Data + t.data.display.ua80010_cp.UnitRef;
-            var five年盈餘年複合成長率 = t.data.display.ua50018_cp.Data + t.data.display.ua50018_cp.UnitRef;
-            var three年盈餘年複合成長率 = t.data.display.ua50019_cp.Data + t.data.display.ua50019_cp.UnitRef;
-            var 近一季盈餘年增率 = t.data.display.ua60012_cp.Data + t.data.display.ua60012_cp.UnitRef;
-            var 近四季EPS = t.data.display.ua60001_cp.Data + t.data.display.ua60001_cp.UnitRef;
-            var 本益比 = t.data.display.ua80012_cp.Data + t.data.display.ua80012_cp.UnitRef;
-            var PEG_5年複合成長率 = t.data.display.ua50078_cp.Data + t.data.display.ua50078_cp.UnitRef;
-            var 填權息機率_五年 = t.data.display.ua80038_cp.Data + t.data.display.ua80038_cp.UnitRef;
 
-
+            stockPriceDailyDto.share_price = t.data.display.ua80010_cp.Data;
+            stockPriceDailyDto.share_price_unit = t.data.display.ua80010_cp.UnitRef;
+            stockPriceDailyDto.five_year_surplus_compound_annual_growth_rate = t.data.display.ua50018_cp.Data;
+            stockPriceDailyDto.five_year_surplus_compound_annual_growth_rate_unit = t.data.display.ua50018_cp.UnitRef;
+            stockPriceDailyDto.three_year_surplus_compound_annual_growth_rate = t.data.display.ua50019_cp.Data;
+            stockPriceDailyDto.three_year_surplus_compound_annual_growth_rate_unit = t.data.display.ua50019_cp.UnitRef;
+            stockPriceDailyDto.annual_surplus_growth_rate_in_the_last_quarter = t.data.display.ua60012_cp.Data;
+            stockPriceDailyDto.annual_surplus_growth_rate_in_the_last_quarter_unit = t.data.display.ua60012_cp.UnitRef;
+            stockPriceDailyDto.recent_Four_Seasons_EPS = t.data.display.ua60001_cp.Data;
+            stockPriceDailyDto.Recent_Four_Seasons_EPS_unit = t.data.display.ua60001_cp.UnitRef;
+            stockPriceDailyDto.PE_ratio = t.data.display.ua80012_cp.Data;
+            stockPriceDailyDto.PE_ratio_unit = t.data.display.ua80012_cp.UnitRef;
+            stockPriceDailyDto.PEG_5_year_compound_growth_rate = t.data.display.ua50078_cp.Data;
+            stockPriceDailyDto.PEG_5_year_compound_growth_rate_unit = t.data.display.ua50078_cp.UnitRef;
+            stockPriceDailyDto.Probability_to_fill_interest_five_years = t.data.display.ua80038_cp.Data;
+            stockPriceDailyDto.Probability_to_fill_interest_five_years_unit = t.data.display.ua80038_cp.UnitRef;
+            stockPriceDailyDto.Code = t.data.stock_code;
             return true;
 
         }
 
         protected override bool SaveData()
         {
-            CrawlDataDetailDto crawlDataDetailDto = new CrawlDataDetailDto()
-            {
-                Seq = jobInfo.Seq,
-                JobStatus = "end",
-                EndTime = DateTime.UtcNow,
-                DetailData = crawlDataDetailOptions.GetJsonString()
-            };
 
-            Repository.Factory.CrawlFactory.CrawlDataDetailRepository.InsertDataDetail(crawlDataDetailDto);
+            Repository.Factory.CrawlFactory.StockPriceDailyRepository.InsertOne(stockPriceDailyDto);
             return true;
 
         }
@@ -89,12 +91,15 @@ namespace CrawlerEngine.JobWorker.WorkClass
 
         protected override bool Validate()
         {
+
             if (string.IsNullOrEmpty(responseData))
             {
                 return false;
             }
             else
             {
+                t = JsonConvert.DeserializeObject<Rootobject>(responseData);
+                if (t.data == null) return false;
                 return true;
             }
         }
@@ -163,7 +168,7 @@ namespace CrawlerEngine.JobWorker.WorkClass
             public string UnitRef { get; set; }
             public string Explanation { get; set; }
             public string Style { get; set; }
-            public float Data { get; set; }
+            public float? Data { get; set; }
         }
 
         public class Ua50018_Cp
@@ -173,7 +178,7 @@ namespace CrawlerEngine.JobWorker.WorkClass
             public string UnitRef { get; set; }
             public string Explanation { get; set; }
             public string Style { get; set; }
-            public float Data { get; set; }
+            public float? Data { get; set; }
         }
 
         public class Ua50019_Cp
@@ -183,7 +188,7 @@ namespace CrawlerEngine.JobWorker.WorkClass
             public string UnitRef { get; set; }
             public string Explanation { get; set; }
             public string Style { get; set; }
-            public float Data { get; set; }
+            public float? Data { get; set; }
         }
 
         public class Ua60012_Cp
@@ -193,7 +198,7 @@ namespace CrawlerEngine.JobWorker.WorkClass
             public string UnitRef { get; set; }
             public string Explanation { get; set; }
             public string Style { get; set; }
-            public int Data { get; set; }
+            public float? Data { get; set; }
         }
 
         public class Ua60001_Cp
@@ -203,7 +208,7 @@ namespace CrawlerEngine.JobWorker.WorkClass
             public string UnitRef { get; set; }
             public string Explanation { get; set; }
             public string Style { get; set; }
-            public float Data { get; set; }
+            public float? Data { get; set; }
         }
 
         public class Ua80012_Cp
@@ -213,7 +218,7 @@ namespace CrawlerEngine.JobWorker.WorkClass
             public string UnitRef { get; set; }
             public string Explanation { get; set; }
             public string Style { get; set; }
-            public float Data { get; set; }
+            public float? Data { get; set; }
         }
 
         public class Ua50078_Cp
@@ -223,7 +228,7 @@ namespace CrawlerEngine.JobWorker.WorkClass
             public string UnitRef { get; set; }
             public string Explanation { get; set; }
             public string Style { get; set; }
-            public float Data { get; set; }
+            public float? Data { get; set; }
         }
 
         public class Ua80038_Cp
@@ -233,7 +238,7 @@ namespace CrawlerEngine.JobWorker.WorkClass
             public string UnitRef { get; set; }
             public string Explanation { get; set; }
             public string Style { get; set; }
-            public int Data { get; set; }
+            public float? Data { get; set; }
         }
 
     }

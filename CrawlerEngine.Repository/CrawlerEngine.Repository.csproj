@@ -21,4 +21,8 @@
     <ProjectReference Include="..\CrawlerEngine.Models\CrawlerEngine.Models.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Repository\Crawl\NewFolder\" />
+  </ItemGroup>
+
 </Project>

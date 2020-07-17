@@ -47,20 +47,25 @@ namespace CrawlerEngine.Manager
             List<JobInfo> lj = new List<JobInfo>();
             lj.Add(new JobInfo()
             {
-                Seq = new Guid("D608BE51-D170-4056-ADD4-A54EA20DC1C4"),
+                Seq = new Guid("063AA19C-FB8D-448C-B144-0AEA877A8F92"),
                 Info = JsonUntityHelper.DeserializeStringToDictionary<string, object>(
-                    "{\"_url\": \"http://www.twse.com.tw/exchangeReport/STOCK_DAY_ALL?response=open_data\",  " +
-                    " \"_jobType\": \"STOCK-ALL\"}")
+                    "{\"_jobType\": \"STOCK-E0001\",\"_url\": \"https://cronjob.uanalyze.com.tw/fetch/E0001/1232\"}"),
+
+                JobCycle = "Daily",
+                JobRegisterTime = new DateTime(2020, 7, 17, 7, 14, 7, 633)
             });
             return lj.AsEnumerable();
 #else
             return
 
-              from x in Repository.Factory.CrawlFactory.CrawlDataJobListRepository.GetCrawlDataJobListDtos(resourceCount)
+              from x in Repository.Factory.CrawlFactory.StockJobListRepository.GetStockJobListDtos()
               select new JobInfo()
               {
+                  JobType = x.JobType,
                   Info = JsonUntityHelper.DeserializeStringToDictionary<string, object>(x.JobInfo),
-                  Seq = x.Seq
+                  Seq = x.Seq,
+                  JobCycle = x.JobCycle,
+                  JobRegisterTime = x.RegisterTime
               };
 
 #endif

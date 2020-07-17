@@ -5,6 +5,7 @@ using CrawlerEngine.Model.DTO;
 using CrawlerEngine.Models;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 
 namespace CrawlerEngine.JobWorker.WorkClass
 {
@@ -13,6 +14,8 @@ namespace CrawlerEngine.JobWorker.WorkClass
     /// </summary>
     public class GrowthPEValuationJobWorker : JobWorkerBase
     {
+        Rootobject t = new Rootobject();
+        List<StockEPSMonthlyDto> ls = new List<StockEPSMonthlyDto>();
         public GrowthPEValuationJobWorker(JobInfo jobInfo)
         {
             this.jobInfo = jobInfo;
@@ -26,7 +29,6 @@ namespace CrawlerEngine.JobWorker.WorkClass
             var success = false;
             try
             {
-                // new HttpCrawler(new JobInfo() { Url = "https://24h.pchome.com.tw/store/DSAACI" }).DoCrawlerFlow();
                 responseData = crawler.DoCrawlerFlow();
                 success = true;
             }
@@ -52,10 +54,43 @@ namespace CrawlerEngine.JobWorker.WorkClass
 
 
             var t = JsonConvert.DeserializeObject<Rootobject>(responseData);
-            var 法人估EPS = t.data.display.uae10021_cp.Data + t.data.display.uae10021_cp.UnitRef;
-            var 公式估EPS = t.data.display.ua60001_cp.Data + t.data.display.ua60001_cp.UnitRef;
-            var 法人預估殖利率 = t.data.display.uae10041_cp.Data + t.data.display.uae10041_cp.UnitRef;
-            var 公式預估殖利率 = t.data.display.ua50052_cp.Data + t.data.display.ua50052_cp.UnitRef;
+            ls.Add(new StockEPSMonthlyDto()
+            {
+                Code = t.data.stock_code,
+                Date = DateTime.UtcNow,
+                Year = "2019",
+                EPS_estimate_All_AVG_byMonth_latestonly = t.data.refdata.uae10021_cp.Data
+            ,
+                EPS_estimate_All_AVG_byMonth_latestonly_unit = t.data.refdata.uae10021_cp.UnitRef
+            });
+            ls.Add(new StockEPSMonthlyDto()
+            {
+                Code = t.data.stock_code,
+                Date = DateTime.UtcNow,
+                Year = "2020",
+                EPS_estimate_All_AVG_byMonth_latestonly = t.data.refdata.uae10022_cp.Data
+,
+                EPS_estimate_All_AVG_byMonth_latestonly_unit = t.data.refdata.uae10022_cp.UnitRef
+            });
+            ls.Add(new StockEPSMonthlyDto()
+            {
+                Code = t.data.stock_code,
+                Date = DateTime.UtcNow,
+                Year = "2021",
+                EPS_estimate_All_AVG_byMonth_latestonly = t.data.refdata.uae10023_cp.Data
+,
+                EPS_estimate_All_AVG_byMonth_latestonly_unit = t.data.refdata.uae10023_cp.UnitRef
+            });
+            ls.Add(new StockEPSMonthlyDto()
+            {
+                Code = t.data.stock_code,
+                Date = DateTime.UtcNow,
+                Year = "2022",
+                EPS_estimate_All_AVG_byMonth_latestonly = t.data.refdata.uae10024_cp.Data
+,
+                EPS_estimate_All_AVG_byMonth_latestonly_unit = t.data.refdata.uae10024_cp.UnitRef
+            });
+
 
             return true;
 
@@ -63,15 +98,8 @@ namespace CrawlerEngine.JobWorker.WorkClass
 
         protected override bool SaveData()
         {
-            CrawlDataDetailDto crawlDataDetailDto = new CrawlDataDetailDto()
-            {
-                Seq = jobInfo.Seq,
-                JobStatus = "end",
-                EndTime = DateTime.UtcNow,
-                DetailData = crawlDataDetailOptions.GetJsonString()
-            };
 
-            Repository.Factory.CrawlFactory.CrawlDataDetailRepository.InsertDataDetail(crawlDataDetailDto);
+            foreach (var d in ls) { Repository.Factory.CrawlFactory.StockEPSMonthlyRepository.InsertOne(d); }
             return true;
 
         }
@@ -90,9 +118,13 @@ namespace CrawlerEngine.JobWorker.WorkClass
             }
             else
             {
+                t = JsonConvert.DeserializeObject<Rootobject>(responseData);
+                if (t.data == null) return false;
                 return true;
             }
         }
+
+
         public class Rootobject
         {
             public string status { get; set; }
@@ -102,73 +134,85 @@ namespace CrawlerEngine.JobWorker.WorkClass
 
         public class Data
         {
-            public object[] search_column { get; set; }
-            public object[] column_title { get; set; }
-            public bool is_multiple { get; set; }
-            public object[] data { get; set; }
-            public Display display { get; set; }
+            public Data1 data { get; set; }
+            public Refdata refdata { get; set; }
+            public string stock_name { get; set; }
+            public string stock_code { get; set; }
             public string type { get; set; }
         }
 
-        public class Display
+        public class Data1
+        {
+        }
+
+        public class Refdata
         {
             /// <summary>
-            /// 法人估EPS(月平均)
+            /// 2019_EPS預估(月平均值)-最新值
             /// </summary>
             public Uae10021_Cp uae10021_cp { get; set; }
             /// <summary>
-            /// 採用近四季EPS加總，當作全年度的EPS預估值參考。
+            /// 2020_EPS預估(月平均值)-最新值
             /// </summary>
-            public Ua60001_Cp ua60001_cp { get; set; }
+            public Uae10022_Cp uae10022_cp { get; set; }
             /// <summary>
-            /// 將法人預估EPS乘以上一次的股息配發率，計算出未來一年的預估現金股息；將此預估股息除以股價之後，可以得出未來一年預估殖利率，作為投資的參考。
+            /// 2021_EPS預估(月平均值)-最新值
             /// </summary>
-            public Uae10041_Cp uae10041_cp { get; set; }
+            public Uae10023_Cp uae10023_cp { get; set; }
             /// <summary>
-            /// 將近四季EPS加總之後，乘以上一次的股息配發率，計算出未來一年的預估現金股息；將此預估股息除以股價之後，可以得出未來一年預估殖利率，作為投資的參考。
+            /// 2022_EPS預估(月平均值)-最新值
             /// </summary>
-            public Ua50052_Cp ua50052_cp { get; set; }
+            public Uae10024_Cp uae10024_cp { get; set; }
         }
 
         public class Uae10021_Cp
         {
             public int Order { get; set; }
+            public int Sorting { get; set; }
+            public string EnglishAccount { get; set; }
             public string ChineseAccount { get; set; }
             public string UnitRef { get; set; }
             public string Explanation { get; set; }
             public string Style { get; set; }
-            public float Data { get; set; }
+            public float? Data { get; set; }
         }
 
-        public class Ua60001_Cp
+        public class Uae10022_Cp
         {
             public int Order { get; set; }
+            public int Sorting { get; set; }
+            public string EnglishAccount { get; set; }
             public string ChineseAccount { get; set; }
             public string UnitRef { get; set; }
             public string Explanation { get; set; }
             public string Style { get; set; }
-            public float Data { get; set; }
+            public float? Data { get; set; }
         }
 
-        public class Uae10041_Cp
+        public class Uae10023_Cp
         {
             public int Order { get; set; }
+            public int Sorting { get; set; }
+            public string EnglishAccount { get; set; }
             public string ChineseAccount { get; set; }
             public string UnitRef { get; set; }
             public string Explanation { get; set; }
             public string Style { get; set; }
-            public float Data { get; set; }
+            public float? Data { get; set; }
         }
 
-        public class Ua50052_Cp
+        public class Uae10024_Cp
         {
             public int Order { get; set; }
+            public int Sorting { get; set; }
+            public string EnglishAccount { get; set; }
             public string ChineseAccount { get; set; }
             public string UnitRef { get; set; }
             public string Explanation { get; set; }
             public string Style { get; set; }
-            public float Data { get; set; }
+            public float? Data { get; set; }
         }
+
 
     }
 

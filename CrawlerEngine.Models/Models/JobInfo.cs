@@ -23,6 +23,9 @@ namespace CrawlerEngine.Models
             get => GetUrl();
             set => SetUrl(value);
         }
+
+        public string JobCycle { get; set; }
+        public DateTime JobRegisterTime { get; set; }
         /// <summary>
         /// 指定瀏覽器睡眠時間
         /// </summary>

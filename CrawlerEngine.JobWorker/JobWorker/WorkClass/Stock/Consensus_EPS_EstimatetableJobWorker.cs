@@ -5,6 +5,7 @@ using CrawlerEngine.Model.DTO;
 using CrawlerEngine.Models;
 using Newtonsoft.Json;
 using System;
+using System.Linq;
 
 namespace CrawlerEngine.JobWorker.WorkClass
 {
@@ -13,6 +14,8 @@ namespace CrawlerEngine.JobWorker.WorkClass
     /// </summary>
     public class Consensus_EPS_EstimatetableJobWorker : JobWorkerBase
     {
+        Rootobject t = new Rootobject();
+        StockConsensus_EPS_EstimatetaQuarterDto scee = new StockConsensus_EPS_EstimatetaQuarterDto();
         public Consensus_EPS_EstimatetableJobWorker(JobInfo jobInfo)
         {
             this.jobInfo = jobInfo;
@@ -26,7 +29,6 @@ namespace CrawlerEngine.JobWorker.WorkClass
             var success = false;
             try
             {
-                // new HttpCrawler(new JobInfo() { Url = "https://24h.pchome.com.tw/store/DSAACI" }).DoCrawlerFlow();
                 responseData = crawler.DoCrawlerFlow();
                 success = true;
             }
@@ -49,32 +51,24 @@ namespace CrawlerEngine.JobWorker.WorkClass
 
         protected override bool Parse()
         {
-            var t = JsonConvert.DeserializeObject<Rootobject>(responseData);
-            var EPS_estimate_All_2019_AVG_byMonth_latestonly = t.data.refdata.uae10021_cp.Data + t.data.refdata.uae10021_cp.UnitRef;
-            var EPS_estimate_All_2020_AVG_byMonth_latestonly = t.data.refdata.uae10022_cp.Data + t.data.refdata.uae10022_cp.UnitRef;
-            var EPS_estimate_All_2021_AVG_byMonth_latestonly = t.data.refdata.uae10023_cp.Data + t.data.refdata.uae10023_cp.UnitRef;
-            var EPS_estimate_All_2022_AVG_byMonth_latestonly = t.data.refdata.uae10024_cp.Data + t.data.refdata.uae10024_cp.UnitRef;
-            //var htmlDoc = new HtmlDocument();
-            //htmlDoc.LoadHtml(responseData);
-
-            //crawlDataDetailOptions.price = htmlDoc.DocumentNode.SelectSingleNode("//*[@id=\"PriceTotal\"]").InnerText;
-            //crawlDataDetailOptions.name = htmlDoc.DocumentNode.SelectSingleNode("//*[@id=\"NickContainer\"]").InnerText;
-            //crawlDataDetailOptions.category = htmlDoc.DocumentNode.SelectSingleNode("//*[@id=\"CONTENT\"]/div[1]/div[1]/div[2]").InnerText;
+            scee.Date = DateTime.UtcNow;
+            scee.Code = jobInfo.Url.Split('/').LastOrDefault();
+            scee.Legal_estimate_EPS = t.data.display.uae10021_cp.Data;
+            scee.Formula_estimate_EPS = t.data.display.ua60001_cp.Data;
+            scee.Legal_estimated_yield = t.data.display.uae10041_cp.Data;
+            scee.Formula_estimated_yield = t.data.display.ua50052_cp.Data;
+            scee.Legal_estimate_EPS_unit = t.data.display.uae10021_cp.UnitRef;
+            scee.Formula_estimate_EPS_unit = t.data.display.ua60001_cp.UnitRef;
+            scee.Legal_estimated_yield_unit = t.data.display.uae10041_cp.UnitRef;
+            scee.Formula_estimated_yield_unit = t.data.display.ua50052_cp.UnitRef;
             return true;
 
         }
 
         protected override bool SaveData()
         {
-            CrawlDataDetailDto crawlDataDetailDto = new CrawlDataDetailDto()
-            {
-                Seq = jobInfo.Seq,
-                JobStatus = "end",
-                EndTime = DateTime.UtcNow,
-                DetailData = crawlDataDetailOptions.GetJsonString()
-            };
 
-            Repository.Factory.CrawlFactory.CrawlDataDetailRepository.InsertDataDetail(crawlDataDetailDto);
+            Repository.Factory.CrawlFactory.StockConsensus_EPS_EstimatetaQuarterRepository.InsertOne(scee);
             return true;
 
         }
@@ -93,10 +87,12 @@ namespace CrawlerEngine.JobWorker.WorkClass
             }
             else
             {
+                t = JsonConvert.DeserializeObject<Rootobject>(responseData);
+                if (t.data == null) return false;
+
                 return true;
             }
         }
-
 
         public class Rootobject
         {
@@ -107,83 +103,72 @@ namespace CrawlerEngine.JobWorker.WorkClass
 
         public class Data
         {
-            public Data1 data { get; set; }
-            public Refdata refdata { get; set; }
-            public string stock_name { get; set; }
-            public string stock_code { get; set; }
+            public object[] search_column { get; set; }
+            public object[] column_title { get; set; }
+            public bool is_multiple { get; set; }
+            public object[] data { get; set; }
+            public Display display { get; set; }
             public string type { get; set; }
         }
 
-        public class Data1
-        {
-        }
-
-        public class Refdata
+        public class Display
         {
             /// <summary>
-            /// 2019_EPS預估(月平均值)-最新值
+            /// 法人估EPS(月平均)
             /// </summary>
             public Uae10021_Cp uae10021_cp { get; set; }
             /// <summary>
-            /// 2020_EPS預估(月平均值)-最新值
+            /// 採用近四季EPS加總，當作全年度的EPS預估值參考。
             /// </summary>
-            public Uae10022_Cp uae10022_cp { get; set; }
+            public Ua60001_Cp ua60001_cp { get; set; }
             /// <summary>
-            /// 2021_EPS預估(月平均值)-最新值
+            /// 將法人預估EPS乘以上一次的股息配發率，計算出未來一年的預估現金股息；將此預估股息除以股價之後，可以得出未來一年預估殖利率，作為投資的參考。
             /// </summary>
-            public Uae10023_Cp uae10023_cp { get; set; }
+            public Uae10041_Cp uae10041_cp { get; set; }
             /// <summary>
-            /// 2022_EPS預估(月平均值)-最新值
+            /// 將近四季EPS加總之後，乘以上一次的股息配發率，計算出未來一年的預估現金股息；將此預估股息除以股價之後，可以得出未來一年預估殖利率，作為投資的參考。
             /// </summary>
-            public Uae10024_Cp uae10024_cp { get; set; }
+            public Ua50052_Cp ua50052_cp { get; set; }
         }
 
         public class Uae10021_Cp
         {
             public int Order { get; set; }
-            public int Sorting { get; set; }
-            public string EnglishAccount { get; set; }
             public string ChineseAccount { get; set; }
             public string UnitRef { get; set; }
             public string Explanation { get; set; }
             public string Style { get; set; }
-            public float Data { get; set; }
+            public float? Data { get; set; }
         }
 
-        public class Uae10022_Cp
+        public class Ua60001_Cp
         {
             public int Order { get; set; }
-            public int Sorting { get; set; }
-            public string EnglishAccount { get; set; }
             public string ChineseAccount { get; set; }
             public string UnitRef { get; set; }
             public string Explanation { get; set; }
             public string Style { get; set; }
-            public float Data { get; set; }
+            public float? Data { get; set; }
         }
 
-        public class Uae10023_Cp
+        public class Uae10041_Cp
         {
             public int Order { get; set; }
-            public int Sorting { get; set; }
-            public string EnglishAccount { get; set; }
             public string ChineseAccount { get; set; }
             public string UnitRef { get; set; }
             public string Explanation { get; set; }
             public string Style { get; set; }
-            public float Data { get; set; }
+            public float? Data { get; set; }
         }
 
-        public class Uae10024_Cp
+        public class Ua50052_Cp
         {
             public int Order { get; set; }
-            public int Sorting { get; set; }
-            public string EnglishAccount { get; set; }
             public string ChineseAccount { get; set; }
             public string UnitRef { get; set; }
             public string Explanation { get; set; }
             public string Style { get; set; }
-            public object[] Data { get; set; }
+            public float? Data { get; set; }
         }
 
     }
