@@ -58,8 +58,8 @@ namespace CrawlerEngine.Repository.Crawl
             string sqlCommand = $@"
                                     UPDATE [dbo].[StockJobList]
                                        SET  [JobStatus] = 'end'
-                                           ,[EndTime] = '{DateTime.UtcNow.ToString(RuleString.DateTimeFormat)}'
-                                           ,[RegisterTime]= '{DateTime.UtcNow.ToString(RuleString.DateTimeFormat)}'
+                                           ,[EndTime] = N'{DateTime.UtcNow.ToString(RuleString.DateTimeFormat)}'
+                                           ,[RegisterTime]= N'{DateTime.UtcNow.ToString(RuleString.DateTimeFormat)}'
                                    WHERE [Seq] = @Seq";
             using (var conn = _DatabaseConnection.Create())
             {
@@ -70,9 +70,9 @@ namespace CrawlerEngine.Repository.Crawl
         {
             string sqlCommand = $@"
                                     UPDATE [dbo].[StockJobList]
-                                       SET  [JobStatus] = 'Fail'
-                                           ,[EndTime] = '{DateTime.UtcNow.ToString(RuleString.DateTimeFormat)}'
-                                           ,[ErrorInfo]='{jobInfo.ErrorInfo}'
+                                       SET  [JobStatus] = N'Fail'
+                                           ,[EndTime] = N'{DateTime.UtcNow.ToString(RuleString.DateTimeFormat)}'
+                                           ,[ErrorInfo]=N'{jobInfo.ErrorInfo}'
                                    WHERE [Seq] = @Seq";
             using (var conn = _DatabaseConnection.Create())
             {
@@ -84,8 +84,8 @@ namespace CrawlerEngine.Repository.Crawl
         {
             string sqlCommand = $@"
                                 UPDATE [dbo].[StockJobList]
-                                   SET [JobStatus] = 'start'
-                                      ,[StartTime] = '{DateTime.UtcNow.ToString(RuleString.DateTimeFormat)}'
+                                   SET [JobStatus] = N'start'
+                                      ,[StartTime] = N'{DateTime.UtcNow.ToString(RuleString.DateTimeFormat)}'
                                  WHERE [Seq] = @Seq
                                 ";
             using (var conn = _DatabaseConnection.Create())

@@ -25,6 +25,7 @@ namespace CrawlerEngine
 
             WorkManager workManager = new WorkManager();
             workManager.Process(Resource);
+            Console.ReadLine();
             //foreach (var data in Repository.Factory.CrawlFactory.CrawlDataJobListRepository.GetCrawlDataJobListDtos(2))
             //{
 
