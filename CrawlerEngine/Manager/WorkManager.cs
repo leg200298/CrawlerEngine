@@ -1,5 +1,4 @@
 ﻿using CrawlerEngine.Common.Helper;
-using CrawlerEngine.Driver;
 using CrawlerEngine.JobWorker;
 using CrawlerEngine.Models;
 using System;
@@ -16,12 +15,12 @@ namespace CrawlerEngine.Manager
         private List<string> mailTo;
         public void Process(int resourceCount)
         {
-            WebDriverPool.InitDriver(resourceCount);
+            // WebDriverPool.InitDriver(resourceCount);
             var freeDriverCount = resourceCount;
             while (1 == 1)
             {
 
-                freeDriverCount = WebDriverPool.GetFreeDriverConut();
+                //   freeDriverCount = WebDriverPool.GetFreeDriverConut();
                 try
                 {
 
