@@ -54,6 +54,25 @@ namespace CrawlerEngine.Manager
                 JobCycle = "Daily",
                 JobRegisterTime = new DateTime(2020, 7, 17, 7, 14, 7, 633)
             });
+
+            lj.Add(new JobInfo()
+            {
+                Seq = new Guid("DDCD3448-090F-4E69-82E5-6F4B1C444C29"),
+                Info = JsonUntityHelper.DeserializeStringToDictionary<string, object>(
+                  "{\"_jobType\": \"STOCK-GPEV\",\"_url\": \"https://cronjob.uanalyze.com.tw/fetch/GrowthPEValuation/00688L\"}"),
+
+                JobCycle = "Monthly",
+                JobRegisterTime = new DateTime(2020, 7, 17, 7, 14, 7, 633)
+            });
+            lj.Add(new JobInfo()
+            {
+                Seq = new Guid("8C92FA61-89C4-4984-8C63-6A55A1F2C0F1"),
+                Info = JsonUntityHelper.DeserializeStringToDictionary<string, object>(
+                  "{\"_jobType\": \"STOCK-CEE\",\"_url\": \"https://cronjob.uanalyze.com.tw/fetch/Consensus_EPS_Estimatetable/1762\"}"),
+
+                JobCycle = "Quarter",
+                JobRegisterTime = new DateTime(2020, 7, 17, 7, 14, 7, 633)
+            });
             return lj.AsEnumerable();
 #else
             return
