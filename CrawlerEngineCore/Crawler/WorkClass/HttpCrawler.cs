@@ -1,6 +1,5 @@
 ﻿using CrawlerEngine.Crawler.Interface;
 using CrawlerEngine.Models;
-using RestSharp;
 using System;
 using System.Net.Http;
 

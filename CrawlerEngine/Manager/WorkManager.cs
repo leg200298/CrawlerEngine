@@ -30,6 +30,7 @@ namespace CrawlerEngine.Manager
                     {
 
                         DoJob(jobInfo);
+                        Thread.Sleep(10000);
                         //ThreadPool.QueueUserWorkItem(new WaitCallback(DoJob),
                         //   jobInfo);
 
@@ -49,7 +50,6 @@ namespace CrawlerEngine.Manager
                     SendErrorEmail();
                     LoggerHelper._.Error(ex);
                 }
-                Thread.Sleep(10000);
             }
         }
 
