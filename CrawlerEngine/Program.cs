@@ -1,7 +1,5 @@
-﻿using CrawlerEngine.Common.Helper;
-using CrawlerEngine.Manager;
+﻿using CrawlerEngine.Manager;
 using System;
-using System.Linq;
 
 namespace CrawlerEngine
 {
@@ -21,6 +19,7 @@ namespace CrawlerEngine
             //serviceProvider.GetRequiredService<YahooMallProductJobWorker>().DoJobFlow();
 
             //  LoggerHelper._.Error(ex: new System.Exception());
+
             check(args);
 
             WorkManager workManager = new WorkManager();
@@ -36,6 +35,8 @@ namespace CrawlerEngine
             //Console.WriteLine("get gegegege");
             // Console.ReadLine();
         }
+
+
         static void check(string[] args)
         {
 

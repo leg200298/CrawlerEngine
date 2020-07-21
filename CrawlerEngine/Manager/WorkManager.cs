@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace CrawlerEngine.Manager
 {
@@ -12,7 +13,10 @@ namespace CrawlerEngine.Manager
     {
         private Condition resourseSetting;
         private List<string> mailTo;
-
+        static WaitHandle[] AllWaitHandles = new WaitHandle[]
+{
+    new AutoResetEvent(false),new AutoResetEvent(false)
+};
         public void Process(int resourceCount)
         {
 
@@ -25,12 +29,31 @@ namespace CrawlerEngine.Manager
                 //   freeDriverCount = WebDriverPool.GetFreeDriverConut();
                 try
                 {
+                    List<Task> lt = new List<Task>();
+                    var all = GetJobInfo(freeDriverCount).ToList();
+                    //for (int i = 0; i <= all.Count(); i = i + 5)
+                    //{
+                    //    try { lt.Add(Task.Run(() => DoJob(all[i]))); } catch { }
+                    //    try { lt.Add(Task.Run(() => DoJob(all[i + 1]))); } catch { }
+                    //    try { lt.Add(Task.Run(() => DoJob(all[i + 2]))); } catch { }
+                    //    try { lt.Add(Task.Run(() => DoJob(all[i + 3]))); } catch { }
+                    //    try { lt.Add(Task.Run(() => DoJob(all[i + 4]))); } catch { }
 
-                    foreach (var jobInfo in GetJobInfo(freeDriverCount))
+                    //    foreach (var t in lt)
+                    //    {
+                    //        Console.WriteLine(t.Status + t.ToString());
+                    //    }
+                    //    Task.WaitAll(lt.ToArray());
+                    //    lt.Clear();
+
+                    //    //DoJob(jobInfo);
+                    //}
+                    foreach (var jobInfo in all)
                     {
 
+                        Console.WriteLine(jobInfo.Seq + "Start");
                         DoJob(jobInfo);
-                        Thread.Sleep(10000);
+                        //Thread.Sleep(10);
                         //ThreadPool.QueueUserWorkItem(new WaitCallback(DoJob),
                         //   jobInfo);
 

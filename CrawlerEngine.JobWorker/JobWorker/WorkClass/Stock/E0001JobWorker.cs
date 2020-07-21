@@ -54,8 +54,6 @@ namespace CrawlerEngine.JobWorker.WorkClass
         protected override bool Parse()
         {
 
-
-
             stockPriceDailyDto.share_price = t.data.display.ua80010_cp.Data;
             stockPriceDailyDto.share_price_unit = t.data.display.ua80010_cp.UnitRef;
             stockPriceDailyDto.five_year_surplus_compound_annual_growth_rate = t.data.display.ua50018_cp.Data;
@@ -100,8 +98,18 @@ namespace CrawlerEngine.JobWorker.WorkClass
             }
             else
             {
-                t = JsonConvert.DeserializeObject<Rootobject>(responseData);
-                if (t.data == null) return false;
+
+                try
+                {
+                    t = JsonConvert.DeserializeObject<Rootobject>(responseData);
+
+                    if (t.status.ToUpper() != "OK") throw new Exception("Api Error");
+                    if (t.data == null) throw new Exception("No Data");
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                }
                 return true;
             }
         }

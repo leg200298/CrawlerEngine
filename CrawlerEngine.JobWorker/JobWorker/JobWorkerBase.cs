@@ -65,7 +65,7 @@ namespace CrawlerEngine.JobWorker
             var cycle = jobInfo.JobCycle;
             var regDate = jobInfo.JobRegisterTime;
             var nowDate = DateTime.UtcNow;
-            List<int> target = new List<int>() { 4, 6, 9, 12 };
+            List<int> target = new List<int>() { 4, 7, 9, 12 };
             if (cycle == "Daily") return true;
 
             if (cycle == "Monthly" && (regDate.AddMonths(1) < nowDate)) return true;
