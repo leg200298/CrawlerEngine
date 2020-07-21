@@ -41,7 +41,6 @@ namespace CrawlerEngine.Crawler.WorkClass
                 WebDriverPool.DriverPool[driverId].ChromeDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
                 ////var wait = new WebDriverWait(WebDriverPool.DriverPool[driverId].ChromeDriver, TimeSpan.FromSeconds(10));
                 ////var t = wait.Until<string>(WebDriverPool.DriverPool[driverId].ChromeDriver.FindElementByXPath("/html/body").GetAttribute("innerHTML"));
-                //Thread.Sleep(10000);
                 responseData = WebDriverPool.DriverPool[driverId].ChromeDriver.FindElementByXPath("/html/body").GetAttribute("innerHTML");
                 ScrollMove();
 

@@ -1,5 +1,4 @@
 ﻿using CrawlerEngine.Common.Helper;
-using CrawlerEngine.Crawler.Interface;
 using CrawlerEngine.JobWorker.Interface;
 using CrawlerEngine.Models;
 using CrawlerEngine.Models.Models;
@@ -11,7 +10,6 @@ namespace CrawlerEngine.JobWorker
     public abstract class JobWorkerBase : IJobWorker
     {
         public abstract JobInfo jobInfo { get; set; }
-        public abstract ICrawler crawler { get; set; }
         public string responseData;
 
         private decimal sleepTime = 0;

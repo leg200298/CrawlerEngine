@@ -1,6 +1,4 @@
 ﻿using CrawlerEngine.Common.Helper;
-using CrawlerEngine.Crawler.Interface;
-using CrawlerEngine.Crawler.WorkClass;
 using CrawlerEngine.Model.DTO;
 using CrawlerEngine.Models;
 using HtmlAgilityPack;
@@ -27,10 +25,8 @@ namespace CrawlerEngine.JobWorker.WorkClass
 
             this.jobInfo = jobInfo;
 
-            crawler = new WebCrawler(jobInfo);
         }
         public override JobInfo jobInfo { get; set; }
-        public override ICrawler crawler { get; set; }
 
         private ResponseObject tempResponseObject = new ResponseObject();
 

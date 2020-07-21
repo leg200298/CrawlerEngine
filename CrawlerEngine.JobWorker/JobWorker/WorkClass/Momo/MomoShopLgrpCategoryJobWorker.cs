@@ -1,15 +1,11 @@
 ﻿using CrawlerEngine.Common.Extansion;
 using CrawlerEngine.Common.Helper;
-using CrawlerEngine.Crawler.Interface;
 using CrawlerEngine.Crawler.WorkClass;
 using CrawlerEngine.Models;
 using HtmlAgilityPack;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Policy;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using static CrawlerEngine.Common.Enums.ElectronicBusiness;
@@ -19,7 +15,6 @@ namespace CrawlerEngine.JobWorker.WorkClass
     public class MomoShopLgrpCategoryJobWorker : JobWorkerBase
     {
         public override JobInfo jobInfo { get; set; }
-        public override ICrawler crawler { get; set; }
 
         private List<JobInfo> jobInfos = new List<JobInfo>();
         private HtmlDocument htmlDoc = new HtmlDocument();
@@ -27,7 +22,6 @@ namespace CrawlerEngine.JobWorker.WorkClass
         public MomoShopLgrpCategoryJobWorker(JobInfo jobInfo)
         {
             this.jobInfo = jobInfo;
-            crawler = new WebCrawler(jobInfo);
         }
 
         protected override bool GotoNextPage(string url)
@@ -47,7 +41,7 @@ namespace CrawlerEngine.JobWorker.WorkClass
         {
             try
             {
-                responseData = crawler.DoCrawlerFlow();
+                responseData = new WebCrawler(jobInfo).DoCrawlerFlow();
                 return true;
             }
             catch (Exception ex)
@@ -82,7 +76,7 @@ namespace CrawlerEngine.JobWorker.WorkClass
                     JobInfo jobInfo = new JobInfo()
                     {
                         Seq = Guid.NewGuid(),
-                        JobType = Platform.MomoShopDgrpCategory.GetDescription(),                      
+                        JobType = Platform.MomoShopDgrpCategory.GetDescription(),
                         Url = href.StartsWith("https://www.momoshop.com.tw") ? href : $"https://www.momoshop.com.tw{href}"
                     };
 
@@ -91,7 +85,7 @@ namespace CrawlerEngine.JobWorker.WorkClass
 
                     string postData = "data=" + Uri.EscapeDataString(
                         $"{{\"flag\":2035,\"data\":{{\"params\":{{\"cateCode\":\"{cateCode}\",\"cateLevel\":\"3\",\"curPage\":\"1\"}}}}}}");
-                    
+
                     jobInfo.PutToDic("_apiUrl", "https://www.momoshop.com.tw/ajax/ajaxTool.jsp?n=2035");
                     jobInfo.PutToDic("_postData", postData);
                     jobInfos.Add(jobInfo);

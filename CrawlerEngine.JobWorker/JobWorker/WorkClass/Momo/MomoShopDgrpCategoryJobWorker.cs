@@ -5,10 +5,11 @@ using CrawlerEngine.Crawler.WorkClass;
 using CrawlerEngine.Models;
 using HtmlAgilityPack;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -19,7 +20,6 @@ namespace CrawlerEngine.JobWorker.WorkClass
     public class MomoShopDgrpCategoryJobWorker : JobWorkerBase
     {
         public override JobInfo jobInfo { get; set; }
-        public override ICrawler crawler { get; set; }
         private ICrawler webCrawler = null;
 
         private List<JobInfo> jobInfos = new List<JobInfo>();
@@ -28,14 +28,7 @@ namespace CrawlerEngine.JobWorker.WorkClass
 
         public MomoShopDgrpCategoryJobWorker(JobInfo jobInfo)
         {
-            jobInfo.PutToHeaderDic("Accept", "application/json, text/javascript, */*; q=0.01");
-            jobInfo.PutToHeaderDic("X-Requested-With", "XMLHttpRequest");
-            jobInfo.PutToHeaderDic("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36");
-            jobInfo.PutToHeaderDic("referer", "https://www.momoshop.com.tw");
-
             this.jobInfo = jobInfo;
-            crawler = new MomoHttpCrawler(jobInfo);
-            webCrawler = new WebCrawler(jobInfo);
         }
 
         protected override bool GotoNextPage(string url)
@@ -56,11 +49,13 @@ namespace CrawlerEngine.JobWorker.WorkClass
         {
             try
             {
-                responseData = crawler.DoCrawlerFlow();
+
+
+                responseData = SetHttpHeaderAndGetPagData();
                 responseJObject = JsonConvert.DeserializeObject<ResponseJObject>(responseData);
                 if (!responseJObject.rtnData.rtnGoodsData.success)
                 {
-                    responseData = webCrawler.DoCrawlerFlow();
+                    responseData = new WebCrawler(jobInfo).DoCrawlerFlow();
                 }
                 return true;
             }
@@ -69,6 +64,31 @@ namespace CrawlerEngine.JobWorker.WorkClass
                 LoggerHelper._.Error(ex);
                 return false;
             }
+        }
+
+        private string SetHttpHeaderAndGetPagData()
+        {
+            Uri uri = new Uri(jobInfo.Url);
+            HttpClientHandler handler = new HttpClientHandler()
+            {
+                CookieContainer = new CookieContainer()
+            };
+            var httpClient = new HttpClient(handler);
+            httpClient.GetAsync("https://" + uri.Host).GetAwaiter().GetResult();
+
+
+            httpClient.DefaultRequestHeaders.Add("Accept", "application/json, text/javascript, */*; q=0.01");
+            httpClient.DefaultRequestHeaders.Add("X-Requested-With", "XMLHttpRequest");
+            httpClient.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36");
+            httpClient.DefaultRequestHeaders.Add("referer", "https://www.momoshop.com.tw");
+            var postData = new StringContent(Convert.ToString(jobInfo.GetFromDic("_postData"))
+                , Encoding.UTF8, "application/x-www-form-urlencoded");
+            string url = jobInfo.Url + "&t="
+                + ((Int64)new TimeSpan(DateTime.UtcNow.Ticks - new DateTime(1970, 1, 1).Ticks)
+                               .TotalMilliseconds).ToString();
+
+            var httpResponse = httpClient.PostAsync(Convert.ToString(jobInfo.GetFromDic("_apiUrl")), postData).GetAwaiter().GetResult();
+            return httpResponse.Content.ReadAsStringAsync().GetAwaiter().GetResult();
         }
 
         protected override bool Validate()

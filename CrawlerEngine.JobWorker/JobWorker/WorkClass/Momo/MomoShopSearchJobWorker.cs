@@ -1,13 +1,11 @@
 ﻿using CrawlerEngine.Common.Extansion;
 using CrawlerEngine.Common.Helper;
-using CrawlerEngine.Crawler.Interface;
 using CrawlerEngine.Crawler.WorkClass;
 using CrawlerEngine.Models;
 using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using static CrawlerEngine.Common.Enums.ElectronicBusiness;
@@ -17,7 +15,6 @@ namespace CrawlerEngine.JobWorker.WorkClass
     public class MomoShopSearchJobWorker : JobWorkerBase
     {
         public override JobInfo jobInfo { get; set; }
-        public override ICrawler crawler { get; set; }
 
         private List<JobInfo> jobInfos = new List<JobInfo>();
         private HtmlDocument htmlDoc = new HtmlDocument();
@@ -25,7 +22,6 @@ namespace CrawlerEngine.JobWorker.WorkClass
         public MomoShopSearchJobWorker(JobInfo jobInfo)
         {
             this.jobInfo = jobInfo;
-            crawler = new WebCrawler(jobInfo);
         }
 
         protected override bool GotoNextPage(string url)
@@ -45,7 +41,7 @@ namespace CrawlerEngine.JobWorker.WorkClass
         {
             try
             {
-                responseData = crawler.DoCrawlerFlow();
+                responseData = new WebCrawler(jobInfo).DoCrawlerFlow();
                 return true;
             }
             catch (Exception ex)
@@ -134,7 +130,7 @@ namespace CrawlerEngine.JobWorker.WorkClass
                     {
                         string nextUrl = Regex.Replace(jobInfo.Url, @"&curPage=\d+", "") + $"&curPage={pageIndex + 1}";
                         return (true, nextUrl);
-                    }                
+                    }
                 }
                 return (false, "");
             }

@@ -1,5 +1,4 @@
 ﻿using CrawlerEngine.Common.Helper;
-using CrawlerEngine.Crawler.Interface;
 using CrawlerEngine.Crawler.WorkClass;
 using CrawlerEngine.Model.DTO;
 using CrawlerEngine.Models;
@@ -16,10 +15,8 @@ namespace CrawlerEngine.JobWorker.WorkClass
         public Pchome24hProductJobWorker(JobInfo jobInfo)
         {
             this.jobInfo = jobInfo;
-            crawler = new WebCrawler(jobInfo);
         }
         public override JobInfo jobInfo { get; set; }
-        public override ICrawler crawler { get; set; }
 
         protected override bool Crawl()
         {
@@ -27,7 +24,7 @@ namespace CrawlerEngine.JobWorker.WorkClass
             try
             {
                 // new HttpCrawler(new JobInfo() { Url = "https://24h.pchome.com.tw/store/DSAACI" }).DoCrawlerFlow();
-                responseData = crawler.DoCrawlerFlow();
+                responseData = new WebCrawler(jobInfo).DoCrawlerFlow();
                 success = true;
             }
             catch (Exception ex)

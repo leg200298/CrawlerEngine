@@ -33,10 +33,10 @@ namespace CrawlerEngine.Crawler.WorkClass
             var httpClient = new HttpClient(handler);
             httpClient.GetAsync("https://" + uri.Host).GetAwaiter().GetResult();   
             
-            foreach (var key in jobInfo.HeaderDic.Keys)
-            {
-                httpClient.DefaultRequestHeaders.Add(key, jobInfo.HeaderDic[key]);
-            }
+            //foreach (var key in jobInfo.HeaderDic.Keys)
+            //{
+            //    httpClient.DefaultRequestHeaders.Add(key, jobInfo.HeaderDic[key]);
+            //}
             var postData = new StringContent(Convert.ToString(jobInfo.GetFromDic("_postData"))
                 , Encoding.UTF8, "application/x-www-form-urlencoded");
             string url = jobInfo.Url + "&t=" 

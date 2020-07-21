@@ -1,5 +1,4 @@
 ﻿using CrawlerEngine.Common.Helper;
-using CrawlerEngine.Crawler.Interface;
 using CrawlerEngine.Crawler.WorkClass;
 using CrawlerEngine.Model.DTO;
 using CrawlerEngine.Models;
@@ -17,10 +16,8 @@ namespace CrawlerEngine.JobWorker.WorkClass
         public MomoShopProductJobWorker(JobInfo jobInfo)
         {
             this.jobInfo = jobInfo;
-            crawler = new WebCrawler(jobInfo);
         }
         public override JobInfo jobInfo { get; set; }
-        public override ICrawler crawler { get; set; }
 
         protected override bool GotoNextPage(string url)
         {
@@ -31,7 +28,7 @@ namespace CrawlerEngine.JobWorker.WorkClass
         {
             try
             {
-                responseData = crawler.DoCrawlerFlow();
+                responseData = new WebCrawler(jobInfo).DoCrawlerFlow();
                 return true;
             }
             catch (Exception ex)
