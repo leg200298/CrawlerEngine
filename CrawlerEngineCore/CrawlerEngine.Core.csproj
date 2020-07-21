@@ -9,12 +9,17 @@
     <Compile Remove="Crawler\CrawlerFactory.cs" />
     <Compile Remove="Crawler\WorkClass\HttpCrawler.cs" />
     <Compile Remove="Crawler\WorkClass\MomoHttpCrawler.cs" />
+    <Compile Remove="Crawler\WorkClass\WebCrawler.cs" />
     <Compile Remove="Test.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\CrawlerEngine.Driver\CrawlerEngine.Driver.csproj" />
     <ProjectReference Include="..\CrawlerEngine.Models\CrawlerEngine.Models.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Crawler\WorkClass\" />
   </ItemGroup>
 
 </Project>

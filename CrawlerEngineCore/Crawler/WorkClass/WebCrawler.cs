@@ -33,14 +33,27 @@ namespace CrawlerEngine.Crawler.WorkClass
             }
         }
 
+        private void GetDriver()
+        {
+
+            driverId = WebDriverPool.GetFreeDriver();
+
+            WebDriverPool.DriverPool[driverId].Status = Common.Enums.ObjectStatus.Driver.NOTFREE;
+
+        }
+        private void OpenUrl()
+        {
+            WebDriverPool.DriverPool[driverId].ChromeDriver.Navigate().GoToUrl(jobInfo.Url);
+        }
+
+
+
         protected string GetData()
         {
             string responseData = string.Empty;
             try
             {
                 WebDriverPool.DriverPool[driverId].ChromeDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
-                ////var wait = new WebDriverWait(WebDriverPool.DriverPool[driverId].ChromeDriver, TimeSpan.FromSeconds(10));
-                ////var t = wait.Until<string>(WebDriverPool.DriverPool[driverId].ChromeDriver.FindElementByXPath("/html/body").GetAttribute("innerHTML"));
                 responseData = WebDriverPool.DriverPool[driverId].ChromeDriver.FindElementByXPath("/html/body").GetAttribute("innerHTML");
                 ScrollMove();
 
@@ -57,20 +70,6 @@ namespace CrawlerEngine.Crawler.WorkClass
             return responseData;
         }
 
-        private void OpenUrl()
-        {
-            WebDriverPool.DriverPool[driverId].ChromeDriver.Navigate().GoToUrl(jobInfo.Url);
-        }
-
-
-        private void GetDriver()
-        {
-
-            driverId = WebDriverPool.GetFreeDriver();
-
-            WebDriverPool.DriverPool[driverId].Status = Common.Enums.ObjectStatus.Driver.NOTFREE;
-
-        }
 
         private void ScrollMove()
         {
