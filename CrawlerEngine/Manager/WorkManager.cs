@@ -13,6 +13,9 @@ namespace CrawlerEngine.Manager
     {
         private Condition resourseSetting;
         private List<string> mailTo;
+        Queue<JobInfo> jobQueue = new Queue<JobInfo>();
+
+
         static WaitHandle[] AllWaitHandles = new WaitHandle[]
 {
     new AutoResetEvent(false),new AutoResetEvent(false)
@@ -23,6 +26,7 @@ namespace CrawlerEngine.Manager
             ThreadPool.SetMaxThreads(5, 5);
             // WebDriverPool.InitDriver(resourceCount);
             var freeDriverCount = resourceCount;
+
             //while (1 == 1)
             {
 
@@ -32,7 +36,8 @@ namespace CrawlerEngine.Manager
                     Console.WriteLine("Job Start");
                     List<Task> lt = new List<Task>();
                     var all = GetJobInfo(freeDriverCount).ToList();
-                    Console.WriteLine($"Job {all.Count()}");
+                    all.ForEach((JobInfo)=> jobQueue.Enqueue(JobInfo));
+                    Console.WriteLine($"Job {jobQueue.Count()}");
                     //for (int i = 0; i <= all.Count(); i = i + 5)
                     //{
                     //    try { lt.Add(Task.Run(() => DoJob(all[i]))); } catch { }
@@ -50,17 +55,22 @@ namespace CrawlerEngine.Manager
 
                     //    //DoJob(jobInfo);
                     //}
-
-                    foreach (var jobInfo in all)
+                    do
                     {
+                       
+                        DoJob(jobQueue.Dequeue());
+                    } while (jobQueue.Count > 0);
 
-                        Console.WriteLine(jobInfo.Seq + "Start");
-                        DoJob(jobInfo);
-                        //Thread.Sleep(10);
-                        //ThreadPool.QueueUserWorkItem(new WaitCallback(DoJob),
-                        //   jobInfo);
+                    //foreach (var jobInfo in all)
+                    //{
 
-                    }
+                    //    Console.WriteLine(jobInfo.Seq + "Start");
+                    //    DoJob(jobInfo);
+                    //    //Thread.Sleep(10);
+                    //    //ThreadPool.QueueUserWorkItem(new WaitCallback(DoJob),
+                    //    //   jobInfo);
+
+                    //}
                     //Parallel.ForEach(
                     //    GetJobInfo(freeDriverCount)
                     //    , jobInfo =>
