@@ -29,8 +29,10 @@ namespace CrawlerEngine.Manager
                 //   freeDriverCount = WebDriverPool.GetFreeDriverConut();
                 try
                 {
+                    Console.WriteLine("Job Start");
                     List<Task> lt = new List<Task>();
                     var all = GetJobInfo(freeDriverCount).ToList();
+                    Console.WriteLine($"Job {all.Count()}");
                     //for (int i = 0; i <= all.Count(); i = i + 5)
                     //{
                     //    try { lt.Add(Task.Run(() => DoJob(all[i]))); } catch { }
@@ -48,6 +50,7 @@ namespace CrawlerEngine.Manager
 
                     //    //DoJob(jobInfo);
                     //}
+
                     foreach (var jobInfo in all)
                     {
 
@@ -67,10 +70,13 @@ namespace CrawlerEngine.Manager
                     //    ThreadPool.QueueUserWorkItem(new WaitCallback(DoJob),
                     //       jobInfo);
                     //});
+                    Console.WriteLine("Job End");
                 }
                 catch (Exception ex)
                 {
-                    SendErrorEmail();
+
+                    Console.WriteLine($"Job Error {ex.Message}");
+                    // SendErrorEmail();
                     LoggerHelper._.Error(ex);
                 }
             }

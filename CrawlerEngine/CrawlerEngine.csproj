@@ -21,10 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.6" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\CrawlerEngine.Driver\CrawlerEngine.Driver.csproj" />
     <ProjectReference Include="..\CrawlerEngine.JobWorker\CrawlerEngine.JobWorker.csproj" />
     <ProjectReference Include="..\CrawlerEngine.Models\CrawlerEngine.Models.csproj" />

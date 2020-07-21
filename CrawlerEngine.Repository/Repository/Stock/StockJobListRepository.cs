@@ -45,11 +45,19 @@ namespace CrawlerEngine.Repository.Crawl
 
         public IEnumerable<StockJobListDto> GetStockJobListDtos()
         {
-            string sqlCommand = $@" select * from StockJobList";
-            using (var conn = _DatabaseConnection.Create())
+            try
             {
-                var result = conn.Query<StockJobListDto>(sqlCommand);
-                return result;
+                string sqlCommand = $@" select * from StockJobList";
+                using (var conn = _DatabaseConnection.Create())
+                {
+                    var result = conn.Query<StockJobListDto>(sqlCommand);
+                    return result;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return new List<StockJobListDto>();
             }
         }
 

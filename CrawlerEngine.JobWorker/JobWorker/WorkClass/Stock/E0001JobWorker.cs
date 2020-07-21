@@ -101,7 +101,11 @@ namespace CrawlerEngine.JobWorker.WorkClass
 
                 try
                 {
-                    t = JsonConvert.DeserializeObject<Rootobject>(responseData);
+                    try
+                    {
+                        t = JsonConvert.DeserializeObject<Rootobject>(responseData);
+                    }
+                    catch { throw new Exception($"Parse Error {responseData}"); }
 
                     if (t.status.ToUpper() != "OK") throw new Exception("Api Error");
                     if (t.data == null) throw new Exception("No Data");

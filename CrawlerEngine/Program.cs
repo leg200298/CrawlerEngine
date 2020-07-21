@@ -1,5 +1,7 @@
-﻿using CrawlerEngine.Manager;
+﻿using CrawlerEngine.Common.Helper;
+using CrawlerEngine.Manager;
 using System;
+using System.Linq;
 
 namespace CrawlerEngine
 {
