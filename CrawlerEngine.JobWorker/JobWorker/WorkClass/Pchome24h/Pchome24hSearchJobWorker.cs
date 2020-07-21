@@ -7,6 +7,7 @@ using HtmlAgilityPack;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading;
 using System.Web;
 
@@ -22,11 +23,11 @@ namespace CrawlerEngine.JobWorker.WorkClass
         private HtmlDocument htmlDoc = new HtmlDocument();
         public Pchome24hSearchJobWorker(JobInfo jobInfo)
         {
-            jobInfo.PutToHeaderDic("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36");
-            jobInfo.PutToHeaderDic("Referer", "https://ecshweb.pchome.com.tw/search/v3.3/");
+
 
             this.jobInfo = jobInfo;
-            crawler = new HttpCrawler(jobInfo);
+
+            crawler = new WebCrawler(jobInfo);
         }
         public override JobInfo jobInfo { get; set; }
         public override ICrawler crawler { get; set; }
@@ -53,7 +54,11 @@ namespace CrawlerEngine.JobWorker.WorkClass
             var success = false;
             try
             {
-                responseData = crawler.DoCrawlerFlow();
+                var httpClient = new HttpClient();
+                SetHttpHeader(httpClient); var httpResponse = httpClient.GetAsync(jobInfo.Url).GetAwaiter().GetResult();
+
+                responseData = httpResponse.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+
                 success = true;
             }
             catch (Exception ex)
@@ -62,6 +67,13 @@ namespace CrawlerEngine.JobWorker.WorkClass
             }
             return success;
         }
+
+        private static void SetHttpHeader(HttpClient httpClient)
+        {
+            httpClient.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36");
+            httpClient.DefaultRequestHeaders.Add("Referer", "https://ecshweb.pchome.com.tw/search/v3.3/");
+        }
+
         protected override bool Validate()
         {
             if (string.IsNullOrEmpty(responseData))

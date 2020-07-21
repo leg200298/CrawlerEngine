@@ -7,6 +7,7 @@
   <ItemGroup>
     <Compile Remove="Crawler\CrawlerBase.cs" />
     <Compile Remove="Crawler\CrawlerFactory.cs" />
+    <Compile Remove="Crawler\WorkClass\HttpCrawler.cs" />
     <Compile Remove="Test.cs" />
   </ItemGroup>
 
