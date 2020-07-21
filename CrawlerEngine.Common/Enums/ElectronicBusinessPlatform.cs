@@ -46,6 +46,12 @@ namespace CrawlerEngine.Common.Enums
             #region Stock
             [Description("STOCK-ALL")]
             StockAll = 9801,
+            [Description("STOCK-CEE")]
+            Stock_Consensus_EPS_Estimatetable = 9802,
+            [Description("STOCK-E0001")]
+            Stock_E0001 = 9803,
+            [Description("STOCK-GPEV")]
+            Stock_GrowthPEValuation = 9804,
             #endregion
 
         }

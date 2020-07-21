@@ -3,7 +3,6 @@ using CrawlerEngine.Crawler.Interface;
 using CrawlerEngine.Crawler.WorkClass;
 using CrawlerEngine.Model.DTO;
 using CrawlerEngine.Models;
-using HtmlAgilityPack;
 using System;
 using System.Linq;
 

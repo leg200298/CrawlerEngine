@@ -22,6 +22,18 @@ namespace CrawlerEngine.JobWorker
             {
                 return new StockAllJobWorker(jobInfo);
             }
+            if (jobType == Platform.Stock_Consensus_EPS_Estimatetable.GetDescription())
+            {
+                return new Consensus_EPS_EstimatetableJobWorker(jobInfo);
+            }
+            if (jobType == Platform.Stock_E0001.GetDescription())
+            {
+                return new E0001JobWorker(jobInfo);
+            }
+            if (jobType == Platform.Stock_GrowthPEValuation.GetDescription())
+            {
+                return new GrowthPEValuationJobWorker(jobInfo);
+            }
             //#region Momo           
 
             //if (jobType == Platform.MomoShopStore.GetDescription())

@@ -22,6 +22,7 @@ namespace CrawlerEngine.JobWorker
         /// </summary>
         public void DoJobFlow()
         {
+            if (!DesideByCycle()) { return; }
             UpdateJobStatusStart();
             (bool, string) temp = (false, "");
             try
@@ -58,9 +59,26 @@ namespace CrawlerEngine.JobWorker
             }
 
         }
+
+        private bool DesideByCycle()
+        {
+            var cycle = jobInfo.JobCycle;
+            var regDate = jobInfo.JobRegisterTime;
+            var nowDate = DateTime.UtcNow;
+            List<int> target = new List<int>() { 4, 7, 9, 12 };
+            if (cycle == "Daily") return true;
+
+            if (cycle == "Monthly" && (regDate.AddMonths(1) < nowDate)) return true;
+
+            if (cycle == "Quarter" && target.Contains(nowDate.Month) && regDate.Month != nowDate.Month) return true;
+
+            return false;
+
+        }
+
         private void UpdateJobStatusStart()
         {
-            Repository.Factory.CrawlFactory.CrawlDataJobListRepository.UpdateStatusStart(jobInfo);
+            Repository.Factory.CrawlFactory.StockJobListRepository.UpdateStatusStart(jobInfo);
 
         }
 
@@ -88,11 +106,11 @@ namespace CrawlerEngine.JobWorker
         protected abstract void SleepForAWhile(decimal sleepTime);
         private void UpdateJobStatusEnd()
         {
-            Repository.Factory.CrawlFactory.CrawlDataJobListRepository.UpdateStatusEnd(jobInfo);
+            Repository.Factory.CrawlFactory.StockJobListRepository.UpdateStatusEnd(jobInfo);
         }
         private void UpdateJobStatusFail()
         {
-            Repository.Factory.CrawlFactory.CrawlDataJobListRepository.UpdateJobStatusFail(jobInfo);
+            Repository.Factory.CrawlFactory.StockJobListRepository.UpdateJobStatusFail(jobInfo);
         }
 
     }
