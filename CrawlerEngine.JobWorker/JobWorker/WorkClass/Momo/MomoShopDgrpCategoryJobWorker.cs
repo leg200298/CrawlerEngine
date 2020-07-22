@@ -47,9 +47,7 @@ namespace CrawlerEngine.JobWorker.WorkClass
         {
             try
             {
-
-
-                responseData = SetHttpHeaderAndGetPagData();
+                responseData = SetHttpHeaderAndGetPageData();
                 responseJObject = JsonConvert.DeserializeObject<ResponseJObject>(responseData);
                 if (!responseJObject.rtnData.rtnGoodsData.success)
                 {
@@ -66,7 +64,7 @@ namespace CrawlerEngine.JobWorker.WorkClass
             }
         }
 
-        private string SetHttpHeaderAndGetPagData()
+        private string SetHttpHeaderAndGetPageData()
         {
             Uri uri = new Uri(jobInfo.Url);
             HttpClientHandler handler = new HttpClientHandler()
@@ -76,18 +74,18 @@ namespace CrawlerEngine.JobWorker.WorkClass
             var httpClient = new HttpClient(handler);
             httpClient.GetAsync("https://" + uri.Host).GetAwaiter().GetResult();
 
-
             httpClient.DefaultRequestHeaders.Add("Accept", "application/json, text/javascript, */*; q=0.01");
             httpClient.DefaultRequestHeaders.Add("X-Requested-With", "XMLHttpRequest");
             httpClient.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36");
             httpClient.DefaultRequestHeaders.Add("referer", "https://www.momoshop.com.tw");
+
             var postData = new StringContent(Convert.ToString(jobInfo.GetFromDic("_postData"))
                 , Encoding.UTF8, "application/x-www-form-urlencoded");
-            string url = jobInfo.Url + "&t="
+            string url = Convert.ToString(jobInfo.GetFromDic("_apiUrl")) + "&t="
                 + ((Int64)new TimeSpan(DateTime.UtcNow.Ticks - new DateTime(1970, 1, 1).Ticks)
                                .TotalMilliseconds).ToString();
 
-            var httpResponse = httpClient.PostAsync(Convert.ToString(jobInfo.GetFromDic("_apiUrl")), postData).GetAwaiter().GetResult();
+            var httpResponse = httpClient.PostAsync(url, postData).GetAwaiter().GetResult();
             return httpResponse.Content.ReadAsStringAsync().GetAwaiter().GetResult();
         }
 
@@ -178,8 +176,18 @@ namespace CrawlerEngine.JobWorker.WorkClass
                 var page = htmlDoc.DocumentNode.SelectSingleNode("//*[(@class='pageArea topEnPageArea')]//a[contains(@name,'nextPage')]");
                 if (page != null && page.Attributes["page"] != null)
                 {
-                    string nextUrl = Regex.Replace(jobInfo.Url, @"&pageNum=\d+", "") + $"&pageNum={page.Attributes["page"].Value}";
-                    return (true, nextUrl);
+                    int.TryParse(Regex.Match(jobInfo.Url, @"&pageNum=\d+").Value.Split('=')
+                         .Where(x => Regex.IsMatch(x, @"\d+")).FirstOrDefault(), out int pageIndex);
+                    pageIndex = pageIndex == 0 ? pageIndex + 1 : pageIndex;
+
+                    int.TryParse(page.Attributes["page"].Value, out int pageLast);
+
+                    if (pageLast > pageIndex)
+                    {
+                        string nextUrl = Regex.Replace(jobInfo.Url, @"&pageNum=\d+", "") + $"&pageNum={pageIndex}";
+                        return (true, nextUrl);
+                    }
+                    return (false, "");
                 }
                 else if (responseJObject != null && responseJObject.rtnData.rtnGoodsData.success)
                 {
