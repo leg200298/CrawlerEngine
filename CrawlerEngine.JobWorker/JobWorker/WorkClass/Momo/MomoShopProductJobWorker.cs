@@ -1,5 +1,4 @@
 ﻿using CrawlerEngine.Common.Helper;
-using CrawlerEngine.Crawler.WorkClass;
 using CrawlerEngine.Driver;
 using CrawlerEngine.Model.DTO;
 using CrawlerEngine.Models;
@@ -72,7 +71,7 @@ namespace CrawlerEngine.JobWorker.WorkClass
                     .Select(x => Regex.Match(x.InnerText, @"\D+(價|價格)+(\d{1,3},)*\d+元").Value?
                         .Replace(System.Environment.NewLine, string.Empty).Trim()));
 
-                crawlDataDetailOptions.name = htmlDoc.DocumentNode.SelectSingleNode("//*[@class=\"prdnoteArea\"]/h1").InnerText;
+                crawlDataDetailOptions.name = htmlDoc.DocumentNode.SelectSingleNode("//*[@class=\"prdnoteArea\"]//*[self::h1 or self::h2 or self::h3 or self::h4 or self::h5 or self::h6]").InnerText;
                 crawlDataDetailOptions.category = string.Join("\\", htmlDoc.DocumentNode.SelectNodes("//*[@id=\"bt_2_layout_NAV\"]/ul//li").Select(x => x.InnerText));
                 crawlDataDetailOptions.PutToDic("_img", $"https:{htmlDoc.DocumentNode.SelectSingleNode("//*[@id='goodsimgB']//a[contains(@href, 'goodsimg')]")?.Attributes["href"].Value}");
 
