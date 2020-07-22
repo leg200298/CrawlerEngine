@@ -1,7 +1,7 @@
 ﻿using CrawlerEngine.Common.Helper;
 using CrawlerEngine.Model.DTO;
 using CrawlerEngine.Models;
-using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Linq;
 using System.Net.Http;
@@ -13,7 +13,7 @@ namespace CrawlerEngine.JobWorker.WorkClass
     /// </summary>
     public class Consensus_EPS_EstimatetableJobWorker : JobWorkerBase
     {
-        Rootobject t = new Rootobject();
+        JObject t = new JObject();
         StockConsensus_EPS_EstimatetaQuarterDto scee = new StockConsensus_EPS_EstimatetaQuarterDto();
         public Consensus_EPS_EstimatetableJobWorker(JobInfo jobInfo)
         {
@@ -53,14 +53,14 @@ namespace CrawlerEngine.JobWorker.WorkClass
         {
             scee.Date = DateTime.UtcNow;
             scee.Code = jobInfo.Url.Split('/').LastOrDefault();
-            scee.Legal_estimate_EPS = t.data.display.uae10021_cp.Data;
-            scee.Formula_estimate_EPS = t.data.display.ua60001_cp.Data;
-            scee.Legal_estimated_yield = t.data.display.uae10041_cp.Data;
-            scee.Formula_estimated_yield = t.data.display.ua50052_cp.Data;
-            scee.Legal_estimate_EPS_unit = t.data.display.uae10021_cp.UnitRef;
-            scee.Formula_estimate_EPS_unit = t.data.display.ua60001_cp.UnitRef;
-            scee.Legal_estimated_yield_unit = t.data.display.uae10041_cp.UnitRef;
-            scee.Formula_estimated_yield_unit = t.data.display.ua50052_cp.UnitRef;
+            scee.Legal_estimate_EPS = (float?)t["data"]["display"]["uae10021_cp"]["Data"];
+            scee.Formula_estimate_EPS = (float?)t["data"]["display"]["ua60001_cp"]["Data"];
+            scee.Legal_estimated_yield = (float?)t["data"]["display"]["uae10041_cp"]["Data"];
+            scee.Formula_estimated_yield = (float?)t["data"]["display"]["ua50052_cp"]["Data"];
+            scee.Legal_estimate_EPS_unit = (string)t["data"]["display"]["uae10021_cp"]["UnitRef"];
+            scee.Formula_estimate_EPS_unit = (string)t["data"]["display"]["ua60001_cp"]["UnitRef"];
+            scee.Legal_estimated_yield_unit = (string)t["data"]["display"]["uae10041_cp"]["UnitRef"];
+            scee.Formula_estimated_yield_unit = (string)t["data"]["display"]["ua50052_cp"]["UnitRef"];
             return true;
 
         }
@@ -89,13 +89,16 @@ namespace CrawlerEngine.JobWorker.WorkClass
             {
                 try
                 {
+
                     try
                     {
-                        t = JsonConvert.DeserializeObject<Rootobject>(responseData);
+                        t = JObject.Parse(responseData);
                     }
                     catch { throw new Exception($"Parse Error {responseData}"); }
-                    if (t.status.ToUpper() != "OK") throw new Exception("Api Error");
-                    if (t.data == null) throw new Exception("No Data");
+
+                    if (t["status"].ToString().ToUpper() != "OK") throw new Exception("Api Error");
+                    if (t["data"] == null) throw new Exception("No Data");
+                    if (t["data"].ToString().ToLower() == "stock code not exist") throw new Exception("Code Not Exist");
                 }
                 catch (Exception ex)
                 {

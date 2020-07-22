@@ -56,7 +56,7 @@ namespace CrawlerEngine.JobWorker.WorkClass
 
 
 
-            stockPriceDailyDto.share_price =(float?) t["data"]["display"]["ua80010_cp"]["Data"];
+            stockPriceDailyDto.share_price = (float?)t["data"]["display"]["ua80010_cp"]["Data"];
             stockPriceDailyDto.share_price_unit = (string)t["data"]["display"]["ua80010_cp"]["UnitRef"];
             stockPriceDailyDto.five_year_surplus_compound_annual_growth_rate = (float?)t["data"]["display"]["ua50018_cp"]["Data"];
             stockPriceDailyDto.five_year_surplus_compound_annual_growth_rate_unit = (string)t["data"]["display"]["ua50018_cp"]["UnitRef"];
@@ -70,9 +70,9 @@ namespace CrawlerEngine.JobWorker.WorkClass
             stockPriceDailyDto.PE_ratio_unit = (string)t["data"]["display"]["ua80012_cp"]["UnitRef"];
             stockPriceDailyDto.PEG_5_year_compound_growth_rate = (float?)t["data"]["display"]["ua50078_cp"]["Data"];
             stockPriceDailyDto.PEG_5_year_compound_growth_rate_unit = (string)t["data"]["display"]["ua50078_cp"]["UnitRef"];
-            stockPriceDailyDto.Probability_to_fill_interest_five_years=(float?) t["data"]["display"]["ua80038_cp"]["Data"];
+            stockPriceDailyDto.Probability_to_fill_interest_five_years = (float?)t["data"]["display"]["ua80038_cp"]["Data"];
             stockPriceDailyDto.Probability_to_fill_interest_five_years_unit = (string)t["data"]["display"]["ua80038_cp"]["UnitRef"];
-            stockPriceDailyDto.Code = (string)t["data"]["stock_code"]  ;
+            stockPriceDailyDto.Code = (string)t["data"]["stock_code"];
             return true;
 
         }
@@ -120,142 +120,142 @@ namespace CrawlerEngine.JobWorker.WorkClass
             }
         }
 
-        public class Rootobject
-        {
-            public string status { get; set; }
-            public Data data { get; set; }
-            public float response_time { get; set; }
-            public int c { get; set; }
-        }
+        //public class Rootobject
+        //{
+        //    public string status { get; set; }
+        //    public Data data { get; set; }
+        //    public float response_time { get; set; }
+        //    public int c { get; set; }
+        //}
 
-        public class Data
-        {
-            public Data1 data { get; set; }
-            public Display display { get; set; }
-            public string stock_name { get; set; }
-            public string stock_code { get; set; }
-            public string type { get; set; }
-        }
+        //public class Data
+        //{
+        //    public Data1 data { get; set; }
+        //    public Display display { get; set; }
+        //    public string stock_name { get; set; }
+        //    public string stock_code { get; set; }
+        //    public string type { get; set; }
+        //}
 
-        public class Data1
-        {
-        }
+        //public class Data1
+        //{
+        //}
 
-        public class Display
-        {
-            /// <summary>
-            /// 股價
-            /// </summary>
-            public Ua80010_Cp ua80010_cp { get; set; }
-            /// <summary>
-            /// 5年盈餘年複合成長率
-            /// </summary>
-            public Ua50018_Cp ua50018_cp { get; set; }
-            /// <summary>
-            /// 3年盈餘年複合成長率
-            /// </summary>
-            public Ua50019_Cp ua50019_cp { get; set; }
-            /// <summary>
-            /// 近一季盈餘年增率
-            /// </summary>
-            public Ua60012_Cp ua60012_cp { get; set; }
-            /// <summary>
-            /// 近四季EPS
-            /// </summary>
-            public Ua60001_Cp ua60001_cp { get; set; }
-            /// <summary>
-            /// 本益比
-            /// </summary>
-            public Ua80012_Cp ua80012_cp { get; set; }
-            /// <summary>
-            /// PEG(5年複合成長率)
-            /// </summary>
-            public Ua50078_Cp ua50078_cp { get; set; }
-            /// <summary>
-            /// 填權息機率(五年)
-            /// </summary>
-            public Ua80038_Cp ua80038_cp { get; set; }
-        }
+        //public class Display
+        //{
+        //    /// <summary>
+        //    /// 股價
+        //    /// </summary>
+        //    public Ua80010_Cp ua80010_cp { get; set; }
+        //    /// <summary>
+        //    /// 5年盈餘年複合成長率
+        //    /// </summary>
+        //    public Ua50018_Cp ua50018_cp { get; set; }
+        //    /// <summary>
+        //    /// 3年盈餘年複合成長率
+        //    /// </summary>
+        //    public Ua50019_Cp ua50019_cp { get; set; }
+        //    /// <summary>
+        //    /// 近一季盈餘年增率
+        //    /// </summary>
+        //    public Ua60012_Cp ua60012_cp { get; set; }
+        //    /// <summary>
+        //    /// 近四季EPS
+        //    /// </summary>
+        //    public Ua60001_Cp ua60001_cp { get; set; }
+        //    /// <summary>
+        //    /// 本益比
+        //    /// </summary>
+        //    public Ua80012_Cp ua80012_cp { get; set; }
+        //    /// <summary>
+        //    /// PEG(5年複合成長率)
+        //    /// </summary>
+        //    public Ua50078_Cp ua50078_cp { get; set; }
+        //    /// <summary>
+        //    /// 填權息機率(五年)
+        //    /// </summary>
+        //    public Ua80038_Cp ua80038_cp { get; set; }
+        //}
 
-        public class Ua80010_Cp
-        {
-            public int Order { get; set; }
-            public string ChineseAccount { get; set; }
-            public string UnitRef { get; set; }
-            public string Explanation { get; set; }
-            public string Style { get; set; }
-            public float? Data { get; set; }
-        }
+        //public class Ua80010_Cp
+        //{
+        //    public int Order { get; set; }
+        //    public string ChineseAccount { get; set; }
+        //    public string UnitRef { get; set; }
+        //    public string Explanation { get; set; }
+        //    public string Style { get; set; }
+        //    public float? Data { get; set; }
+        //}
 
-        public class Ua50018_Cp
-        {
-            public int Order { get; set; }
-            public string ChineseAccount { get; set; }
-            public string UnitRef { get; set; }
-            public string Explanation { get; set; }
-            public string Style { get; set; }
-            public float? Data { get; set; }
-        }
+        //public class Ua50018_Cp
+        //{
+        //    public int Order { get; set; }
+        //    public string ChineseAccount { get; set; }
+        //    public string UnitRef { get; set; }
+        //    public string Explanation { get; set; }
+        //    public string Style { get; set; }
+        //    public float? Data { get; set; }
+        //}
 
-        public class Ua50019_Cp
-        {
-            public int Order { get; set; }
-            public string ChineseAccount { get; set; }
-            public string UnitRef { get; set; }
-            public string Explanation { get; set; }
-            public string Style { get; set; }
-            public float? Data { get; set; }
-        }
+        //public class Ua50019_Cp
+        //{
+        //    public int Order { get; set; }
+        //    public string ChineseAccount { get; set; }
+        //    public string UnitRef { get; set; }
+        //    public string Explanation { get; set; }
+        //    public string Style { get; set; }
+        //    public float? Data { get; set; }
+        //}
 
-        public class Ua60012_Cp
-        {
-            public int Order { get; set; }
-            public string ChineseAccount { get; set; }
-            public string UnitRef { get; set; }
-            public string Explanation { get; set; }
-            public string Style { get; set; }
-            public float? Data { get; set; }
-        }
+        //public class Ua60012_Cp
+        //{
+        //    public int Order { get; set; }
+        //    public string ChineseAccount { get; set; }
+        //    public string UnitRef { get; set; }
+        //    public string Explanation { get; set; }
+        //    public string Style { get; set; }
+        //    public float? Data { get; set; }
+        //}
 
-        public class Ua60001_Cp
-        {
-            public int Order { get; set; }
-            public string ChineseAccount { get; set; }
-            public string UnitRef { get; set; }
-            public string Explanation { get; set; }
-            public string Style { get; set; }
-            public float? Data { get; set; }
-        }
+        //public class Ua60001_Cp
+        //{
+        //    public int Order { get; set; }
+        //    public string ChineseAccount { get; set; }
+        //    public string UnitRef { get; set; }
+        //    public string Explanation { get; set; }
+        //    public string Style { get; set; }
+        //    public float? Data { get; set; }
+        //}
 
-        public class Ua80012_Cp
-        {
-            public int Order { get; set; }
-            public string ChineseAccount { get; set; }
-            public string UnitRef { get; set; }
-            public string Explanation { get; set; }
-            public string Style { get; set; }
-            public float? Data { get; set; }
-        }
+        //public class Ua80012_Cp
+        //{
+        //    public int Order { get; set; }
+        //    public string ChineseAccount { get; set; }
+        //    public string UnitRef { get; set; }
+        //    public string Explanation { get; set; }
+        //    public string Style { get; set; }
+        //    public float? Data { get; set; }
+        //}
 
-        public class Ua50078_Cp
-        {
-            public int Order { get; set; }
-            public string ChineseAccount { get; set; }
-            public string UnitRef { get; set; }
-            public string Explanation { get; set; }
-            public string Style { get; set; }
-            public float? Data { get; set; }
-        }
+        //public class Ua50078_Cp
+        //{
+        //    public int Order { get; set; }
+        //    public string ChineseAccount { get; set; }
+        //    public string UnitRef { get; set; }
+        //    public string Explanation { get; set; }
+        //    public string Style { get; set; }
+        //    public float? Data { get; set; }
+        //}
 
-        public class Ua80038_Cp
-        {
-            public int Order { get; set; }
-            public string ChineseAccount { get; set; }
-            public string UnitRef { get; set; }
-            public string Explanation { get; set; }
-            public string Style { get; set; }
-            public float? Data { get; set; }
-        }
+        //public class Ua80038_Cp
+        //{
+        //    public int Order { get; set; }
+        //    public string ChineseAccount { get; set; }
+        //    public string UnitRef { get; set; }
+        //    public string Explanation { get; set; }
+        //    public string Style { get; set; }
+        //    public float? Data { get; set; }
+        //}
 
     }
 }

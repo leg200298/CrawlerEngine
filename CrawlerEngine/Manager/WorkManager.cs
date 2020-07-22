@@ -97,10 +97,10 @@ namespace CrawlerEngine.Manager
             {
                 Seq = new Guid("063AA19C-FB8D-448C-B144-0AEA877A8F92"),
                 Info = JsonUntityHelper.DeserializeStringToDictionary<string, object>(
-                    "{\"_jobType\": \"STOCK-E0001\",\"_url\": \"https://cronjob.uanalyze.com.tw/fetch/E0001/1341\"}"),
+                    "{\"_jobType\": \"STOCK-GPEV\",\"_url\": \"https://cronjob.uanalyze.com.tw/fetch/GrowthPEValuation/1409\"}"),
 
-                JobCycle = "Daily",
-                JobRegisterTime = new DateTime(2020, 7, 17, 7, 14, 7, 633)
+                JobCycle = "Monthly",
+                JobRegisterTime = new DateTime(2020, 5, 17, 7, 14, 7, 633)
             });
             //return
 
