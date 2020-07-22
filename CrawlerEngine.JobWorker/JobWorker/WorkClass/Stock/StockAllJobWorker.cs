@@ -1,10 +1,9 @@
 ﻿using CrawlerEngine.Common.Helper;
-using CrawlerEngine.Crawler.Interface;
-using CrawlerEngine.Crawler.WorkClass;
 using CrawlerEngine.Model.DTO;
 using CrawlerEngine.Models;
 using System;
 using System.Linq;
+using System.Net.Http;
 
 namespace CrawlerEngine.JobWorker.WorkClass
 {
@@ -16,18 +15,19 @@ namespace CrawlerEngine.JobWorker.WorkClass
         public StockAllJobWorker(JobInfo jobInfo)
         {
             this.jobInfo = jobInfo;
-            crawler = new HttpCrawler(jobInfo);
         }
         public override JobInfo jobInfo { get; set; }
-        public override ICrawler crawler { get; set; }
 
         protected override bool Crawl()
         {
             var success = false;
             try
             {
-                // new HttpCrawler(new JobInfo() { Url = "https://24h.pchome.com.tw/store/DSAACI" }).DoCrawlerFlow();
-                responseData = crawler.DoCrawlerFlow();
+
+                var httpClient = new HttpClient();
+                httpClient.Timeout = TimeSpan.FromSeconds(5);
+                var httpResponse = httpClient.GetAsync(jobInfo.Url).Result;
+                responseData = httpResponse.Content.ReadAsStringAsync().GetAwaiter().GetResult();
                 success = true;
             }
             catch (Exception ex)
@@ -53,7 +53,7 @@ namespace CrawlerEngine.JobWorker.WorkClass
             Console.WriteLine(responseData);
             var t = responseData.Split('\n');
 
-            var t2 = t.Select(x =>  x.Split(',') );
+            var t2 = t.Select(x => x.Split(','));
             //var htmlDoc = new HtmlDocument();
             //htmlDoc.LoadHtml(responseData);
 

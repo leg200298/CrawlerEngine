@@ -13,16 +13,10 @@ namespace CrawlerEngine.Manager
     {
         private Condition resourseSetting;
         private List<string> mailTo;
-        Queue<JobInfo> jobQueue = new Queue<JobInfo>();
+        private Queue<JobInfo> jobQueue = new Queue<JobInfo>();
 
-
-        static WaitHandle[] AllWaitHandles = new WaitHandle[]
-{
-    new AutoResetEvent(false),new AutoResetEvent(false)
-};
         public void Process(int resourceCount)
         {
-
             ThreadPool.SetMaxThreads(5, 5);
             // WebDriverPool.InitDriver(resourceCount);
             var freeDriverCount = resourceCount;
@@ -35,8 +29,8 @@ namespace CrawlerEngine.Manager
                 {
                     Console.WriteLine("Job Start");
                     List<Task> lt = new List<Task>();
-                    var all = GetJobInfo(freeDriverCount).ToList();
-                    all.ForEach((JobInfo)=> jobQueue.Enqueue(JobInfo));
+                    GetJobInfo(freeDriverCount).ToList().ForEach((JobInfo) => jobQueue.Enqueue(JobInfo));
+
                     Console.WriteLine($"Job {jobQueue.Count()}");
                     //for (int i = 0; i <= all.Count(); i = i + 5)
                     //{
@@ -57,7 +51,7 @@ namespace CrawlerEngine.Manager
                     //}
                     do
                     {
-                       
+
                         DoJob(jobQueue.Dequeue());
                     } while (jobQueue.Count > 0);
 
@@ -98,28 +92,28 @@ namespace CrawlerEngine.Manager
         {
 #if (DEBUG)
 
-            return
+            List<JobInfo> lj = new List<JobInfo>();
+            lj.Add(new JobInfo()
+            {
+                Seq = new Guid("063AA19C-FB8D-448C-B144-0AEA877A8F92"),
+                Info = JsonUntityHelper.DeserializeStringToDictionary<string, object>(
+                    "{\"_jobType\": \"STOCK-E0001\",\"_url\": \"https://cronjob.uanalyze.com.tw/fetch/E0001/1341\"}"),
 
-             from x in Repository.Factory.CrawlFactory.StockJobListRepository.GetStockJobListDtos()
-             select new JobInfo()
-             {
-                 JobType = x.JobType,
-                 Info = JsonUntityHelper.DeserializeStringToDictionary<string, object>(x.JobInfo),
-                 Seq = x.Seq,
-                 JobCycle = x.JobCycle,
-                 JobRegisterTime = x.RegisterTime
-             };
+                JobCycle = "Daily",
+                JobRegisterTime = new DateTime(2020, 7, 17, 7, 14, 7, 633)
+            });
+            //return
 
-            //List<JobInfo> lj = new List<JobInfo>();
-            //lj.Add(new JobInfo()
-            //{
-            //    Seq = new Guid("063AA19C-FB8D-448C-B144-0AEA877A8F92"),
-            //    Info = JsonUntityHelper.DeserializeStringToDictionary<string, object>(
-            //        "{\"_jobType\": \"STOCK-E0001\",\"_url\": \"https://cronjob.uanalyze.com.tw/fetch/E0001/1232\"}"),
+            // from x in Repository.Factory.CrawlFactory.StockJobListRepository.GetStockJobListDtos()
+            // select new JobInfo()
+            // {
+            //     JobType = x.JobType,
+            //     Info = JsonUntityHelper.DeserializeStringToDictionary<string, object>(x.JobInfo),
+            //     Seq = x.Seq,
+            //     JobCycle = x.JobCycle,
+            //     JobRegisterTime = x.RegisterTime
+            // };
 
-            //    JobCycle = "Daily",
-            //    JobRegisterTime = new DateTime(2020, 7, 17, 7, 14, 7, 633)
-            //});
 
             //lj.Add(new JobInfo()
             //{
@@ -139,7 +133,7 @@ namespace CrawlerEngine.Manager
             //    JobCycle = "Quarter",
             //    JobRegisterTime = new DateTime(2020, 7, 17, 7, 14, 7, 633)
             //});
-            //return lj.AsEnumerable();
+            return lj.AsEnumerable();
 #else
             return
 

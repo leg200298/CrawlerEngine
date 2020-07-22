@@ -1,11 +1,10 @@
 ﻿using CrawlerEngine.Common.Helper;
-using CrawlerEngine.Crawler.Interface;
-using CrawlerEngine.Crawler.WorkClass;
 using CrawlerEngine.Model.DTO;
 using CrawlerEngine.Models;
 using Newtonsoft.Json;
 using System;
 using System.Linq;
+using System.Net.Http;
 
 namespace CrawlerEngine.JobWorker.WorkClass
 {
@@ -19,17 +18,18 @@ namespace CrawlerEngine.JobWorker.WorkClass
         public Consensus_EPS_EstimatetableJobWorker(JobInfo jobInfo)
         {
             this.jobInfo = jobInfo;
-            crawler = new HttpCrawler(jobInfo);
         }
         public override JobInfo jobInfo { get; set; }
-        public override ICrawler crawler { get; set; }
 
         protected override bool Crawl()
         {
             var success = false;
             try
             {
-                responseData = crawler.DoCrawlerFlow();
+                var httpClient = new HttpClient();
+                httpClient.Timeout = TimeSpan.FromSeconds(5);
+                var httpResponse = httpClient.GetAsync(jobInfo.Url).Result;
+                responseData = httpResponse.Content.ReadAsStringAsync().GetAwaiter().GetResult();
                 success = true;
             }
             catch (Exception ex)
