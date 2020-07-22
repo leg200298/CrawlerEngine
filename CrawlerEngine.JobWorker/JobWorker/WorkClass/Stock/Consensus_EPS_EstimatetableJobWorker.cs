@@ -53,10 +53,10 @@ namespace CrawlerEngine.JobWorker.WorkClass
         {
             scee.Date = DateTime.UtcNow;
             scee.Code = jobInfo.Url.Split('/').LastOrDefault();
-            scee.Legal_estimate_EPS = (float?)t["data"]["display"]["uae10021_cp"]["Data"];
-            scee.Formula_estimate_EPS = (float?)t["data"]["display"]["ua60001_cp"]["Data"];
-            scee.Legal_estimated_yield = (float?)t["data"]["display"]["uae10041_cp"]["Data"];
-            scee.Formula_estimated_yield = (float?)t["data"]["display"]["ua50052_cp"]["Data"];
+            scee.Legal_estimate_EPS = t["data"]["display"]["uae10021_cp"]["Data"].ToString() == "[]" ? null : (float?)t["data"]["display"]["uae10021_cp"]["Data"];
+            scee.Formula_estimate_EPS = t["data"]["display"]["ua60001_cp"]["Data"].ToString() == "[]" ? null : (float?)t["data"]["display"]["ua60001_cp"]["Data"];
+            scee.Legal_estimated_yield = t["data"]["display"]["uae10041_cp"]["Data"].ToString() == "[]" ? null : (float?)t["data"]["display"]["uae10041_cp"]["Data"];
+            scee.Formula_estimated_yield = t["data"]["display"]["ua50052_cp"]["Data"].ToString() == "[]" ? null : (float?)t["data"]["display"]["ua50052_cp"]["Data"];
             scee.Legal_estimate_EPS_unit = (string)t["data"]["display"]["uae10021_cp"]["UnitRef"];
             scee.Formula_estimate_EPS_unit = (string)t["data"]["display"]["ua60001_cp"]["UnitRef"];
             scee.Legal_estimated_yield_unit = (string)t["data"]["display"]["uae10041_cp"]["UnitRef"];

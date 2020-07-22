@@ -97,9 +97,9 @@ namespace CrawlerEngine.Manager
             {
                 Seq = new Guid("063AA19C-FB8D-448C-B144-0AEA877A8F92"),
                 Info = JsonUntityHelper.DeserializeStringToDictionary<string, object>(
-                    "{\"_jobType\": \"STOCK-GPEV\",\"_url\": \"https://cronjob.uanalyze.com.tw/fetch/GrowthPEValuation/1409\"}"),
+                    "{\"_jobType\": \"STOCK-CEE\",\"_url\": \"https://cronjob.uanalyze.com.tw/fetch/Consensus_EPS_Estimatetable/4904\"}"),
 
-                JobCycle = "Monthly",
+                JobCycle = "Quarter",
                 JobRegisterTime = new DateTime(2020, 5, 17, 7, 14, 7, 633)
             });
             //return

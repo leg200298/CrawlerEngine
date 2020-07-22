@@ -54,23 +54,33 @@ namespace CrawlerEngine.JobWorker.WorkClass
         protected override bool Parse()
         {
 
+            try
+            {
 
+                var q = t["data"]["display"]["ua80012_cp"]["Data"].ToString();
+               var t2 = t["data"]["display"]["ua80012_cp"]["Data"].ToString().Length == 0 ? null : (float?)t["data"]["display"]["ua80012_cp"]["Data"];
 
-            stockPriceDailyDto.share_price = (float?)t["data"]["display"]["ua80010_cp"]["Data"];
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
+            stockPriceDailyDto.share_price = (float?)t["data"]["display"]["ua80010_cp"]["Data"].ToString().Length == 0 ? null : (float?)t["data"]["display"]["ua80010_cp"]["Data"];
             stockPriceDailyDto.share_price_unit = (string)t["data"]["display"]["ua80010_cp"]["UnitRef"];
-            stockPriceDailyDto.five_year_surplus_compound_annual_growth_rate = (float?)t["data"]["display"]["ua50018_cp"]["Data"];
+            stockPriceDailyDto.five_year_surplus_compound_annual_growth_rate = (float?)t["data"]["display"]["ua50018_cp"]["Data"].ToString().Length == 0 ? null : (float?)t["data"]["display"]["ua50018_cp"]["Data"];
             stockPriceDailyDto.five_year_surplus_compound_annual_growth_rate_unit = (string)t["data"]["display"]["ua50018_cp"]["UnitRef"];
-            stockPriceDailyDto.three_year_surplus_compound_annual_growth_rate = (float?)t["data"]["display"]["ua50019_cp"]["Data"];
+            stockPriceDailyDto.three_year_surplus_compound_annual_growth_rate = (float?)t["data"]["display"]["ua50019_cp"]["Data"].ToString().Length == 0 ? null : (float?)t["data"]["display"]["ua50019_cp"]["Data"];
             stockPriceDailyDto.three_year_surplus_compound_annual_growth_rate_unit = (string)t["data"]["display"]["ua50019_cp"]["UnitRef"];
-            stockPriceDailyDto.annual_surplus_growth_rate_in_the_last_quarter = (float?)t["data"]["display"]["ua60012_cp"]["Data"];
+            stockPriceDailyDto.annual_surplus_growth_rate_in_the_last_quarter = (float?)t["data"]["display"]["ua60012_cp"]["Data"].ToString().Length == 0 ? null : (float?)t["data"]["display"]["ua60012_cp"]["Data"];
             stockPriceDailyDto.annual_surplus_growth_rate_in_the_last_quarter_unit = (string)t["data"]["display"]["ua60012_cp"]["UnitRef"];
-            stockPriceDailyDto.recent_Four_Seasons_EPS = (float?)t["data"]["display"]["ua60001_cp"]["Data"];
+            stockPriceDailyDto.recent_Four_Seasons_EPS = (float?)t["data"]["display"]["ua60001_cp"]["Data"].ToString().Length == 0 ? null : (float?)t["data"]["display"]["ua60001_cp"]["Data"];
             stockPriceDailyDto.Recent_Four_Seasons_EPS_unit = (string)t["data"]["display"]["ua60001_cp"]["UnitRef"];
-            stockPriceDailyDto.PE_ratio = (float?)t["data"]["display"]["ua80012_cp"]["Data"];
+            stockPriceDailyDto.PE_ratio = t["data"]["display"]["ua80012_cp"]["Data"].ToString().Length == 0 ? null : (float?)t["data"]["display"]["ua80012_cp"]["Data"];
             stockPriceDailyDto.PE_ratio_unit = (string)t["data"]["display"]["ua80012_cp"]["UnitRef"];
-            stockPriceDailyDto.PEG_5_year_compound_growth_rate = (float?)t["data"]["display"]["ua50078_cp"]["Data"];
+            stockPriceDailyDto.PEG_5_year_compound_growth_rate = (float?)t["data"]["display"]["ua50078_cp"]["Data"].ToString().Length == 0 ? null : (float?)t["data"]["display"]["ua50078_cp"]["Data"];
             stockPriceDailyDto.PEG_5_year_compound_growth_rate_unit = (string)t["data"]["display"]["ua50078_cp"]["UnitRef"];
-            stockPriceDailyDto.Probability_to_fill_interest_five_years = (float?)t["data"]["display"]["ua80038_cp"]["Data"];
+            stockPriceDailyDto.Probability_to_fill_interest_five_years = (float?)t["data"]["display"]["ua80038_cp"]["Data"].ToString().Length == 0 ? null : (float?)t["data"]["display"]["ua80038_cp"]["Data"];
             stockPriceDailyDto.Probability_to_fill_interest_five_years_unit = (string)t["data"]["display"]["ua80038_cp"]["UnitRef"];
             stockPriceDailyDto.Code = (string)t["data"]["stock_code"];
             return true;
