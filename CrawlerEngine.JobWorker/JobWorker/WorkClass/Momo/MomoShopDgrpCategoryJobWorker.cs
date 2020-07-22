@@ -1,6 +1,5 @@
 ﻿using CrawlerEngine.Common.Extansion;
 using CrawlerEngine.Common.Helper;
-using CrawlerEngine.Crawler.Interface;
 using CrawlerEngine.Driver;
 using CrawlerEngine.Models;
 using HtmlAgilityPack;
@@ -20,7 +19,6 @@ namespace CrawlerEngine.JobWorker.WorkClass
     public class MomoShopDgrpCategoryJobWorker : JobWorkerBase
     {
         public override JobInfo jobInfo { get; set; }
-        private ICrawler webCrawler = null;
 
         private List<JobInfo> jobInfos = new List<JobInfo>();
         private HtmlDocument htmlDoc = new HtmlDocument();

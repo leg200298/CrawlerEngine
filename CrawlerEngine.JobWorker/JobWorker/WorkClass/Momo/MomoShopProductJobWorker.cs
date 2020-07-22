@@ -1,5 +1,4 @@
 ﻿using CrawlerEngine.Common.Helper;
-using CrawlerEngine.Crawler.WorkClass;
 using CrawlerEngine.Driver;
 using CrawlerEngine.Model.DTO;
 using CrawlerEngine.Models;
