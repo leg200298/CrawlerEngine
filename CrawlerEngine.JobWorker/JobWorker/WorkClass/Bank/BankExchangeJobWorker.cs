@@ -1,11 +1,10 @@
 ﻿using CrawlerEngine.Common.Helper;
-using CrawlerEngine.Crawler.Interface;
-using CrawlerEngine.Crawler.WorkClass;
 using CrawlerEngine.Model.DTO;
 using CrawlerEngine.Models;
 using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading;
 
 namespace CrawlerEngine.JobWorker.WorkClass
@@ -21,10 +20,8 @@ namespace CrawlerEngine.JobWorker.WorkClass
         public BankExchangeJobWorker(JobInfo jobInfo)
         {
             this.jobInfo = jobInfo;
-            crawler = new HttpCrawler(jobInfo);
         }
         public override JobInfo jobInfo { get; set; }
-        public override ICrawler crawler { get; set; }
 
         protected override bool GotoNextPage(string url)
         {
@@ -36,7 +33,14 @@ namespace CrawlerEngine.JobWorker.WorkClass
             var success = false;
             try
             {
-                responseData = crawler.DoCrawlerFlow();
+                var httpClient = new HttpClient();
+                foreach (var key in jobInfo.HeaderDic.Keys)
+                {
+                    httpClient.DefaultRequestHeaders.Add(key, jobInfo.HeaderDic[key]);
+                }
+                var httpResponse = httpClient.GetAsync(jobInfo.Url).GetAwaiter().GetResult();
+
+                responseData = httpResponse.Content.ReadAsStringAsync().GetAwaiter().GetResult();
                 success = true;
             }
             catch (Exception ex)
