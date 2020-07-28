@@ -19,6 +19,7 @@ namespace CrawlerEngine.JobWorker.WorkClass
         private List<JobInfo> jobInfos = new List<JobInfo>();
         private HtmlDocument htmlDoc = new HtmlDocument();
         private string innerData = string.Empty;
+        private string innerDataHeader = string.Empty;
 
         public RedMineJobWorker(JobInfo jobInfo)
         {
@@ -98,7 +99,21 @@ namespace CrawlerEngine.JobWorker.WorkClass
                 try
                 {
                     innerData = htmlDoc.DocumentNode.SelectSingleNode("//*[@id=\"content\"]/div[2]/div[3]").InnerText;
+                    //*[@id="content"]/div[2]/div[1]/div/h3
+
                 }
+
+                catch { }
+
+
+
+                try
+                {
+                    innerDataHeader = htmlDoc.DocumentNode.SelectSingleNode("//*[@id=\"content\"]/div[2]/div[1]/div/h3").InnerText;
+
+
+                }
+
                 catch { }
 
                 return true;
@@ -112,6 +127,8 @@ namespace CrawlerEngine.JobWorker.WorkClass
         protected override bool SaveData()
         {
             File.AppendAllText("Redmine/" + jobInfo.Url.Split('/').LastOrDefault() + ".txt", innerData);
+            File.AppendAllText("RedmineHead/" + jobInfo.Url.Split('/').LastOrDefault() + ".txt",
+                innerDataHeader);
 
             return true;
 
