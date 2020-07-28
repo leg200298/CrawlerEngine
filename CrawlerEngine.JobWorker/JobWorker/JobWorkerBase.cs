@@ -58,8 +58,7 @@ namespace CrawlerEngine.JobWorker
         }
         private void UpdateJobStatusStart()
         {
-            Repository.Factory.CrawlFactory.CrawlDataJobListRepository.UpdateStatusStart(jobInfo);
-
+        
         }
 
         protected abstract bool Crawl();
@@ -86,11 +85,9 @@ namespace CrawlerEngine.JobWorker
         protected abstract void SleepForAWhile(decimal sleepTime);
         private void UpdateJobStatusEnd()
         {
-            Repository.Factory.CrawlFactory.CrawlDataJobListRepository.UpdateStatusEnd(jobInfo);
         }
         private void UpdateJobStatusFail()
         {
-            Repository.Factory.CrawlFactory.CrawlDataJobListRepository.UpdateJobStatusFail(jobInfo);
         }
 
     }
