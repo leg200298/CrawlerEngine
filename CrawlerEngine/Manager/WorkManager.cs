@@ -43,16 +43,16 @@ namespace CrawlerEngine.Manager
         #region 工作區
         private IEnumerable<JobInfo> GetJobInfo(int resourceCount)
         {
-#if (DEBUG)
-            List<JobInfo> lj = new List<JobInfo>();
-            lj.Add(new JobInfo()
-            {
-                Seq = new Guid("D608BE51-D170-4056-ADD4-A54EA20DC1C4"),
-                Info = JsonUntityHelper.DeserializeStringToDictionary<string, object>(
-                    "{\"_url\": \"https://tw.mall.yahoo.com/store/dcking\",   \"_jobType\": \"YAHOOMALL-STORE\"}")
-            });
-            return lj.AsEnumerable();
-#else
+//#if (DEBUG)
+//            List<JobInfo> lj = new List<JobInfo>();
+//            lj.Add(new JobInfo()
+//            {
+//                Seq = new Guid("D608BE51-D170-4056-ADD4-A54EA20DC1C4"),
+//                Info = JsonUntityHelper.DeserializeStringToDictionary<string, object>(
+//                    "{\"_url\": \"https://tw.mall.yahoo.com/store/dcking\",   \"_jobType\": \"YAHOOMALL-STORE\"}")
+//            });
+//            return lj.AsEnumerable();
+//#else
             return
 
               from x in Repository.Factory.CrawlFactory.CrawlDataJobListRepository.GetCrawlDataJobListDtos(resourceCount)
@@ -62,7 +62,7 @@ namespace CrawlerEngine.Manager
                   Seq = x.Seq
               };
 
-#endif
+//#endif
         }
         private bool DoJob(JobInfo jobInfo)
         {

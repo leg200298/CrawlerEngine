@@ -6,8 +6,8 @@ namespace CrawlerEngine.Repository.Factory
     public class CrawlFactory
     {
         //#if DEBUG
-        private static CrawlDataDetailRepository _crawlDataDetailRepository => new CrawlDataDetailRepository(new AzureDbConnectionHelper());
-        private static CrawlDataJobListRepository _crawlDataJobListRepository => new CrawlDataJobListRepository(new AzureDbConnectionHelper());
+        private static CrawlDataDetailRepository _crawlDataDetailRepository => new CrawlDataDetailRepository(new PostgresDbConnectionHelper());
+        private static CrawlDataJobListRepository _crawlDataJobListRepository => new CrawlDataJobListRepository(new PostgresDbConnectionHelper());
 
         //#else
 

@@ -1,7 +1,5 @@
 ﻿using CrawlerEngine.Manager;
-using Npgsql;
 using System;
-using System.Net;
 
 namespace CrawlerEngine
 {
@@ -9,68 +7,49 @@ namespace CrawlerEngine
     {
         private static int Resource = 1;
 
-
-        private static string Host = "52.183.94.91";
-        private static string User = "tomting";
-        private static string DBname = "postgres";
-        private static string Password = "!QAZ2wsx1234";
-        private static string Port = "5432";
-
-
         static void Main(string[] args)
         {
             Guid a = Guid.NewGuid();
             a.ToString();
-            // Build connection string using parameters from portal
-            //
-            string connString =
-                String.Format(
-                    "Server={0};Username={1};Database={2};Port={3};Password={4};SSLMode=Prefer",
-                    Host,
-                    User,
-                    DBname,
-                    Port,
-                    Password);
 
+            //using (var conn = new NpgsqlConnection(ConnectionString.PostgresConnectionString))
 
-            using (var conn = new NpgsqlConnection(connString))
+            //{
+            //    Console.Out.WriteLine("Opening connection");
+            //    conn.Open();
 
-            {
-                Console.Out.WriteLine("Opening connection");
-                conn.Open();
-                
-                using (var command = new NpgsqlCommand("INSERT INTO public.\"CrawlDataJobList\" (\"Seq\", \"JobInfo\",\"JobType\") VALUES (@Seq1, @JobInfo1,@JobType1), (@Seq2, @JobInfo2,@JobType2)", conn))
-                {
-                    command.Parameters.AddWithValue("@Seq1", Guid.NewGuid());
-                    command.Parameters.AddWithValue("@JobInfo1", "JobInfo1");
-                    command.Parameters.AddWithValue("@JobType1", "orange");
-                    command.Parameters.AddWithValue("@Seq2", Guid.NewGuid());
-                    command.Parameters.AddWithValue("@JobInfo2", "JobInfo2");
-                    command.Parameters.AddWithValue("@JobType2", "orange");
+            //    using (var command = new NpgsqlCommand("INSERT INTO public.crawl_data_job_list (seq, job_info,job_type) VALUES (@Seq1, @JobInfo1,@JobType1), (@Seq2, @JobInfo2,@JobType2)", conn))
+            //    {
+            //        command.Parameters.AddWithValue("@Seq1", Guid.NewGuid());
+            //        command.Parameters.AddWithValue("@JobInfo1", @"{""_jobType"": ""MOMOSHOP-LGRPCATEGORY"",""_url"": ""https://www.momoshop.com.tw/category/LgrpCategory.jsp?l_code=2904400000&FTOOTH=29&Area=tooth&mdiv=1099600000-bt_0_996_11-&ctype=B&btType=C"",  ""_saveDataTime"": ""2020/07/22 04:59:50""}");
+            //        command.Parameters.AddWithValue("@JobType1", "MOMOSHOP-LGRPCATEGORY");
+            //        command.Parameters.AddWithValue("@Seq2", Guid.NewGuid());
+            //        command.Parameters.AddWithValue("@JobInfo2", @"{ ""_jobType"": ""PCHOME24H-SEARCH"", ""_url"": ""https://ecshweb.pchome.com.tw/search/v3.3/?q=%E5%95%86%E5%93%81""}");
+            //        command.Parameters.AddWithValue("@JobType2", "PCHOME24H-SEARCH");
 
-                    int nRows = command.ExecuteNonQuery();
-                    Console.Out.WriteLine(String.Format("Number of rows inserted={0}", nRows));
-                }
-            }
+            //        int nRows = command.ExecuteNonQuery();
+            //        Console.Out.WriteLine(String.Format("Number of rows inserted={0}", nRows));
+            //    }
+            //}
 
-            Console.WriteLine("Press RETURN to exit");
-            Console.ReadLine();
+            //Console.WriteLine("Press RETURN to exit");
+            //Console.ReadLine();
 
-            //Console.WriteLine("To enable your free eval account and get CUSTOMER, "
-            //    + "YOURZONE and YOURPASS, please contact sales@luminati.io");
-            var client = new WebClient();
-            // client.Proxy = new WebProxy("64.4.94.129:80");
-            //client.Proxy.Credentials = new NetworkCredential("lum-customer-hl_a94e2c87-zone-static", "kkp5wtj7scek");
-            try
-            {
-                Console.WriteLine(client.DownloadString("https://www.google.com/"));
+            ////Console.WriteLine("To enable your free eval account and get CUSTOMER, "
+            ////    + "YOURZONE and YOURPASS, please contact sales@luminati.io");
+            //var client = new WebClient();
+            //// client.Proxy = new WebProxy("64.4.94.129:80");
+            ////client.Proxy.Credentials = new NetworkCredential("lum-customer-hl_a94e2c87-zone-static", "kkp5wtj7scek");
+            //try
+            //{
+            //    Console.WriteLine(client.DownloadString("https://www.google.com/"));
 
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-            //  LoggerHelper._.Error(ex: new System.Exception());
+            //}
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine(ex.Message);
+            //}
+            ////  LoggerHelper._.Error(ex: new System.Exception());
             check(args);
 
             WorkManager workManager = new WorkManager();
