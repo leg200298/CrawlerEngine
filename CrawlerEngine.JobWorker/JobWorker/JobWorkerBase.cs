@@ -4,6 +4,7 @@ using CrawlerEngine.Models;
 using CrawlerEngine.Models.Models;
 using CrawlerEngine.Repository.Factory;
 using CrawlerEngine.Repository.Interface;
+using NLog;
 using System;
 using System.Collections.Generic;
 
@@ -11,6 +12,8 @@ namespace CrawlerEngine.JobWorker
 {
     public abstract class JobWorkerBase : IJobWorker
     {
+        public abstract Logger _logger { get; }
+
         ICrawlDataJobListRepository crawlDataJobListRepository;
         public abstract JobInfo jobInfo { get; set; }
         public string responseData;
@@ -29,32 +32,33 @@ namespace CrawlerEngine.JobWorker
             (bool, string) temp = (false, "");
             try
             {
-                LoggerHelper._.Info($"{jobInfo.Seq}  Start");
+                //  _logger.Info("tTESTDATA");
+                _logger.Info($"{jobInfo.Seq}  Start");
                 do
                 {
                     GotoNextPage(temp.Item2);
                     Crawl();
 
-                    LoggerHelper._.Info($"{jobInfo.Seq}  GetData");
+                    _logger.Info($"{jobInfo.Seq}  GetData");
                     if (Validate())
                     {
-                        LoggerHelper._.Info($"{jobInfo.Seq}  Validate");
+                        _logger.Info($"{jobInfo.Seq}  Validate");
                         if (Parse())
                         {
-                            LoggerHelper._.Info($"{jobInfo.Seq}  Parse");
+                            _logger.Info($"{jobInfo.Seq}  Parse");
                             SaveData(crawlFactory);
-                            LoggerHelper._.Info($"{jobInfo.Seq}  SaveData");
+                            _logger.Info($"{jobInfo.Seq}  SaveData");
                         }
                         temp = HasNextPage();
                         SleepForAWhile(GetSleepTimeByJobInfo());
                     }
                 } while (temp.Item1);
                 UpdateJobStatusEnd();
-                LoggerHelper._.Info($"{jobInfo.Seq}  End");
+                _logger.Info($"{jobInfo.Seq}  End");
             }
             catch (Exception e)
             {
-                LoggerHelper._.Error(e, jobInfo.Seq.ToString() + responseData);
+                _logger.Error(e, jobInfo.Seq.ToString() + responseData);
                 jobInfo.ErrorInfo = e.Message;
                 UpdateJobStatusFail();
 

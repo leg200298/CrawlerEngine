@@ -5,6 +5,7 @@ using CrawlerEngine.Models;
 using CrawlerEngine.Repository.Factory;
 using HtmlAgilityPack;
 using Newtonsoft.Json;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +20,7 @@ namespace CrawlerEngine.JobWorker.WorkClass
 {
     public class MomoShopDgrpCategoryJobWorker : JobWorkerBase
     {
+        public override Logger _logger { get => LogManager.GetCurrentClassLogger(); }
         public override JobInfo jobInfo { get; set; }
 
         private List<JobInfo> jobInfos = new List<JobInfo>();

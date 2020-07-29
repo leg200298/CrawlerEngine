@@ -4,6 +4,7 @@ using CrawlerEngine.Model.DTO;
 using CrawlerEngine.Models;
 using CrawlerEngine.Repository.Factory;
 using HtmlAgilityPack;
+using NLog;
 using System;
 namespace CrawlerEngine.JobWorker.WorkClass
 {
@@ -16,6 +17,7 @@ namespace CrawlerEngine.JobWorker.WorkClass
         {
             this.jobInfo = jobInfo;
         }
+        public override Logger _logger { get => LogManager.GetCurrentClassLogger(); }
         public override JobInfo jobInfo { get; set; }
 
         private int driverId;

@@ -4,6 +4,7 @@ using CrawlerEngine.Driver;
 using CrawlerEngine.Models;
 using CrawlerEngine.Repository.Factory;
 using HtmlAgilityPack;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -19,6 +20,7 @@ namespace CrawlerEngine.JobWorker.WorkClass
     {
         private List<JobInfo> jobInfos = new List<JobInfo>();
         private HtmlDocument htmlDoc = new HtmlDocument();
+        public override Logger _logger { get => LogManager.GetCurrentClassLogger(); }
         public Pchome24hSignJobWorker(JobInfo jobInfo)
         {
             this.jobInfo = jobInfo;

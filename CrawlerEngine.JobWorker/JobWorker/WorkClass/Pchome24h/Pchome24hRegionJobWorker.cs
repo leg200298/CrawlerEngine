@@ -4,6 +4,7 @@ using CrawlerEngine.Driver;
 using CrawlerEngine.Models;
 using CrawlerEngine.Repository.Factory;
 using HtmlAgilityPack;
+using NLog;
 using System;
 using System.Collections.Generic;
 using static CrawlerEngine.Common.Enums.ElectronicBusiness;
@@ -20,6 +21,7 @@ namespace CrawlerEngine.JobWorker.WorkClass
             this.jobInfo = jobInfo;
         }
         private List<JobInfo> jobInfos = new List<JobInfo>();
+        public override Logger _logger { get => LogManager.GetCurrentClassLogger(); }
         public override JobInfo jobInfo { get; set; }
 
         private int driverId;

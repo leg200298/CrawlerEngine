@@ -4,6 +4,7 @@ using CrawlerEngine.Model.DTO;
 using CrawlerEngine.Models;
 using CrawlerEngine.Repository.Factory;
 using HtmlAgilityPack;
+using NLog;
 using System;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -13,6 +14,7 @@ namespace CrawlerEngine.JobWorker.WorkClass
 {
     public class MomoShopProductJobWorker : JobWorkerBase
     {
+        public override Logger _logger { get => LogManager.GetCurrentClassLogger(); }
         private HtmlDocument htmlDoc = new HtmlDocument();
         public MomoShopProductJobWorker(JobInfo jobInfo)
         {

@@ -4,6 +4,7 @@ using CrawlerEngine.Model.DTO;
 using CrawlerEngine.Models;
 using CrawlerEngine.Repository.Factory;
 using HtmlAgilityPack;
+using NLog;
 using System;
 
 namespace CrawlerEngine.JobWorker.WorkClass
@@ -13,6 +14,7 @@ namespace CrawlerEngine.JobWorker.WorkClass
     /// </summary>
     public class Pchome24hProductJobWorker : JobWorkerBase
     {
+        public override Logger _logger { get => LogManager.GetCurrentClassLogger(); }
         public Pchome24hProductJobWorker(JobInfo jobInfo)
         {
             this.jobInfo = jobInfo;
