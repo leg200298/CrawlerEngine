@@ -2,19 +2,20 @@
 using CrawlerEngine.Model.DTO;
 using CrawlerEngine.Models;
 using CrawlerEngine.Repository.Common.Interface;
+using CrawlerEngine.Repository.Interface;
 using Dapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CrawlerEngine.Repository.Crawl
+namespace CrawlerEngine.Repository.MSSQL
 {
-    public class CrawlDataJobListRepository : BulkInsert<CrawlDataJobListDto>, IDisposable
+    public class MSSQLCrawlDataJobListRepository : BulkInsert<CrawlDataJobListDto>, IDisposable, ICrawlDataJobListRepository
     {
         private bool disposedValue = false;
         private IDatabaseConnectionHelper _DatabaseConnection;
 
-        internal CrawlDataJobListRepository(IDatabaseConnectionHelper databaseConnectionHelper)
+        internal MSSQLCrawlDataJobListRepository(IDatabaseConnectionHelper databaseConnectionHelper)
         {
             _DatabaseConnection = databaseConnectionHelper;
         }
@@ -32,7 +33,7 @@ namespace CrawlerEngine.Repository.Crawl
             }
         }
 
-        ~CrawlDataJobListRepository()
+        ~MSSQLCrawlDataJobListRepository()
         {
             Dispose(false);
         }
@@ -120,7 +121,7 @@ namespace CrawlerEngine.Repository.Crawl
             var CrawlDataJobListDtos = (from a in jobInfos
                                         select new CrawlDataJobListDto
                                         {
-                                            JobInfo = a.GetJsonString()
+                                            job_info = a.GetJsonString()
                                         }).ToList();
             BulkInsertRecords(ref CrawlDataJobListDtos, "CrawlDataJobList", _DatabaseConnection.Create().ConnectionString);
 

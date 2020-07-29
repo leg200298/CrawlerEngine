@@ -1,13 +1,15 @@
 ﻿using CrawlerEngine.Repository.Common.Helper;
-using CrawlerEngine.Repository.Crawl;
+using CrawlerEngine.Repository.Interface;
+using CrawlerEngine.Repository.MSSQL;
+using CrawlerEngine.Repository.PostgresSQL;
 
 namespace CrawlerEngine.Repository.Factory
 {
     public class CrawlFactory
     {
         //#if DEBUG
-        private static CrawlDataDetailRepository _crawlDataDetailRepository => new CrawlDataDetailRepository(new PostgresDbConnectionHelper());
-        private static CrawlDataJobListRepository _crawlDataJobListRepository => new CrawlDataJobListRepository(new PostgresDbConnectionHelper());
+        //private MSSQLCrawlDataDetailRepository _crawlDataDetailRepository => new MSSQLCrawlDataDetailRepository(new AzureDbConnectionHelper());
+        //private ICrawlDataJobListRepository _crawlDataJobListRepository => new MSSQLCrawlDataJobListRepository(new AzureDbConnectionHelper());
 
         //#else
 
@@ -15,8 +17,22 @@ namespace CrawlerEngine.Repository.Factory
         //        private static CrawlDataJobListRepository _crawlDataJobListRepository => new CrawlDataJobListRepository(new SensenDbConnectionHelper());
 
         //#endif
-        public static CrawlDataDetailRepository CrawlDataDetailRepository = _crawlDataDetailRepository;
-        public static CrawlDataJobListRepository CrawlDataJobListRepository = _crawlDataJobListRepository;
+
+        public CrawlFactory(string DBname)
+        {
+            if (DBname == "MSSQL")
+            {
+                CrawlDataJobListRepository = new MSSQLCrawlDataJobListRepository(new AzureDbConnectionHelper());
+                CrawlDataDetailRepository = new MSSQLCrawlDataDetailRepository(new AzureDbConnectionHelper());
+            }
+            if (DBname == "POSTGRESSQL")
+            {
+                CrawlDataJobListRepository = new PostgresSQLCrawlDataJobListRepository(new PostgresDbConnectionHelper());
+                CrawlDataDetailRepository = new PostgresSQLCrawlDataDetailRepository(new PostgresDbConnectionHelper());
+            }
+        }
+        public ICrawlDataDetailRepository CrawlDataDetailRepository { get; set; }
+        public ICrawlDataJobListRepository CrawlDataJobListRepository { get; set; }
 
     }
 }

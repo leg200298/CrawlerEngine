@@ -1,17 +1,18 @@
 ﻿using CrawlerEngine.Model.DTO;
 using CrawlerEngine.Repository.Common.Interface;
+using CrawlerEngine.Repository.Interface;
 using Dapper;
 using System;
 using System.Collections.Generic;
 
-namespace CrawlerEngine.Repository.Crawl
+namespace CrawlerEngine.Repository.MSSQL
 {
-    public class CrawlDataDetailRepository : BulkInsert<CrawlDataDetailDto>, IDisposable
+    public class MSSQLCrawlDataDetailRepository : BulkInsert<CrawlDataDetailDto>, IDisposable, ICrawlDataDetailRepository
     {
         private bool disposedValue = false;
         private IDatabaseConnectionHelper _DatabaseConnection;
 
-        internal CrawlDataDetailRepository(IDatabaseConnectionHelper databaseConnectionHelper)
+        internal MSSQLCrawlDataDetailRepository(IDatabaseConnectionHelper databaseConnectionHelper)
         {
             _DatabaseConnection = databaseConnectionHelper;
         }
@@ -29,7 +30,7 @@ namespace CrawlerEngine.Repository.Crawl
             }
         }
 
-        ~CrawlDataDetailRepository()
+        ~MSSQLCrawlDataDetailRepository()
         {
             Dispose(false);
         }
@@ -44,7 +45,7 @@ namespace CrawlerEngine.Repository.Crawl
         public IEnumerable<CrawlDataDetailDto> GetDataDetailDtos()
         {
             string sqlCommand = @"SELECT *
-                              FROM [dbo].[CrawlDataDetail] with(nolock)";
+                              FROM crawl_data_detail with(nolock)";
             using (var conn = _DatabaseConnection.Create())
             {
                 var result = conn.Query<CrawlDataDetailDto>(sqlCommand);
@@ -55,21 +56,21 @@ namespace CrawlerEngine.Repository.Crawl
         public int InsertDataDetail(CrawlDataDetailDto crawlDataDetailDto)
         {
             string sqlCommand = $@"
-                                    INSERT INTO[dbo].[CrawlDataDetail]
-                                               ([Seq]
-                                               ,[DetailData]
-                                               ,[JobStatus]
-                                               ,[EndTime])
+                                    INSERT INTO crawl_data_detail
+                                               (seq
+                                               ,detail_data
+                                               ,job_status
+                                               ,end_time)
                                          VALUES
-                                               (@Seq
-                                               ,@DetailData
-                                               ,@JobStatus
-                                               ,@EndTime)
+                                               (@seq
+                                               ,@detail_data
+                                               ,@job_status
+                                               ,@end_time)
                                     
                                     ";
             using (var conn = _DatabaseConnection.Create())
             {
-                var result = conn.Execute(sqlCommand, crawlDataDetailDto);
+                var result = conn.Execute(sqlCommand);
                 return result;
             }
         }

@@ -14,8 +14,10 @@ namespace CrawlerEngine.Manager
     {
         private Condition resourseSetting;
         private List<string> mailTo;
+        public  Repository.Factory.CrawlFactory CrawlFactory ;
         public void Process(int resourceCount)
         {
+            CrawlFactory = new Repository.Factory.CrawlFactory("POSTGRESSQL");
             WebDriverPool.InitDriver(resourceCount);
             var freeDriverCount = resourceCount;
             while (1 == 1)
@@ -43,33 +45,33 @@ namespace CrawlerEngine.Manager
         #region 工作區
         private IEnumerable<JobInfo> GetJobInfo(int resourceCount)
         {
-//#if (DEBUG)
-//            List<JobInfo> lj = new List<JobInfo>();
-//            lj.Add(new JobInfo()
-//            {
-//                Seq = new Guid("D608BE51-D170-4056-ADD4-A54EA20DC1C4"),
-//                Info = JsonUntityHelper.DeserializeStringToDictionary<string, object>(
-//                    "{\"_url\": \"https://tw.mall.yahoo.com/store/dcking\",   \"_jobType\": \"YAHOOMALL-STORE\"}")
-//            });
-//            return lj.AsEnumerable();
-//#else
+            //#if (DEBUG)
+            //            List<JobInfo> lj = new List<JobInfo>();
+            //            lj.Add(new JobInfo()
+            //            {
+            //                Seq = new Guid("D608BE51-D170-4056-ADD4-A54EA20DC1C4"),
+            //                Info = JsonUntityHelper.DeserializeStringToDictionary<string, object>(
+            //                    "{\"_url\": \"https://tw.mall.yahoo.com/store/dcking\",   \"_jobType\": \"YAHOOMALL-STORE\"}")
+            //            });
+            //            return lj.AsEnumerable();
+            //#else
             return
 
-              from x in Repository.Factory.CrawlFactory.CrawlDataJobListRepository.GetCrawlDataJobListDtos(resourceCount)
+              from x in CrawlFactory.CrawlDataJobListRepository.GetCrawlDataJobListDtos(resourceCount)
               select new JobInfo()
               {
-                  Info = JsonUntityHelper.DeserializeStringToDictionary<string, object>(x.JobInfo),
-                  Seq = x.Seq
+                  Info = JsonUntityHelper.DeserializeStringToDictionary<string, object>(x.job_info),
+                  Seq = x.seq
               };
 
-//#endif
+            //#endif
         }
         private bool DoJob(JobInfo jobInfo)
         {
             var success = false;
             try
             {
-                new JobWorkerFactory().GetJobWorker(jobInfo).DoJobFlow();
+                new JobWorkerFactory().GetJobWorker(jobInfo).DoJobFlow(CrawlFactory);
                 success = true;
             }
             catch (Exception ex)

@@ -2,6 +2,7 @@
 using CrawlerEngine.Common.Helper;
 using CrawlerEngine.Driver;
 using CrawlerEngine.Models;
+using CrawlerEngine.Repository.Factory;
 using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
@@ -109,12 +110,12 @@ namespace CrawlerEngine.JobWorker.WorkClass
             return true;
         }
 
-        protected override bool SaveData()
+        protected override bool SaveData(CrawlFactory crawlFactory)
         {
 
             foreach (var d in jobInfos)
             {
-                Repository.Factory.CrawlFactory.CrawlDataJobListRepository.InsertOne(d, Platform.Pchome24hStore.GetDescription());
+                crawlFactory.CrawlDataJobListRepository.InsertOne(d, Platform.Pchome24hStore.GetDescription());
             }
             return true;
 

@@ -2,6 +2,7 @@
 using CrawlerEngine.Common.Helper;
 using CrawlerEngine.Driver;
 using CrawlerEngine.Models;
+using CrawlerEngine.Repository.Factory;
 using HtmlAgilityPack;
 using Newtonsoft.Json;
 using System;
@@ -152,13 +153,13 @@ namespace CrawlerEngine.JobWorker.WorkClass
             }
         }
 
-        protected override bool SaveData()
+        protected override bool SaveData(CrawlFactory crawlFactory)
         {
             try
             {
                 foreach (var job in jobInfos)
                 {
-                    Repository.Factory.CrawlFactory.CrawlDataJobListRepository.InsertOne(job, Platform.MomoShopProduct.GetDescription());
+                    crawlFactory.CrawlDataJobListRepository.InsertOne(job, Platform.MomoShopProduct.GetDescription());
                 }
                 return true;
             }

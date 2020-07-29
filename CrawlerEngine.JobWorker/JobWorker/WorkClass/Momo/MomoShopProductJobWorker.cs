@@ -2,6 +2,7 @@
 using CrawlerEngine.Driver;
 using CrawlerEngine.Model.DTO;
 using CrawlerEngine.Models;
+using CrawlerEngine.Repository.Factory;
 using HtmlAgilityPack;
 using System;
 using System.Linq;
@@ -83,19 +84,19 @@ namespace CrawlerEngine.JobWorker.WorkClass
             }
         }
 
-        protected override bool SaveData()
+        protected override bool SaveData(CrawlFactory crawlFactory)
         {
             try
             {
                 CrawlDataDetailDto crawlDataDetailDto = new CrawlDataDetailDto()
                 {
-                    Seq = jobInfo.Seq,
-                    JobStatus = "end",
-                    EndTime = DateTime.Now,
-                    DetailData = crawlDataDetailOptions.GetJsonString()
+                    seq = jobInfo.Seq,
+                    job_status = "end",
+                    end_time = DateTime.Now,
+                    detail_data = crawlDataDetailOptions.GetJsonString()
                 };
 
-                Repository.Factory.CrawlFactory.CrawlDataDetailRepository.InsertDataDetail(crawlDataDetailDto);
+                crawlFactory.CrawlDataDetailRepository.InsertDataDetail(crawlDataDetailDto);
                 return true;
             }
             catch (Exception ex)

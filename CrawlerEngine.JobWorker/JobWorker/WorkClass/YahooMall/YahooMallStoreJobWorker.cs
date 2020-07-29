@@ -3,6 +3,7 @@ using CrawlerEngine.Common.Extansion;
 using CrawlerEngine.Common.Helper;
 using CrawlerEngine.Driver;
 using CrawlerEngine.Models;
+using CrawlerEngine.Repository.Factory;
 using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
@@ -93,11 +94,11 @@ namespace CrawlerEngine.JobWorker.WorkClass
             return true;
         }
 
-        protected override bool SaveData()
+        protected override bool SaveData(CrawlFactory crawlFactory)
         {
             foreach (var d in jobInfos)
             {
-                Repository.Factory.CrawlFactory.CrawlDataJobListRepository.InsertOne(d, Common.Enums.ElectronicBusiness.Platform.YahooMallProduct.GetDescription());
+                crawlFactory.CrawlDataJobListRepository.InsertOne(d, Common.Enums.ElectronicBusiness.Platform.YahooMallProduct.GetDescription());
             }
             jobInfos.Clear();
             return true;

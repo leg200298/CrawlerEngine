@@ -6,12 +6,12 @@ namespace CrawlerEngine.Model.DTO
     public class CrawlDataDetailDto
     {
         [Column("seq")]
-        public Guid Seq { get; set; }
+        public Guid seq { get; set; }
         [Column("detail_data")]
-        public string DetailData { get; set; }
+        public string detail_data { get; set; }
         [Column("job_status")]
-        public string JobStatus { get; set; }
+        public string job_status { get; set; }
         [Column("end_time")]
-        public DateTime? EndTime { get; set; }
+        public DateTime? end_time { get; set; }
     }
 }
