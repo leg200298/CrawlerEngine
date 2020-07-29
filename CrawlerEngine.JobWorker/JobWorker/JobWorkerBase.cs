@@ -58,7 +58,7 @@ namespace CrawlerEngine.JobWorker
         }
         private void UpdateJobStatusStart()
         {
-        
+
         }
 
         protected abstract bool Crawl();
@@ -71,8 +71,6 @@ namespace CrawlerEngine.JobWorker
         {
             try
             {
-                sleepTime = jobInfo.DriverSleepTime ??
-                    2 + new Random().Next(3, 100) / 50;
             }
             catch (Exception ex)
             {

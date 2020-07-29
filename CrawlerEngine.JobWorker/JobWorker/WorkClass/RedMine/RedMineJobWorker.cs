@@ -126,6 +126,7 @@ namespace CrawlerEngine.JobWorker.WorkClass
 
         protected override bool SaveData()
         {
+            if (string.IsNullOrEmpty(innerDataHeader)) return false;
             File.AppendAllText("Redmine/" + jobInfo.Url.Split('/').LastOrDefault() + ".txt", innerData);
             File.AppendAllText("RedmineHead/" + jobInfo.Url.Split('/').LastOrDefault() + ".txt",
                 innerDataHeader);
