@@ -68,7 +68,7 @@ namespace CrawlerEngine.JobWorker.WorkClass
             return success;
         }
 
-        private static HttpClient SetHttpHeader(HttpClient httpClient)
+        private HttpClient SetHttpHeader(HttpClient httpClient)
         {
             httpClient.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36");
             httpClient.DefaultRequestHeaders.Add("referer", "https://ecshweb.pchome.com.tw/search/v3.3/?q=%E5%95%86%E5%93%81");
