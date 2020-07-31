@@ -53,6 +53,10 @@ namespace CrawlerEngine.Repository.PostgresSQL
   SELECT seq FROM crawl_data_job_list WHERE job_status ='not start' 
   FETCH FIRST {resourceCount} ROWS ONLY)
  RETURNING *;";
+
+            //           sqlCommand = $@"SELECT seq, job_info, job_type, register_time, job_status, start_time, end_time, error_info
+            //FROM public.crawl_data_job_list
+            //where seq = 'f663cd87-84e1-4e34-ab5f-6a96fce03473'";
             using (var conn = _DatabaseConnection.Create())
             {
                 var result = conn.Query<CrawlDataJobListDto>(sqlCommand);
@@ -65,7 +69,7 @@ namespace CrawlerEngine.Repository.PostgresSQL
             string sqlCommand = $@"
                                     UPDATE  crawl_data_job_list
                                        SET  job_status = 'end'
-                                           ,error_info = '{DateTime.UtcNow.ToString(RuleString.DateTimeFormat)}'
+                                           ,end_time = '{DateTime.UtcNow.ToString(RuleString.DateTimeFormat)}'
                                    WHERE seq = @Seq";
             using (var conn = _DatabaseConnection.Create())
             {
@@ -105,7 +109,7 @@ namespace CrawlerEngine.Repository.PostgresSQL
                                     INSERT INTO crawl_data_job_list
                                                (seq,job_info,job_type)
                                          VALUES
-                                               ({Guid.NewGuid()},N'{jobInfo.GetJsonString()}', N'{jobType}')
+                                               ('{Guid.NewGuid()}',N'{jobInfo.GetJsonString()}', N'{jobType}')
 
 
                                 ";

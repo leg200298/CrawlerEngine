@@ -5,7 +5,6 @@ using CrawlerEngine.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace CrawlerEngine.Manager
@@ -14,7 +13,7 @@ namespace CrawlerEngine.Manager
     {
         private Condition resourseSetting;
         private List<string> mailTo;
-        public  Repository.Factory.CrawlFactory CrawlFactory ;
+        public Repository.Factory.CrawlFactory CrawlFactory;
         public void Process(int resourceCount)
         {
             CrawlFactory = new Repository.Factory.CrawlFactory("POSTGRESSQL");
@@ -37,7 +36,7 @@ namespace CrawlerEngine.Manager
                     SendErrorEmail();
                     LoggerHelper._.Error(ex);
                 }
-                Thread.Sleep(10000);
+                //Thread.Sleep(10000);
             }
         }
 

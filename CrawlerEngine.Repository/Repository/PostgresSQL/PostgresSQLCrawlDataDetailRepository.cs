@@ -46,7 +46,7 @@ namespace CrawlerEngine.Repository.PostgresSQL
         public IEnumerable<CrawlDataDetailDto> GetDataDetailDtos()
         {
             string sqlCommand = @"SELECT *
-                              FROM [dbo].[CrawlDataDetail] with(nolock)";
+                              FROM crawl_data_detail with(nolock)";
             using (var conn = _DatabaseConnection.Create())
             {
                 var result = conn.Query<CrawlDataDetailDto>(sqlCommand);

@@ -77,9 +77,12 @@ namespace CrawlerEngine.JobWorker.WorkClass
 
         protected override bool Parse()
         {
-            responseData = responseData.Replace("<div class=\"prod_info\">", "");
+            //responseData = responseData.Replace("<div class=\"prod_info\">", "");
+            //responseData = responseData.Replace("</div>", "");
+
             htmlDoc.LoadHtml(responseData);
-            var nodes = htmlDoc.DocumentNode.SelectNodes("//*[@id=\"ProdGridContainer\"]/dd/h5/a");
+
+            var nodes = htmlDoc.DocumentNode.SelectNodes("//*[@id=\"ProdGridContainer\"]/dd/div/h5/a");
             if (nodes is null) { return false; }
             foreach (var data in nodes)
             {
@@ -89,7 +92,7 @@ namespace CrawlerEngine.JobWorker.WorkClass
                     jobInfos.Add(new JobInfo() { JobType = Platform.Pchome24hProduct.GetDescription(), Url = $"https:{url}" });
                 }
             }
-            return true;
+            return true;//*[@id="ProdGridContainer"]/dd[1]/div/h5/a//*[@id="ProdGridContainer"]/dd[7]/div/h5/a
         }
 
         protected override bool SaveData(CrawlFactory crawlFactory)
