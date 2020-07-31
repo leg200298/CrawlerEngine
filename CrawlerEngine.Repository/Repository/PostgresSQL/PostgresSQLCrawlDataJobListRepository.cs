@@ -56,7 +56,7 @@ namespace CrawlerEngine.Repository.PostgresSQL
 
             //sqlCommand = $@"SELECT seq, job_info, job_type, register_time, job_status, start_time, end_time, error_info
             //FROM public.crawl_data_job_list
-            //where seq = '15e71cf3-2a3f-4276-97f7-dda0bb5bec0e'";
+            //where seq = 'e1c14e8b-b880-416a-91d8-92fc42d810fa'";
             using (var conn = _DatabaseConnection.Create())
             {
                 var result = conn.Query<CrawlDataJobListDto>(sqlCommand);

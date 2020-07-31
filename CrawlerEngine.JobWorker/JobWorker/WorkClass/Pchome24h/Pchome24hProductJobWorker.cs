@@ -34,7 +34,16 @@ namespace CrawlerEngine.JobWorker.WorkClass
                 var productId = uri.Segments.LastOrDefault();
                 var li = productId.Split('-');
                 var store = li[0];
+                //var httpClientHandler = new HttpClientHandler
+                //{
+                //    Proxy = new WebProxy
+                //    {
+                //        Address = new Uri(ProxyHelper.GetUsableProxy())
 
+                //    },
+                //    UseProxy = true,
+                //};
+                //var httpClient = new HttpClient(httpClientHandler);
                 var httpClient = new HttpClient();
                 httpClient = SetHttpHeader(httpClient);
                 var targetUrl = $"https://ecapi.pchome.com.tw/ecshop/prodapi/v2/prod/{productId}&store={store}&fields=Seq,Id,Name,Nick,PreOrdDate,SpeOrdDate,Price,Discount,Pic,Weight,ISBN,Qty,Bonus,isBig,isSpec,isCombine,isDiy,isRecyclable,isCarrier,isMedical,isBigCart,isSnapUp,isDescAndIntroSync,isFoodContents,isHuge,isEnergySubsidy,isPrimeOnly,isPreOrder24h,isWarranty,isLegalStore,isFresh,isBidding,isSet,Volume,isArrival24h,isETicket,ShipType&_callback=jsonp_prod&1596165300";
@@ -57,10 +66,11 @@ namespace CrawlerEngine.JobWorker.WorkClass
 
         private HttpClient SetHttpHeader(HttpClient httpClient)
         {
-            httpClient.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.105 Safari/537.36");
-            httpClient.DefaultRequestHeaders.Add("Referer", jobInfo.Url);
+            //httpClient.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.105 Safari/537.36");
+            //httpClient.DefaultRequestHeaders.Add("Referer", jobInfo.Url);
 
-
+            httpClient.DefaultRequestHeaders.Add("User-Agent", "Googlebot");
+            httpClient.DefaultRequestHeaders.Add("Referer", "https://www.google.com");
 
             return httpClient;
         }
