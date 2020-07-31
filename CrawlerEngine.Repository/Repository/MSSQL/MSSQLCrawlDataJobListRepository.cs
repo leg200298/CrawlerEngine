@@ -49,11 +49,11 @@ namespace CrawlerEngine.Repository.MSSQL
         {
             string sqlCommand = $@"
                                     BEGIN TRAN
-                                                          UPDATE TOP({resourceCount}) CrawlDataJobList
-                                                          SET JobStatus='get'
-                                                             ,[StartTime] = '{DateTime.UtcNow.ToString(RuleString.DateTimeFormat)}'
-                                                          OUTPUT inserted.*
-                                                          where JobStatus ='not start'
+                                    UPDATE TOP({resourceCount}) crawl_data_job_list
+                                    SET job_status='get'
+                                        ,[start_time] = '{DateTime.UtcNow.ToString(RuleString.DateTimeFormat)}'
+                                    OUTPUT inserted.*
+                                    where job_status ='not start'                                    
                                     COMMIT TRAN";
             using (var conn = _DatabaseConnection.Create())
             {
@@ -65,10 +65,10 @@ namespace CrawlerEngine.Repository.MSSQL
         public int UpdateStatusEnd(JobInfo jobInfo)
         {
             string sqlCommand = $@"
-                                    UPDATE [dbo].[CrawlDataJobList]
-                                       SET  [JobStatus] = 'end'
-                                           ,[EndTime] = '{DateTime.UtcNow.ToString(RuleString.DateTimeFormat)}'
-                                   WHERE [Seq] = @Seq";
+                                    UPDATE [dbo].[crawl_data_job_list]
+                                       SET  [job_status] = 'end'
+                                           ,[end_time] = '{DateTime.UtcNow.ToString(RuleString.DateTimeFormat)}'
+                                   WHERE [seq] = @seq";
             using (var conn = _DatabaseConnection.Create())
             {
                 return conn.Execute(sqlCommand, jobInfo);
@@ -77,11 +77,11 @@ namespace CrawlerEngine.Repository.MSSQL
         public int UpdateJobStatusFail(JobInfo jobInfo)
         {
             string sqlCommand = $@"
-                                    UPDATE [dbo].[CrawlDataJobList]
-                                       SET  [JobStatus] = 'Fail'
-                                           ,[EndTime] = '{DateTime.UtcNow.ToString(RuleString.DateTimeFormat)}'
-                                           ,[ErrorInfo]='{jobInfo.ErrorInfo}'
-                                   WHERE [Seq] = @Seq";
+                                    UPDATE [dbo].[crawl_data_job_list]
+                                       SET  [job_status] = 'Fail'
+                                           ,[end_time] = '{DateTime.UtcNow.ToString(RuleString.DateTimeFormat)}'
+                                           ,[error_info]='{jobInfo.ErrorInfo}'
+                                   WHERE [seq] = @seq";
             using (var conn = _DatabaseConnection.Create())
             {
                 return conn.Execute(sqlCommand, jobInfo);
@@ -91,10 +91,10 @@ namespace CrawlerEngine.Repository.MSSQL
         public int UpdateStatusStart(JobInfo jobInfo)
         {
             string sqlCommand = $@"
-                                UPDATE [dbo].[CrawlDataJobList]
-                                   SET [JobStatus] = 'start'
-                                      ,[StartTime] = '{DateTime.UtcNow.ToString(RuleString.DateTimeFormat)}'
-                                 WHERE [Seq] = @Seq
+                                UPDATE [dbo].[crawl_data_job_list]
+                                   SET [job_status] = 'start'
+                                      ,[start_time] = '{DateTime.UtcNow.ToString(RuleString.DateTimeFormat)}'
+                                 WHERE [seq] = @seq
                                 ";
             using (var conn = _DatabaseConnection.Create())
             {
@@ -104,8 +104,8 @@ namespace CrawlerEngine.Repository.MSSQL
         public int InsertOne(JobInfo jobInfo, string jobType)
         {
             string sqlCommand = $@"
-                                    INSERT INTO [dbo].[CrawlDataJobList]
-                                               ([JobInfo],[JobType])
+                                    INSERT INTO [dbo].[crawl_data_job_list]
+                                               ([job_info],[job_type])
                                          VALUES
                                                (N'{jobInfo.GetJsonString()}', N'{jobType}')
 

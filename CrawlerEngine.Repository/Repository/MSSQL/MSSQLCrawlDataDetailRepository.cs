@@ -70,7 +70,7 @@ namespace CrawlerEngine.Repository.MSSQL
                                     ";
             using (var conn = _DatabaseConnection.Create())
             {
-                var result = conn.Execute(sqlCommand);
+                var result = conn.Execute(sqlCommand, crawlDataDetailDto);
                 return result;
             }
         }

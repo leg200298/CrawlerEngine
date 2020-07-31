@@ -68,14 +68,22 @@ namespace CrawlerEngine.JobWorker.WorkClass
         }
 
         private string SetHttpHeaderAndGetPageData()
-        {
+        {            
             Uri uri = new Uri(jobInfo.Url);
-            HttpClientHandler handler = new HttpClientHandler()
-            {
-                CookieContainer = new CookieContainer()
-            };
+            HttpClientHandler handler = new HttpClientHandler() { CookieContainer = new CookieContainer() };
             var httpClient = new HttpClient(handler);
-            httpClient.GetAsync("https://" + uri.Host).GetAwaiter().GetResult();
+
+            var cookieCollection = CookiesHelper.GetCookies(Platform.MomoShop);
+            if (cookieCollection != null)
+            {
+                handler.CookieContainer.Add(cookieCollection);                
+            }
+            else
+            {
+                httpClient.GetAsync("https://" + uri.Host).GetAwaiter().GetResult();
+                var cookies = handler.CookieContainer.GetCookies(new Uri("https://" + uri.Host));
+                CookiesHelper.SetCookies(Platform.MomoShop, cookies, 60);
+            }                       
 
             httpClient.DefaultRequestHeaders.Add("Accept", "application/json, text/javascript, */*; q=0.01");
             httpClient.DefaultRequestHeaders.Add("X-Requested-With", "XMLHttpRequest");

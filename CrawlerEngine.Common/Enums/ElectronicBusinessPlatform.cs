@@ -9,6 +9,8 @@ namespace CrawlerEngine.Common.Enums
 
 
             #region MOMOShop
+            [Description("MOMOSHOP")]
+            MomoShop = 0100,
             [Description("MOMOSHOP-PRODUCT")]
             MomoShopProduct = 0101,
             [Description("MOMOSHOP-DGRPCATEGORY")]
