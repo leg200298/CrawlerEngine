@@ -7,6 +7,7 @@ using HtmlAgilityPack;
 using NLog;
 using System;
 using System.Linq;
+using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading;
 
@@ -20,7 +21,7 @@ namespace CrawlerEngine.JobWorker.WorkClass
         {
             this.jobInfo = jobInfo;
         }
-        private int driverId;
+        //private int driverId;
         public override JobInfo jobInfo { get; set; }
 
         protected override bool GotoNextPage(string url)
@@ -32,9 +33,14 @@ namespace CrawlerEngine.JobWorker.WorkClass
         {
             try
             {
-                GetDriver();
-                OpenUrl();
-                responseData = GetData();
+                //GetDriver();
+                //OpenUrl();
+                //responseData = GetData();
+                var httpClient = new HttpClient();
+                httpClient.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36");
+                httpClient.DefaultRequestHeaders.Add("referer", "https://www.momoshop.com.tw");
+                var httpResponse = httpClient.GetAsync(jobInfo.Url).GetAwaiter().GetResult();                
+                responseData = httpResponse.Content.ReadAsStringAsync().GetAwaiter().GetResult();
                 return true;
             }
             catch (Exception ex)
@@ -69,12 +75,12 @@ namespace CrawlerEngine.JobWorker.WorkClass
 
                 crawlDataDetailOptions.price = string.Join("/"
                     , htmlDoc.DocumentNode.SelectNodes("//*[@class='prdnoteArea']//*[contains(@class, 'prdPrice')]//li")
-                    .Where(x => Regex.IsMatch(x.InnerText, @"\D+(價|價格)+(\d{1,3},)*\d+元"))
-                    .Select(x => Regex.Match(x.InnerText, @"\D+(價|價格)+(\d{1,3},)*\d+元").Value?
+                    .Where(x => Regex.IsMatch(HtmlEntity.DeEntitize(x.InnerText), @"\D+(價|價格)+(\d{1,3},)*\d+元"))
+                    .Select(x => Regex.Match(HtmlEntity.DeEntitize(x.InnerText), @"\D+(價|價格)+(\d{1,3},)*\d+元").Value?
                         .Replace(System.Environment.NewLine, string.Empty).Trim()));
 
-                crawlDataDetailOptions.name = htmlDoc.DocumentNode.SelectSingleNode("//*[@class=\"prdnoteArea\"]//*[self::h1 or self::h2 or self::h3 or self::h4 or self::h5 or self::h6]").InnerText;
-                crawlDataDetailOptions.category = string.Join("/", htmlDoc.DocumentNode.SelectNodes("//*[@id=\"bt_2_layout_NAV\"]/ul//li").Select(x => x.InnerText));
+                crawlDataDetailOptions.name = HtmlEntity.DeEntitize(htmlDoc.DocumentNode.SelectSingleNode("//*[@class=\"prdnoteArea\"]//*[self::h1 or self::h2 or self::h3 or self::h4 or self::h5 or self::h6]").InnerText);
+                crawlDataDetailOptions.category = string.Join("/", htmlDoc.DocumentNode.SelectNodes("//*[@id=\"bt_2_layout_NAV\"]/ul//li").Select(x => HtmlEntity.DeEntitize(x.InnerText)));
                 crawlDataDetailOptions.PutToDic("_img", $"https:{htmlDoc.DocumentNode.SelectSingleNode("//*[@id='goodsimgB']//a[contains(@href, 'goodsimg')]")?.Attributes["href"].Value}");
 
                 return true;
@@ -117,51 +123,52 @@ namespace CrawlerEngine.JobWorker.WorkClass
         {
             Thread.Sleep((int)(sleepTime * 1000));
         }
+
         #region WebBrowser
 
-        private void GetDriver()
-        {
+        //private void GetDriver()
+        //{
 
-            driverId = WebDriverPool.GetFreeDriver();
+        //    driverId = WebDriverPool.GetFreeDriver();
 
-            WebDriverPool.DriverPool[driverId].Status = Common.Enums.ObjectStatus.Driver.NOTFREE;
+        //    WebDriverPool.DriverPool[driverId].Status = Common.Enums.ObjectStatus.Driver.NOTFREE;
 
-        }
-        private void OpenUrl()
-        {
-            WebDriverPool.DriverPool[driverId].ChromeDriver.Navigate().GoToUrl(jobInfo.Url);
-        }
-
-
-
-        protected string GetData()
-        {
-            string responseData = string.Empty;
-            try
-            {
-                WebDriverPool.DriverPool[driverId].ChromeDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
-                responseData = WebDriverPool.DriverPool[driverId].ChromeDriver.FindElementByXPath("/html/body").GetAttribute("innerHTML");
-                ScrollMove();
-
-            }
-            catch (Exception ex)
-            {
-                LoggerHelper._.Error(ex);
-            }
-            finally
-            {
-                WebDriverPool.DriverPool[driverId].Status = Common.Enums.ObjectStatus.Driver.FREE;
-            }
-            return responseData;
-        }
+        //}
+        //private void OpenUrl()
+        //{
+        //    WebDriverPool.DriverPool[driverId].ChromeDriver.Navigate().GoToUrl(jobInfo.Url);
+        //}
 
 
-        private void ScrollMove()
-        {
-            OpenQA.Selenium.IJavaScriptExecutor jse = WebDriverPool.DriverPool[driverId].ChromeDriver;
-            int height = (int)Math.Ceiling(1000 * 0.1);
-            jse.ExecuteScript("window.scrollBy(0," + height + ")");
-        }
+
+        //protected string GetData()
+        //{
+        //    string responseData = string.Empty;
+        //    try
+        //    {
+        //        WebDriverPool.DriverPool[driverId].ChromeDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
+        //        responseData = WebDriverPool.DriverPool[driverId].ChromeDriver.FindElementByXPath("/html/body").GetAttribute("innerHTML");
+        //        ScrollMove();
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        LoggerHelper._.Error(ex);
+        //    }
+        //    finally
+        //    {
+        //        WebDriverPool.DriverPool[driverId].Status = Common.Enums.ObjectStatus.Driver.FREE;
+        //    }
+        //    return responseData;
+        //}
+
+
+        //private void ScrollMove()
+        //{
+        //    OpenQA.Selenium.IJavaScriptExecutor jse = WebDriverPool.DriverPool[driverId].ChromeDriver;
+        //    int height = (int)Math.Ceiling(1000 * 0.1);
+        //    jse.ExecuteScript("window.scrollBy(0," + height + ")");
+        //}
 
         #endregion
 
