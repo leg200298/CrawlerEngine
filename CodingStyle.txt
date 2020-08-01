@@ -458,3 +458,4 @@ CREATE TABLE staff (
   - 因為某些原因（如為了歸檔、為了劃分跨國公司的區域）將能合並在一起的表分開。這樣的設計導致以後必須使用 UNION 操作而不能直接查詢一個表。
 
 ---附錄 資料庫關鍵字
+- ##### refs:<https://www.sqlstyle.guide/zh-tw/#%E8%A1%A8%E6%A0%BCtables>
