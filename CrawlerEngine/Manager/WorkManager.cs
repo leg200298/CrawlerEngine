@@ -19,17 +19,24 @@ namespace CrawlerEngine.Manager
             CrawlFactory = new Repository.Factory.CrawlFactory("POSTGRESSQL");
             WebDriverPool.InitDriver(resourceCount);
             var freeDriverCount = resourceCount;
+            List<Task> lt = new List<Task>();
             while (1 == 1)
             {
 
                 freeDriverCount = WebDriverPool.GetFreeDriverConut();
                 try
                 {
+                    foreach (var jobInfo in GetJobInfo(freeDriverCount)) { 
+                    lt.Add(Task.Run(() => DoJob(jobInfo)));
 
-                    Parallel.ForEach(GetJobInfo(freeDriverCount), jobInfo =>
-                    {
-                        DoJob(jobInfo);
-                    });
+                    }
+
+                    Task.WaitAll(lt.ToArray());
+                    //Parallel.ForEach(GetJobInfo(freeDriverCount), jobInfo =>
+                    //{
+                    //    Task.Run(()=>DoJob(jobInfo));
+
+                    //});
                 }
                 catch (Exception ex)
                 {

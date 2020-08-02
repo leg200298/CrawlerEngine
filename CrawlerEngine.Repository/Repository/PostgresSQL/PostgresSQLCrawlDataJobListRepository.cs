@@ -50,7 +50,7 @@ namespace CrawlerEngine.Repository.PostgresSQL
             string sqlCommand = $@"
                                      UPDATE crawl_data_job_list SET job_status='get',start_time = now()
  WHERE seq IN (
-  SELECT seq FROM crawl_data_job_list WHERE job_status ='not start' 
+  SELECT seq FROM crawl_data_job_list WHERE job_status in ('not start' ,'waitforawhile')
   FETCH FIRST {resourceCount} ROWS ONLY)
  RETURNING *;";
 
@@ -128,6 +128,33 @@ namespace CrawlerEngine.Repository.PostgresSQL
             BulkInsertRecords(ref CrawlDataJobListDtos, "crawl_data_job_list", _DatabaseConnection.Create().ConnectionString);
 
 
+        }
+
+        public int UpdateStatusNotStart(JobInfo jobInfo)
+        {
+            string sqlCommand = $@"
+                                UPDATE crawl_data_job_list
+                                   SET job_status = 'not start'
+                                   WHERE seq = @Seq
+                                ";
+            using (var conn = _DatabaseConnection.Create())
+            {
+                return conn.Execute(sqlCommand, jobInfo);
+            }
+        }
+        
+        public int UpdateStatusWaitForaWhile(JobInfo jobInfo)
+        {
+            string sqlCommand = $@"
+                                UPDATE crawl_data_job_list
+                                   SET job_status = 'waitforawhile'
+                                      ,start_time = '{DateTime.UtcNow.ToString(RuleString.DateTimeFormat)}'
+                                 WHERE seq = @Seq
+                                ";
+            using (var conn = _DatabaseConnection.Create())
+            {
+                return conn.Execute(sqlCommand, jobInfo);
+            }
         }
     }
 }

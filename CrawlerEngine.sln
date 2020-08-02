@@ -37,7 +37,7 @@ Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "DBSchema", "DBSchema\DBSche
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Doc", "Doc", "{BF9F0F76-BF13-49D5-836B-36BDE417EDCF}"
 	ProjectSection(SolutionItems) = preProject
-		CodingStyle.txt = CodingStyle.txt
+		CodingStyle.md = CodingStyle.md
 		Header.txt = Header.txt
 		資料庫關鍵字.txt = 資料庫關鍵字.txt
 	EndProjectSection

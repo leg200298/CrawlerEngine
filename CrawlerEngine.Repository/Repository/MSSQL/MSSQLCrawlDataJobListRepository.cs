@@ -53,7 +53,7 @@ namespace CrawlerEngine.Repository.MSSQL
                                     SET job_status='get'
                                         ,[start_time] = '{DateTime.UtcNow.ToString(RuleString.DateTimeFormat)}'
                                     OUTPUT inserted.*
-                                    where job_status ='not start'                                    
+                                    where  job_status in ('not start' ,'waitforawhile')                                  
                                     COMMIT TRAN";
             using (var conn = _DatabaseConnection.Create())
             {
@@ -126,6 +126,33 @@ namespace CrawlerEngine.Repository.MSSQL
             BulkInsertRecords(ref CrawlDataJobListDtos, "CrawlDataJobList", _DatabaseConnection.Create().ConnectionString);
 
 
+        }
+
+        public int UpdateStatusNotStart(JobInfo jobInfo)
+        {
+            string sqlCommand = $@"
+                                UPDATE [dbo].[crawl_data_job_list]
+                                   SET [job_status] = 'not start'
+                                 WHERE [seq] = @seq
+                                ";
+            using (var conn = _DatabaseConnection.Create())
+            {
+                return conn.Execute(sqlCommand, jobInfo);
+            }
+        }
+
+        public int UpdateStatusWaitForaWhile(JobInfo jobInfo)
+        {
+            string sqlCommand = $@"
+                                UPDATE [dbo].[crawl_data_job_list]
+                                   SET [job_status] = 'waitforawhile'
+                                      ,[start_time] = '{DateTime.UtcNow.ToString(RuleString.DateTimeFormat)}'
+                                 WHERE [seq] = @seq
+                                ";
+            using (var conn = _DatabaseConnection.Create())
+            {
+                return conn.Execute(sqlCommand, jobInfo);
+            }
         }
     }
 }

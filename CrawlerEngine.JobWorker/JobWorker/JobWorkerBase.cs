@@ -14,7 +14,7 @@ namespace CrawlerEngine.JobWorker
     {
         public abstract Logger _logger { get; }
 
-        ICrawlDataJobListRepository crawlDataJobListRepository;
+        public ICrawlDataJobListRepository crawlDataJobListRepository;
         public abstract JobInfo jobInfo { get; set; }
         public string responseData;
 
@@ -58,9 +58,13 @@ namespace CrawlerEngine.JobWorker
             }
             catch (Exception e)
             {
+                
                 _logger.Error(e, jobInfo.Seq.ToString() + responseData);
                 jobInfo.ErrorInfo = e.Message;
-                UpdateJobStatusFail();
+                if (e.Message.StartsWith("Parse Error"))
+                { UpdateJobStatusWaitForaWhile(); }
+                else { UpdateJobStatusFail(); }
+                
 
             }
 
@@ -101,6 +105,9 @@ namespace CrawlerEngine.JobWorker
         {
             crawlDataJobListRepository.UpdateJobStatusFail(jobInfo);
         }
-
+        private void UpdateJobStatusWaitForaWhile()
+        {
+            crawlDataJobListRepository.UpdateStatusWaitForaWhile(jobInfo);
+        }
     }
 }

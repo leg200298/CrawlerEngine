@@ -34,16 +34,6 @@ namespace CrawlerEngine.JobWorker.WorkClass
                 var productId = uri.Segments.LastOrDefault();
                 var li = productId.Split('-');
                 var store = li[0];
-                //var httpClientHandler = new HttpClientHandler
-                //{
-                //    Proxy = new WebProxy
-                //    {
-                //        Address = new Uri(ProxyHelper.GetUsableProxy())
-
-                //    },
-                //    UseProxy = true,
-                //};
-                //var httpClient = new HttpClient(httpClientHandler);
                 var httpClient = new HttpClient();
                 httpClient = SetHttpHeader(httpClient);
                 var targetUrl = $"https://ecapi.pchome.com.tw/ecshop/prodapi/v2/prod/{productId}&store={store}&fields=Seq,Id,Name,Nick,PreOrdDate,SpeOrdDate,Price,Discount,Pic,Weight,ISBN,Qty,Bonus,isBig,isSpec,isCombine,isDiy,isRecyclable,isCarrier,isMedical,isBigCart,isSnapUp,isDescAndIntroSync,isFoodContents,isHuge,isEnergySubsidy,isPrimeOnly,isPreOrder24h,isWarranty,isLegalStore,isFresh,isBidding,isSet,Volume,isArrival24h,isETicket,ShipType&_callback=jsonp_prod&1596165300";
@@ -52,9 +42,6 @@ namespace CrawlerEngine.JobWorker.WorkClass
                 responseData = httpResponse.Content.ReadAsStringAsync().GetAwaiter().GetResult();
                 responseData = responseData.Replace("try{jsonp_prod(", "");
                 responseData = responseData.Replace(");}catch(e){if(window.console){console.log(e);}}", "");
-                //GetDriver();
-                //OpenUrl();
-                //responseData = GetData();
                 success = true;
             }
             catch (Exception ex)
@@ -131,11 +118,10 @@ namespace CrawlerEngine.JobWorker.WorkClass
                     {
                         t = JObject.Parse(responseData);
                     }
-                    catch { throw new Exception($"Parse Error {responseData}"); }
+                    catch {
+                        throw new Exception($"Parse Error {responseData}");
+                    }
 
-                    //if (t["status"].ToString().ToUpper() != "OK") throw new Exception("Api Error");
-                    //if (t["data"] == null) throw new Exception("No Data");
-                    //if (t["data"].ToString().ToLower() == "stock code not exist") throw new Exception("Code Not Exist");
                 }
                 catch (Exception ex)
                 {

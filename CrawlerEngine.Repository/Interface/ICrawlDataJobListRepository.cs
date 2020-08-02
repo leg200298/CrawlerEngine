@@ -11,6 +11,9 @@ namespace CrawlerEngine.Repository.Interface
         int UpdateJobStatusFail(JobInfo jobInfo);
 
         int UpdateStatusStart(JobInfo jobInfo);
+        int UpdateStatusWaitForaWhile(JobInfo jobInfo);
+
+        int UpdateStatusNotStart(JobInfo jobInfo);
         int InsertOne(JobInfo jobInfo, string jobType);
         void InsertMany(List<JobInfo> jobInfos);
     }
