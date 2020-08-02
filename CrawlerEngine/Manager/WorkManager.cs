@@ -14,19 +14,18 @@ namespace CrawlerEngine.Manager
         private Condition resourseSetting;
         private List<string> mailTo;
         public Repository.Factory.CrawlFactory CrawlFactory;
-        public void Process(int resourceCount)
+        public void Process(int resourceCount,int browserCount)
         {
             CrawlFactory = new Repository.Factory.CrawlFactory("POSTGRESSQL");
-            WebDriverPool.InitDriver(resourceCount);
-            var freeDriverCount = resourceCount;
+            WebDriverPool.InitDriver(browserCount);
             List<Task> lt = new List<Task>();
             while (1 == 1)
             {
 
-                freeDriverCount = WebDriverPool.GetFreeDriverConut();
+             //   freeDriverCount = WebDriverPool.GetFreeDriverConut();
                 try
                 {
-                    foreach (var jobInfo in GetJobInfo(freeDriverCount)) { 
+                    foreach (var jobInfo in GetJobInfo(resourceCount)) { 
                     lt.Add(Task.Run(() => DoJob(jobInfo)));
 
                     }
