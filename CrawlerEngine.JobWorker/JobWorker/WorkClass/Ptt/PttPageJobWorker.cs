@@ -1,6 +1,5 @@
 ﻿using CrawlerEngine.Common.Helper;
 using CrawlerEngine.Driver;
-using CrawlerEngine.Model.DTO;
 using CrawlerEngine.Models;
 using CrawlerEngine.Repository.Factory;
 using HtmlAgilityPack;
@@ -8,6 +7,8 @@ using Newtonsoft.Json.Linq;
 using NLog;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Net.Http;
 
 namespace CrawlerEngine.JobWorker.WorkClass
@@ -102,9 +103,13 @@ namespace CrawlerEngine.JobWorker.WorkClass
                 {
                     Console.WriteLine(ex.Message);
                 }
-
+                if (!string.IsNullOrWhiteSpace(pttData.url))
+                {
+                    pttData.id = pttData.url.Split('/').LastOrDefault().Replace(".html", "");
+                    pttDatas.Add(pttData);
+                }
                 //pttData.nrec = htmlDoc.DocumentNode.SelectSingleNode
-                pttDatas.Add(pttData);
+
             }
             //*[@id="main-container"]/div[2]/div[15]/div[1]
             //*[@id="main-container"]/div[2]/div[16]/div[1]
@@ -115,15 +120,25 @@ namespace CrawlerEngine.JobWorker.WorkClass
 
         protected override bool SaveData(CrawlFactory crawlFactory)
         {
-            CrawlDataDetailDto crawlDataDetailDto = new CrawlDataDetailDto()
+            var directoryPath = $"Ptt/{jobInfo.GetFromDic("_board")}";
+            if (!Directory.Exists(directoryPath))
             {
-                seq = jobInfo.Seq,
-                job_status = "end",
-                end_time = DateTime.UtcNow,
-                detail_data = crawlDataDetailOptions.GetJsonString()
-            };
-            pttDatas
-            crawlFactory.CrawlDataDetailRepository.InsertDataDetail(crawlDataDetailDto);
+                Directory.CreateDirectory(directoryPath);
+                Directory.CreateDirectory(directoryPath + "/title/");
+                Directory.CreateDirectory(directoryPath + "/author/");
+                Directory.CreateDirectory(directoryPath + "/nrec/");
+                //   Directory.CreateDirectory(directoryPath + "/Url/");
+            }
+
+            foreach (var data in pttDatas)
+            {
+                File.AppendAllText($"{directoryPath}/title/" + data.id + ".txt", data.title);
+                File.AppendAllText($"{directoryPath}/author/" + data.id + ".txt", data.author);
+                File.AppendAllText($"{directoryPath}/nrec/" + data.id + ".txt", data.nrec.ToString());
+                //   File.AppendAllText($"{directoryPath}/Url/" + data.id + ".txt", data.url);
+            }
+
+            pttDatas.Clear();
             return true;
 
         }
@@ -170,6 +185,7 @@ namespace CrawlerEngine.JobWorker.WorkClass
             public string author { get; set; }
             public string mark { get; set; }
             public string title { get; set; }
+            public string id { get; set; }
 
         }
         #region WebBrowser
