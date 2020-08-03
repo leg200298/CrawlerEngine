@@ -14,7 +14,7 @@ namespace CrawlerEngine.Manager
         private Condition resourseSetting;
         private List<string> mailTo;
         public Repository.Factory.CrawlFactory CrawlFactory;
-        public void Process(int resourceCount,int browserCount)
+        public void Process(int resourceCount, int browserCount, string machineName)
         {
             CrawlFactory = new Repository.Factory.CrawlFactory("POSTGRESSQL");
             WebDriverPool.InitDriver(browserCount);
@@ -22,11 +22,12 @@ namespace CrawlerEngine.Manager
             while (1 == 1)
             {
 
-             //   freeDriverCount = WebDriverPool.GetFreeDriverConut();
+                //   freeDriverCount = WebDriverPool.GetFreeDriverConut();
                 try
                 {
-                    foreach (var jobInfo in GetJobInfo(resourceCount)) { 
-                    lt.Add(Task.Run(() => DoJob(jobInfo)));
+                    foreach (var jobInfo in GetJobInfo(resourceCount, machineName))
+                    {
+                        lt.Add(Task.Run(() => DoJob(jobInfo)));
 
                     }
 
@@ -39,7 +40,7 @@ namespace CrawlerEngine.Manager
                 }
                 catch (Exception ex)
                 {
-                    SendErrorEmail();
+                   // SendErrorEmail();
                     LoggerHelper._.Error(ex);
                 }
                 //Thread.Sleep(10000);
@@ -48,7 +49,7 @@ namespace CrawlerEngine.Manager
 
 
         #region 工作區
-        private IEnumerable<JobInfo> GetJobInfo(int resourceCount)
+        private IEnumerable<JobInfo> GetJobInfo(int resourceCount, string machineName)
         {
             //#if (DEBUG)
             //            List<JobInfo> lj = new List<JobInfo>();
@@ -62,7 +63,7 @@ namespace CrawlerEngine.Manager
             //#else
             return
 
-              from x in CrawlFactory.CrawlDataJobListRepository.GetCrawlDataJobListDtos(resourceCount)
+              from x in CrawlFactory.CrawlDataJobListRepository.GetCrawlDataJobListDtos(resourceCount, machineName)
               select new JobInfo()
               {
                   Info = JsonUntityHelper.DeserializeStringToDictionary<string, object>(x.job_info),

@@ -45,10 +45,10 @@ namespace CrawlerEngine.Repository.PostgresSQL
         }
 
 
-        public IEnumerable<CrawlDataJobListDto> GetCrawlDataJobListDtos(int resourceCount)
+        public IEnumerable<CrawlDataJobListDto> GetCrawlDataJobListDtos(int resourceCount, string machineName)
         {
             string sqlCommand = $@"
-                                     UPDATE crawl_data_job_list SET job_status='get',start_time = now()
+                                     UPDATE crawl_data_job_list SET job_status='get',start_time = now(),work_station = '{machineName}'
  WHERE seq IN (
   SELECT seq FROM crawl_data_job_list WHERE job_status in ('not start' ,'waitforawhile')
   FETCH FIRST {resourceCount} ROWS ONLY)
@@ -142,13 +142,14 @@ namespace CrawlerEngine.Repository.PostgresSQL
                 return conn.Execute(sqlCommand, jobInfo);
             }
         }
-        
+
         public int UpdateStatusWaitForaWhile(JobInfo jobInfo)
         {
             string sqlCommand = $@"
                                 UPDATE crawl_data_job_list
                                    SET job_status = 'waitforawhile'
                                       ,start_time = '{DateTime.UtcNow.ToString(RuleString.DateTimeFormat)}'
+                                      ,work_times = work_times+1
                                  WHERE seq = @Seq
                                 ";
             using (var conn = _DatabaseConnection.Create())

@@ -45,7 +45,7 @@ namespace CrawlerEngine.Repository.MSSQL
         }
 
 
-        public IEnumerable<CrawlDataJobListDto> GetCrawlDataJobListDtos(int resourceCount)
+        public IEnumerable<CrawlDataJobListDto> GetCrawlDataJobListDtos(int resourceCount, string machineName)
         {
             string sqlCommand = $@"
                                     BEGIN TRAN

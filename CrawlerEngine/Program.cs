@@ -8,14 +8,15 @@ namespace CrawlerEngine
     {
         private static int Resource = 1;
         private static int Browser = 1;
+        private static string MachineName = "defaultMachine";
 
         static void Main(string[] args)
         {
-            
+
             check(args);
 
             WorkManager workManager = new WorkManager();
-            workManager.Process(Resource, Browser);
+            workManager.Process(Resource, Browser, MachineName);
         }
         static void check(string[] args)
         {
@@ -33,7 +34,8 @@ namespace CrawlerEngine
                     Console.WriteLine(@"
 -h | Help 
 -r | Resource Count Setting
--w | Resource Count Setting");
+-m | Machine Name Setting
+-w | Browser Count Setting");
                 }
                 if (args[i].Trim().ToLower() == "-r")
                 {
@@ -46,6 +48,20 @@ namespace CrawlerEngine
                         //LoggerHelper._.Error(ex, "CommondError");
                         Console.WriteLine("ResourceSettingError use default : 1");
                         Resource = 1;
+
+                    }
+                }
+                if (args[i].Trim().ToLower() == "-m")
+                {
+                    try
+                    {
+                        MachineName = args[i + 1];
+                    }
+                    catch (Exception ex)
+                    {
+                        //LoggerHelper._.Error(ex, "CommondError");
+                        Console.WriteLine("ResourceSettingError use default : 1");
+                        MachineName = "defaultMachine";
 
                     }
                 }

@@ -6,7 +6,7 @@ namespace CrawlerEngine.Repository.Interface
 {
     public interface ICrawlDataJobListRepository
     {
-        IEnumerable<CrawlDataJobListDto> GetCrawlDataJobListDtos(int resourceCount);
+        IEnumerable<CrawlDataJobListDto> GetCrawlDataJobListDtos(int resourceCount, string machineName);
         int UpdateStatusEnd(JobInfo jobInfo);
         int UpdateJobStatusFail(JobInfo jobInfo);
 
