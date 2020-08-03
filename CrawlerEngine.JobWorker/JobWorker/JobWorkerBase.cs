@@ -58,13 +58,19 @@ namespace CrawlerEngine.JobWorker
             }
             catch (Exception e)
             {
-                
-                _logger.Error(e, jobInfo.Seq.ToString() + responseData);
-                jobInfo.ErrorInfo = e.Message;
+
+
                 if (e.Message.StartsWith("Parse Error"))
-                { UpdateJobStatusWaitForaWhile(); }
-                else { UpdateJobStatusFail(); }
-                
+                {
+                    _logger.Error(e, jobInfo.Seq.ToString() + responseData);
+                    jobInfo.ErrorInfo = e.Message; UpdateJobStatusWaitForaWhile();
+                }
+                else
+                {
+                    _logger.Info(e, jobInfo.Seq.ToString() + "Parse Error");
+                    UpdateJobStatusFail();
+                }
+
 
             }
 
