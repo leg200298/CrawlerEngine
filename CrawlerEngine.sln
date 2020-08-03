@@ -42,6 +42,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Doc", "Doc", "{BF9F0F76-BF1
 		資料庫關鍵字.txt = 資料庫關鍵字.txt
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApp", "WebApp\WebApp.csproj", "{4B125A85-7AB3-4597-AB4D-905826B3C5BD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -86,6 +88,10 @@ Global
 		{6C4892B5-8D00-4943-8830-B7C2D9B20545}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6C4892B5-8D00-4943-8830-B7C2D9B20545}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6C4892B5-8D00-4943-8830-B7C2D9B20545}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{4B125A85-7AB3-4597-AB4D-905826B3C5BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B125A85-7AB3-4597-AB4D-905826B3C5BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B125A85-7AB3-4597-AB4D-905826B3C5BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B125A85-7AB3-4597-AB4D-905826B3C5BD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -100,6 +106,7 @@ Global
 		{B6571C25-B8BA-41BF-9713-052CEE909058} = {D64DEF06-C16E-47CE-AFBF-7F3155BFBA70}
 		{DC7A2120-30AC-4FAA-BD7E-B8E7CAE326E2} = {A6D8B5FC-27BB-4D5C-94BF-7F02D8B87905}
 		{6C4892B5-8D00-4943-8830-B7C2D9B20545} = {CB01BB4C-2D0B-4E77-963A-FBB835620D80}
+		{4B125A85-7AB3-4597-AB4D-905826B3C5BD} = {436C70FA-602A-4F4F-88BB-CC9B2530C0A2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {15A36175-9DB5-4F28-87C1-A58EF7A8E51A}
