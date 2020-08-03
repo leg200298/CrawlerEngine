@@ -5,6 +5,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="JobWorker\WorkClass\Momo\**" />
+    <Compile Remove="JobWorker\WorkClass\Pchome24h\**" />
+    <Compile Remove="JobWorker\WorkClass\YahooMall\**" />
+    <EmbeddedResource Remove="JobWorker\WorkClass\Momo\**" />
+    <EmbeddedResource Remove="JobWorker\WorkClass\Pchome24h\**" />
+    <EmbeddedResource Remove="JobWorker\WorkClass\YahooMall\**" />
+    <None Remove="JobWorker\WorkClass\Momo\**" />
+    <None Remove="JobWorker\WorkClass\Pchome24h\**" />
+    <None Remove="JobWorker\WorkClass\YahooMall\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Class1.cs" />
   </ItemGroup>
 

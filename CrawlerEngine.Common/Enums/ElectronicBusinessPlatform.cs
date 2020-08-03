@@ -8,41 +8,46 @@ namespace CrawlerEngine.Common.Enums
         {
 
 
-            #region MOMOShop
-            [Description("MOMOSHOP-PRODUCT")]
-            MomoShopProduct = 0101,
-            [Description("MOMOSHOP-DGRPCATEGORY")]
-            MomoShopDgrpCategory = 0102,            
-            [Description("MOMOSHOP-LGRPCATEGORY")]
-            MomoShopLgrpCategory = 0103,
-            [Description("MOMOSHOP-STORE")]
-            MomoShopStore = 0104,
-            [Description("MOMOSHOP-SEARCH")]
-            MomoShopSearch = 0105,
-            #endregion
+            //#region MOMOShop
+            //[Description("MOMOSHOP-PRODUCT")]
+            //MomoShopProduct = 0101,
+            //[Description("MOMOSHOP-DGRPCATEGORY")]
+            //MomoShopDgrpCategory = 0102,            
+            //[Description("MOMOSHOP-LGRPCATEGORY")]
+            //MomoShopLgrpCategory = 0103,
+            //[Description("MOMOSHOP-STORE")]
+            //MomoShopStore = 0104,
+            //[Description("MOMOSHOP-SEARCH")]
+            //MomoShopSearch = 0105,
+            //#endregion
 
 
-            #region Pchome
-            [Description("PCHOME24H-PRODUCT")]
-            Pchome24hProduct = 0201,
-            [Description("PCHOME24H-REGION")]
-            Pchome24hRegion = 0202,
-            [Description("PCHOME24H-STORE")]
-            Pchome24hStore = 0203,
-            [Description("PCHOME24H-SIGN")]
-            Pchome24hSign = 0204,
-            [Description("PCHOME24H-SEARCH")]
-            Pchome24hSearch = 0205,
+            //#region Pchome
+            //[Description("PCHOME24H-PRODUCT")]
+            //Pchome24hProduct = 0201,
+            //[Description("PCHOME24H-REGION")]
+            //Pchome24hRegion = 0202,
+            //[Description("PCHOME24H-STORE")]
+            //Pchome24hStore = 0203,
+            //[Description("PCHOME24H-SIGN")]
+            //Pchome24hSign = 0204,
+            //[Description("PCHOME24H-SEARCH")]
+            //Pchome24hSearch = 0205,
 
-            #endregion
-            #region Yahoo
-            [Description("YAHOOMALL-PRODUCT")]
-            YahooMallProduct = 0301,
-            [Description("YAHOOMALL-STORE")]
-            YahooMallStore = 0302,
-            [Description("YAHOOMALL-SEARCH")]
-            YahooMallSearch = 0305,
-            #endregion
+            //#endregion
+            //#region Yahoo
+            //[Description("YAHOOMALL-PRODUCT")]
+            //YahooMallProduct = 0301,
+            //[Description("YAHOOMALL-STORE")]
+            //YahooMallStore = 0302,
+            //[Description("YAHOOMALL-SEARCH")]
+            //YahooMallSearch = 0305,
+            //#endregion
+
+            [Description("PTT-PAGE")]
+            PTTPage = 0101,
+            [Description("PTT-DETAIL")]
+            PTTDetail = 0101,
         }
         /*
               PC Home 陣營電商通路平台：

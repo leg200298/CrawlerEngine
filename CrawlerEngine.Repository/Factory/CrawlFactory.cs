@@ -20,6 +20,7 @@ namespace CrawlerEngine.Repository.Factory
 
         public CrawlFactory(string DBname)
         {
+            DBname = DBname.ToUpper();
             if (DBname == "MSSQL")
             {
                 CrawlDataJobListRepository = new MSSQLCrawlDataJobListRepository(new AzureDbConnectionHelper());

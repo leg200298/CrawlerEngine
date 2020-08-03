@@ -16,7 +16,7 @@ namespace CrawlerEngine.Manager
         public Repository.Factory.CrawlFactory CrawlFactory;
         public void Process(int resourceCount)
         {
-            CrawlFactory = new Repository.Factory.CrawlFactory("POSTGRESSQL");
+            CrawlFactory = new Repository.Factory.CrawlFactory("MSSQL");
             WebDriverPool.InitDriver(resourceCount);
             var freeDriverCount = resourceCount;
             while (1 == 1)
@@ -33,7 +33,7 @@ namespace CrawlerEngine.Manager
                 }
                 catch (Exception ex)
                 {
-                    SendErrorEmail();
+                 //   SendErrorEmail();
                     LoggerHelper._.Error(ex);
                 }
                 //Thread.Sleep(10000);
@@ -45,23 +45,28 @@ namespace CrawlerEngine.Manager
         private IEnumerable<JobInfo> GetJobInfo(int resourceCount)
         {
             //#if (DEBUG)
-            //            List<JobInfo> lj = new List<JobInfo>();
-            //            lj.Add(new JobInfo()
-            //            {
-            //                Seq = new Guid("D608BE51-D170-4056-ADD4-A54EA20DC1C4"),
-            //                Info = JsonUntityHelper.DeserializeStringToDictionary<string, object>(
-            //                    "{\"_url\": \"https://tw.mall.yahoo.com/store/dcking\",   \"_jobType\": \"YAHOOMALL-STORE\"}")
-            //            });
-            //            return lj.AsEnumerable();
+            List<JobInfo> lj = new List<JobInfo>();
+            lj.Add(new JobInfo()
+            {
+                Seq = new Guid("D608BE51-D170-4056-ADD4-A54EA20DC1C4"),
+                Info = JsonUntityHelper.DeserializeStringToDictionary<string, object>(
+                    "{\"_url\": \"https://tw.mall.yahoo.com/store/dcking\",   " +
+                    "\"_jobType\": \"PTT-Page\"," +
+                    "\"_pageStart\": \"1\"," +
+                    "\"_pageEnd\": \"4001\"," +
+                    "\"_board\": \"e-shopping\"" +
+                    "}")
+            });
+            return lj.AsEnumerable();
             //#else
-            return
+            //return
 
-              from x in CrawlFactory.CrawlDataJobListRepository.GetCrawlDataJobListDtos(resourceCount)
-              select new JobInfo()
-              {
-                  Info = JsonUntityHelper.DeserializeStringToDictionary<string, object>(x.job_info),
-                  Seq = x.seq
-              };
+            //  from x in CrawlFactory.CrawlDataJobListRepository.GetCrawlDataJobListDtos(resourceCount)
+            //  select new JobInfo()
+            //  {
+            //      Info = JsonUntityHelper.DeserializeStringToDictionary<string, object>(x.job_info),
+            //      Seq = x.seq
+            //  };
 
             //#endif
         }
