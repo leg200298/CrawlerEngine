@@ -29,7 +29,7 @@ Description
 3.安裝chrome  
 4.將 chromedriver送入bin  
 5.給予權限  
-6.可以開跑了
+6.可以開跑了  
 這個版本為PTT的特化版本
 直接輸入版名 爬的頁數從第幾頁到第幾頁 他就會把TITLE都爬下
 CrawlerEngine.exe -b e-shopping -s 1 -e 4001
