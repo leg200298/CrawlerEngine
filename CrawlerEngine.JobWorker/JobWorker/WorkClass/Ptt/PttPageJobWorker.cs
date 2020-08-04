@@ -86,6 +86,8 @@ namespace CrawlerEngine.JobWorker.WorkClass
             htmlDoc.LoadHtml(responseData);
             HtmlNodeCollection nodes = htmlDoc.DocumentNode.SelectNodes("//*[@id=\"main-container\"]/div[2]/div");
             PttData pttData = new PttData();
+
+            //  Parallel.ForEach(nodes, data =>
             foreach (HtmlNode data in nodes)
             {
                 pttData = new PttData();
@@ -112,26 +114,36 @@ namespace CrawlerEngine.JobWorker.WorkClass
                     var httpResponse = new HttpClient().GetAsync($"https://www.ptt.cc/bbs/{jobInfo.GetFromDic("_board")}/{pttData.id}.html").GetAwaiter().GetResult();
 
                     var responseinnerData = httpResponse.Content.ReadAsStringAsync().GetAwaiter().GetResult();
-
-                    HtmlDocument innerHtmlDoc = new HtmlDocument();
-                    innerHtmlDoc.LoadHtml(responseinnerData);
-                    pttData.date = innerHtmlDoc.DocumentNode.SelectSingleNode("//*[@id=\"main-content\"]/div[4]/span[2]").InnerText;
-                    var t2 = innerHtmlDoc.DocumentNode.SelectSingleNode("//*[@id=\"main-content\"]");
-                    var qqqq = t2.InnerText;
+                    if (responseinnerData.StartsWith("404 page not found")) return false;
+                    var qqqq = "";
                     StringBuilder sb = new StringBuilder();
-                    foreach (var t in t2.SelectNodes("//*[@id=\"main-content\"]/div").Where(x => !string.IsNullOrEmpty(x.InnerText)))
+                    try
                     {
-                        try
+                        HtmlDocument innerHtmlDoc = new HtmlDocument();
+                        innerHtmlDoc.LoadHtml(responseinnerData);
+                        pttData.date = innerHtmlDoc.DocumentNode.SelectSingleNode("//*[@id=\"main-content\"]/div[4]/span[2]").InnerText;
+                        var t2 = innerHtmlDoc.DocumentNode.SelectSingleNode("//*[@id=\"main-content\"]");
+                        qqqq = t2.InnerText;
+                        foreach (var t in t2.SelectNodes("//*[@id=\"main-content\"]/div").Where(x => !string.IsNullOrEmpty(x.InnerText)))
                         {
-                            qqqq = qqqq.Replace(t.InnerText, "");
-                            sb.AppendLine(t.InnerText);
+                            try
+                            {
+                                qqqq = qqqq.Replace(t.InnerText, "");
+                                sb.AppendLine(t.InnerText);
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine(ex.Message);
+                            }
+
                         }
-                        catch (Exception ex)
-                        {
-                            Console.WriteLine(ex.Message);
-                        }
+                    }
+                    catch (Exception)
+                    {
+
 
                     }
+
                     pttData.content = qqqq;
 
                     pttData.contentOther = sb;
@@ -140,7 +152,7 @@ namespace CrawlerEngine.JobWorker.WorkClass
                 }
                 //pttData.nrec = htmlDoc.DocumentNode.SelectSingleNode
 
-            }
+            };
             //*[@id="main-container"]/div[2]/div[15]/div[1]
             //*[@id="main-container"]/div[2]/div[16]/div[1]
             //*[@id="main-container"]/div[2]/div[16]/div[2]
