@@ -30,12 +30,14 @@ Description
 4.將 chromedriver送入bin  
 5.給予權限  
 6.可以開跑了
-
+這個版本為PTT的特化版本
+直接輸入版名 爬的頁數從第幾頁到第幾頁 他就會把TITLE都爬下
+CrawlerEngine.exe -b e-shopping -s 1 -e 4001
 
 ```
 --liuux(Red hat) 
-1.$ sudo dnf install aspnetcore-runtime-3.1  -y
-2.$ sudo yum install google-chrome-stable_current_x86_64.rpm  -y
+1.$ sudo dnf install aspnetcore-runtime-3.
+2.$ sudo yum install google-chrome-stable_current_x86_64.rpm
 3.$ cd netcoreapp3.1
 4.$ sudo cp chromedriver /usr/bin/
 5.$ sudo chmod +x chromedriver
