@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 
 namespace CrawlerEngine.JobWorker.WorkClass
 {
@@ -98,6 +99,7 @@ namespace CrawlerEngine.JobWorker.WorkClass
                     pttData.author = data.SelectSingleNode("div[3]/div[1]")?.InnerText;
                     pttData.mark = data.SelectSingleNode("div[3]/div[4]")?.InnerText;
                     pttData.date = data.SelectSingleNode("div[3]/div[3]")?.InnerText;
+
                 }
                 catch (Exception ex)
                 {
@@ -106,6 +108,34 @@ namespace CrawlerEngine.JobWorker.WorkClass
                 if (!string.IsNullOrWhiteSpace(pttData.url))
                 {
                     pttData.id = pttData.url.Split('/').LastOrDefault().Replace(".html", "");
+
+                    var httpResponse = new HttpClient().GetAsync($"https://www.ptt.cc/bbs/{jobInfo.GetFromDic("_board")}/{pttData.id}.html").GetAwaiter().GetResult();
+
+                    var responseinnerData = httpResponse.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+
+                    HtmlDocument innerHtmlDoc = new HtmlDocument();
+                    innerHtmlDoc.LoadHtml(responseinnerData);
+                    pttData.date = innerHtmlDoc.DocumentNode.SelectSingleNode("//*[@id=\"main-content\"]/div[4]/span[2]").InnerText;
+                    var t2 = innerHtmlDoc.DocumentNode.SelectSingleNode("//*[@id=\"main-content\"]");
+                    var qqqq = t2.InnerText;
+                    StringBuilder sb = new StringBuilder();
+                    foreach (var t in t2.SelectNodes("//*[@id=\"main-content\"]/div").Where(x => !string.IsNullOrEmpty(x.InnerText)))
+                    {
+                        try
+                        {
+                            qqqq = qqqq.Replace(t.InnerText, "");
+                            sb.AppendLine(t.InnerText);
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex.Message);
+                        }
+
+                    }
+                    pttData.content = qqqq;
+
+                    pttData.contentOther = sb;
+
                     pttDatas.Add(pttData);
                 }
                 //pttData.nrec = htmlDoc.DocumentNode.SelectSingleNode
@@ -120,27 +150,43 @@ namespace CrawlerEngine.JobWorker.WorkClass
 
         protected override bool SaveData(CrawlFactory crawlFactory)
         {
-            var directoryPath = $"Ptt/{jobInfo.GetFromDic("_board")}";
-            if (!Directory.Exists(directoryPath))
-            {
-                Directory.CreateDirectory(directoryPath);
-                Directory.CreateDirectory(directoryPath + "/title/");
-                Directory.CreateDirectory(directoryPath + "/author/");
-                Directory.CreateDirectory(directoryPath + "/nrec/");
-                //   Directory.CreateDirectory(directoryPath + "/Url/");
-            }
+            var RootPath = $"Ptt/{jobInfo.GetFromDic("_board")}";
+            var TitlePath = RootPath + "/title/";
+            var AuthorPath = RootPath + "/author/";
+            var NrecPath = RootPath + "/nrec/";
+            var ContentPath = RootPath + "/content/";
+            var DatePath = RootPath + "/date/";
+            var ContentOtherPath = RootPath + "/contentOther/";
+            CheckDic(RootPath);
+            CheckDic(TitlePath);
+            CheckDic(AuthorPath);
+            CheckDic(ContentPath);
+            CheckDic(NrecPath);
+            CheckDic(DatePath);
+            CheckDic(ContentOtherPath);
 
             foreach (var data in pttDatas)
             {
-                File.AppendAllText($"{directoryPath}/title/" + data.id + ".txt", data.title);
-                File.AppendAllText($"{directoryPath}/author/" + data.id + ".txt", data.author);
-                File.AppendAllText($"{directoryPath}/nrec/" + data.id + ".txt", data.nrec.ToString());
+                File.AppendAllText($"{TitlePath}{data.id}.txt", data.title);
+                File.AppendAllText($"{AuthorPath}{data.id}.txt", data.author);
+                File.AppendAllText($"{NrecPath}{data.id}.txt", data.nrec.ToString());
+                File.AppendAllText($"{ContentPath}{data.id}.txt", data.content);
+                File.AppendAllText($"{DatePath}{data.id}.txt", data.date);
+                File.AppendAllText($"{ContentOtherPath}{data.id}.txt", data.contentOther.ToString());
                 //   File.AppendAllText($"{directoryPath}/Url/" + data.id + ".txt", data.url);
             }
 
             pttDatas.Clear();
             return true;
 
+        }
+
+        private static void CheckDic(string directoryPath)
+        {
+            if (!Directory.Exists(directoryPath))
+            {
+                Directory.CreateDirectory(directoryPath);
+            }
         }
 
         protected override void SleepForAWhile(decimal sleepTime)
@@ -186,6 +232,8 @@ namespace CrawlerEngine.JobWorker.WorkClass
             public string mark { get; set; }
             public string title { get; set; }
             public string id { get; set; }
+            public string content { get; set; }
+            public StringBuilder contentOther { get; set; }
 
         }
         #region WebBrowser

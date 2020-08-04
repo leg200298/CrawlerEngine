@@ -7,6 +7,9 @@ namespace CrawlerEngine
     class Program
     {
         private static int Resource = 1;
+        private static string Board = "e-shopping";
+        private static int Start = 1;
+        private static int End = 4001;
 
         static void Main(string[] args)
         {
@@ -54,7 +57,7 @@ namespace CrawlerEngine
             check(args);
 
             WorkManager workManager = new WorkManager();
-            workManager.Process(Resource);
+            workManager.Process(Resource, Board, Start, End);
             //foreach (var data in Repository.Factory.CrawlFactory.CrawlDataJobListRepository.GetCrawlDataJobListDtos(2))
             //{
 
@@ -67,8 +70,6 @@ namespace CrawlerEngine
         }
         static void check(string[] args)
         {
-
-#if (!DEBUG)
             if (args.Count() == 0)
             {
                 Console.WriteLine(" use default setting ");
@@ -80,7 +81,10 @@ namespace CrawlerEngine
                 {
                     Console.WriteLine(@"
 -h | Help 
--r | Resource Count Setting");
+-r | Resource Count Setting
+-b | Board  Setting
+-s | Start  Setting
+-e | End  Setting");
                 }
                 if (args[i].Trim().ToLower() == "-r")
                 {
@@ -96,8 +100,49 @@ namespace CrawlerEngine
 
                     }
                 }
+                if (args[i].Trim().ToLower() == "-b")
+                {
+                    try
+                    {
+                        Board = args[i + 1];
+                    }
+                    catch (Exception ex)
+                    {
+                        //LoggerHelper._.Error(ex, "CommondError");
+                        Console.WriteLine("ResourceSettingError use default : 1");
+                        Board = "";
+
+                    }
+                }
+                if (args[i].Trim().ToLower() == "-s")
+                {
+                    try
+                    {
+                        Start = Convert.ToInt32(args[i + 1]);
+                    }
+                    catch (Exception ex)
+                    {
+                        //LoggerHelper._.Error(ex, "CommondError");
+                        Console.WriteLine("ResourceSettingError use default : 1");
+                        Start = 1;
+
+                    }
+                }
+                if (args[i].Trim().ToLower() == "-e")
+                {
+                    try
+                    {
+                        End = Convert.ToInt32(args[i + 1]);
+                    }
+                    catch (Exception ex)
+                    {
+                        //LoggerHelper._.Error(ex, "CommondError");
+                        Console.WriteLine("ResourceSettingError use default : 1");
+                        End = 1;
+
+                    }
+                }
             }
-#endif
         }
     }
 }

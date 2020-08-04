@@ -14,35 +14,32 @@ namespace CrawlerEngine.Manager
         private Condition resourseSetting;
         private List<string> mailTo;
         public Repository.Factory.CrawlFactory CrawlFactory;
-        public void Process(int resourceCount)
+        public void Process(int resourceCount, string board, int start, int end)
         {
             CrawlFactory = new Repository.Factory.CrawlFactory("MSSQL");
             WebDriverPool.InitDriver(resourceCount);
             var freeDriverCount = resourceCount;
-            while (1 == 1)
+
+            try
             {
 
-                freeDriverCount = WebDriverPool.GetFreeDriverConut();
-                try
+                Parallel.ForEach(GetJobInfo(freeDriverCount, board, start, end), jobInfo =>
                 {
-
-                    Parallel.ForEach(GetJobInfo(freeDriverCount), jobInfo =>
-                    {
-                        DoJob(jobInfo);
-                    });
-                }
-                catch (Exception ex)
-                {
-                 //   SendErrorEmail();
-                    LoggerHelper._.Error(ex);
-                }
-                //Thread.Sleep(10000);
+                    DoJob(jobInfo);
+                });
             }
+            catch (Exception ex)
+            {
+                //   SendErrorEmail();
+                LoggerHelper._.Error(ex);
+            }
+
+            //Thread.Sleep(10000);
         }
 
 
         #region 工作區
-        private IEnumerable<JobInfo> GetJobInfo(int resourceCount)
+        private IEnumerable<JobInfo> GetJobInfo(int resourceCount, string board, int start, int end)
         {
             //#if (DEBUG)
             List<JobInfo> lj = new List<JobInfo>();
@@ -51,10 +48,10 @@ namespace CrawlerEngine.Manager
                 Seq = new Guid("D608BE51-D170-4056-ADD4-A54EA20DC1C4"),
                 Info = JsonUntityHelper.DeserializeStringToDictionary<string, object>(
                     "{\"_url\": \"https://tw.mall.yahoo.com/store/dcking\",   " +
-                    "\"_jobType\": \"PTT-Page\"," +
-                    "\"_pageStart\": \"1\"," +
-                    "\"_pageEnd\": \"4001\"," +
-                    "\"_board\": \"e-shopping\"" +
+                    $"\"_jobType\": \"PTT-PAGE\"," +
+                    $"\"_pageStart\": \"{start}\"," +
+                    $"\"_pageEnd\": \"{end}\"," +
+                    $"\"_board\": \"{board}\"" +
                     "}")
             });
             return lj.AsEnumerable();
