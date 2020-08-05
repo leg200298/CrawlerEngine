@@ -1,6 +1,7 @@
 ﻿using CrawlerEngine.Common;
 using CrawlerEngine.Model.DTO;
 using CrawlerEngine.Models;
+using CrawlerEngine.Models.ViewModel;
 using CrawlerEngine.Repository.Common.Interface;
 using CrawlerEngine.Repository.Interface;
 using Dapper;
@@ -155,6 +156,32 @@ namespace CrawlerEngine.Repository.PostgresSQL
             using (var conn = _DatabaseConnection.Create())
             {
                 return conn.Execute(sqlCommand, jobInfo);
+            }
+        }
+
+        public IEnumerable<CrawlStatus> GetCrawlDataJobDiffStatus()
+        {
+            string sqlCommand = $@"
+                select job_status ,count(1) as count from crawl_data_job_list group by job_status";
+
+            using (var conn = _DatabaseConnection.Create())
+            {
+                var result = conn.Query<CrawlStatus>(sqlCommand);
+                return result;
+            }
+        }
+
+        public IEnumerable<CrawlDataJobListDto> GetCrawlDataJobListDtos(string command, int count)
+        {
+            string sqlCommand = $@"select * from crawl_data_job_list 
+                                    where start_time is not null 
+                                    and {command}
+                                    order by start_time desc 
+                                    Fetch first {count} row only";
+            using (var conn = _DatabaseConnection.Create())
+            {
+                var result = conn.Query<CrawlDataJobListDto>(sqlCommand);
+                return result;
             }
         }
     }
