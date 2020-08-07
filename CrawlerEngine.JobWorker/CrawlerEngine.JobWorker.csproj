@@ -17,6 +17,7 @@
     <ProjectReference Include="..\CrawlerEngine.Driver\CrawlerEngine.Driver.csproj" />
     <ProjectReference Include="..\CrawlerEngine.Models\CrawlerEngine.Models.csproj" />
     <ProjectReference Include="..\CrawlerEngine.Repository\CrawlerEngine.Repository.csproj" />
+    <ProjectReference Include="..\CrawlerEngine.SignalR\CrawlerEngine.SignalR.csproj" />
   </ItemGroup>
 
 </Project>

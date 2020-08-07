@@ -6,7 +6,7 @@ namespace CrawlerEngine
 {
     class Program
     {
-        private static int Resource = 1;
+        private static int Resource = 3;
         private static int Browser = 1;
         private static string MachineName = "defaultMachine";
 

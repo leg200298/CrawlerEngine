@@ -1,13 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using CrawlerEngine.Repository.Common.Helper;
-using CrawlerEngine.Repository.Interface;
-using CrawlerEngine.Repository.MSSQL;
+using CrawlerWebApp.Hubs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -16,6 +9,7 @@ namespace CrawlerWebApp
 {
     public class Startup
     {
+        readonly string CorsPolicy = "CorsPolicy";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -25,7 +19,18 @@ namespace CrawlerWebApp
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {            
+        {
+            services.AddCors(options =>
+            {
+                options.AddPolicy(CorsPolicy,
+                                  builder => builder.SetIsOriginAllowed(_ => true)
+                                    .AllowAnyMethod()
+                                    .AllowAnyHeader()
+                                    .AllowCredentials());
+
+            });
+
+            services.AddSignalR();
             services.AddControllersWithViews();
         }
 
@@ -46,6 +51,7 @@ namespace CrawlerWebApp
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseCors(CorsPolicy);
 
             app.UseAuthorization();
 
@@ -54,6 +60,8 @@ namespace CrawlerWebApp
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+                endpoints.MapHub<JobHub>("/jobhub");
             });
         }
     }

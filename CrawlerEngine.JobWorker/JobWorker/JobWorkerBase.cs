@@ -4,9 +4,11 @@ using CrawlerEngine.Models;
 using CrawlerEngine.Models.Models;
 using CrawlerEngine.Repository.Factory;
 using CrawlerEngine.Repository.Interface;
+using CrawlerEngine.SignalR;
 using NLog;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace CrawlerEngine.JobWorker
 {
@@ -27,8 +29,9 @@ namespace CrawlerEngine.JobWorker
         /// </summary>
         public void DoJobFlow(CrawlFactory crawlFactory)
         {
-            this.crawlDataJobListRepository = crawlFactory.CrawlDataJobListRepository;
+            this.crawlDataJobListRepository = crawlFactory.CrawlDataJobListRepository;           
             UpdateJobStatusStart();
+            Task.Run(async () => await new JobHub().SendJobInfo(jobInfo.Seq, jobInfo.JobType, jobInfo.Url));
             (bool, string) temp = (false, "");
             try
             {
@@ -54,6 +57,7 @@ namespace CrawlerEngine.JobWorker
                     }
                 } while (temp.Item1);
                 UpdateJobStatusEnd();
+                Task.Run(async () => await new JobHub().SendJobInfo(jobInfo.Seq, jobInfo.JobType, jobInfo.Url));
                 _logger.Info($"{jobInfo.Seq}  End");
             }
             catch (Exception e)
