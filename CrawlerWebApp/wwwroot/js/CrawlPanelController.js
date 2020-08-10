@@ -1,18 +1,11 @@
 ﻿var CrawlPanelApp = angular.module('Crawl', ['ui.bootstrap']);
 
 var connection = new signalR.HubConnectionBuilder()
-    .withUrl("https://localhost:44361/jobhub")
+    .withUrl("https://crawlpanel.azurewebsites.net/jobhub")
     .withAutomaticReconnect()
     .build();
 
 connection.start().catch(err => console.log(err));
-
-connection.on("ReceiveJobInfo", (seq, jobType, url, startTime) => {
-    console.log(seq);
-    console.log(jobType);
-    console.log(url);
-    console.log(startTime);
-});
 
 CrawlPanelApp.controller('CrawlPanelController',
     function CrawlPanelController($scope, $http, $interval) {
