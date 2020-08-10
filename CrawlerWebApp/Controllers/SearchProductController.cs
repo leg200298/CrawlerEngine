@@ -2,7 +2,6 @@
 using CrawlerEngine.Models;
 using CrawlerEngine.Repository.Factory;
 using HtmlAgilityPack;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -14,6 +13,12 @@ namespace CrawlerWebApp.Controllers
 {
     public class SearchProductController : Controller
     {
+        public SearchProductController()
+        {
+            crawlFactory = new CrawlFactory("POSTGRESSQL");
+        }
+
+
         private CrawlFactory crawlFactory;
         // GET: SearchProduct
         public ActionResult Index()
@@ -33,8 +38,6 @@ namespace CrawlerWebApp.Controllers
         {
             try
             {
-
-                crawlFactory = new CrawlFactory("POSTGRESSQL");
                 JobInfo jobInfo = new JobInfo();
                 jobInfo.Url = data.href;
                 jobInfo.JobType = GetJobType(data);
@@ -65,6 +68,72 @@ namespace CrawlerWebApp.Controllers
 
         }
 
+
+        [HttpPost]
+        public IActionResult sendAllFeeBeeDataToJob([FromBody] List<SelectFeeBeeStruct> datas)
+        {
+            try
+            {
+
+                JobInfo jobInfo = new JobInfo();
+                foreach (var data in datas.Where(x => x.selected))
+                {
+                    jobInfo.Url = data.href;
+                    jobInfo.JobType = GetJobType(data);
+                    jobInfo.PutToDic("_title", data.title);
+                    jobInfo.PutToDic("_price", data.data_price);
+                    if (string.IsNullOrEmpty(jobInfo.JobType)) return Json(new ReturnMessage<object>
+                    {
+                        success = false,
+                        returnMsg = "No Provider"
+                    });
+                    crawlFactory.CrawlDataJobListRepository.InsertOne(jobInfo, jobInfo.JobType);
+                }
+                return Json(new ReturnMessage<object>
+                {
+                    success = true,
+                    returnMsg = " 新增成功"
+                });
+            }
+            catch (Exception ex)
+            {
+
+                return Json(new ReturnMessage<object>
+                {
+                    success = false,
+                    returnMsg = ex.Message + ex.StackTrace
+                });
+            }
+
+
+        }
+
+        private List<FeeBeeStruct> GetDataFromFeebee(string product)
+        {
+            var httpClient = new HttpClient();
+            var targetUrl = $"https://feebee.com.tw/s/?q={product}";
+            var httpResponse = httpClient.GetAsync(targetUrl).GetAwaiter().GetResult();
+
+
+            HtmlDocument htmlDoc = new HtmlDocument();
+            htmlDoc.LoadHtml(httpResponse.Content.ReadAsStringAsync().GetAwaiter().GetResult());
+            var cc = htmlDoc.DocumentNode.SelectNodes("//*[@id=\"list_view\"]/li/span[2]/a");
+            List<FeeBeeStruct> la = new List<FeeBeeStruct>();
+            FeeBeeStruct a = new FeeBeeStruct();
+            foreach (var data in cc)
+            {
+                a = new FeeBeeStruct();
+                a.href = data.GetAttributes("href").FirstOrDefault().Value.Replace("&amp;", "&");
+                a.data_store = data.GetAttributes("data-store").FirstOrDefault()?.Value;
+                a.data_price = data.GetAttributes("data-price").FirstOrDefault().Value;
+                a.data_provider = data.GetAttributes("data-provider").FirstOrDefault().Value;
+                a.title = data.GetAttributes("title").FirstOrDefault().Value;
+
+                la.Add(a);
+            }
+            return la;
+            // File.WriteAllText("testfeebee.txt", JsonConvert.SerializeObject(la));
+        }
         private string GetJobType(FeeBeeStruct data)
         {
             string returnStr = string.Empty;
@@ -96,94 +165,12 @@ namespace CrawlerWebApp.Controllers
             public string data_provider { get; set; }
             public string title { get; set; }
         }
-        private List<FeeBeeStruct> GetDataFromFeebee(string product)
+        public class SelectFeeBeeStruct : FeeBeeStruct
         {
-            var httpClient = new HttpClient();
-            var targetUrl = $"https://feebee.com.tw/s/?q={product}";
-            var httpResponse = httpClient.GetAsync(targetUrl).GetAwaiter().GetResult();
 
-
-            HtmlDocument htmlDoc = new HtmlDocument();
-            htmlDoc.LoadHtml(httpResponse.Content.ReadAsStringAsync().GetAwaiter().GetResult());
-            var cc = htmlDoc.DocumentNode.SelectNodes("//*[@id=\"list_view\"]/li/span[2]/a");
-            List<FeeBeeStruct> la = new List<FeeBeeStruct>();
-            FeeBeeStruct a = new FeeBeeStruct();
-            foreach (var data in cc)
-            {
-                a = new FeeBeeStruct();
-                a.href = data.GetAttributes("href").FirstOrDefault().Value.Replace("&amp;", "&");
-                a.data_store = data.GetAttributes("data-store").FirstOrDefault()?.Value;
-                a.data_price = data.GetAttributes("data-price").FirstOrDefault().Value;
-                a.data_provider = data.GetAttributes("data-provider").FirstOrDefault().Value;
-                a.title = data.GetAttributes("title").FirstOrDefault().Value;
-
-                la.Add(a);
-            }
-            return la;
-            // File.WriteAllText("testfeebee.txt", JsonConvert.SerializeObject(la));
+            public bool selected { get; set; }
         }
 
-        // POST: SearchProduct/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add insert logic here
 
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: SearchProduct/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: SearchProduct/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: SearchProduct/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: SearchProduct/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
     }
 }

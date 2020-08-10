@@ -8,6 +8,7 @@ CrawlPanelApp.controller('SearchProductController',
         $scope.host = location.origin;
         $scope.getFeeBeeDataApiUrl = location.origin + "/SearchProduct/GetFeeBeeData";
         $scope.sendFeeBeeDataToJobApiUrl = location.origin + "/SearchProduct/sendFeeBeeDataToJob";
+        $scope.sendAllFeeBeeDataToJobApiUrl = location.origin + "/SearchProduct/sendAllFeeBeeDataToJob";
         //$scope.showTable = 'default';
         $scope.reqModel = { "count": 50 };
         $scope.getdata = function () {
@@ -22,17 +23,28 @@ CrawlPanelApp.controller('SearchProductController',
                 $scope.dataArray = response.data;
             });
         },
-        $scope.SendToJobList = function (x) {
-            var req = {
-                method: 'Post',
-                url: $scope.sendFeeBeeDataToJobApiUrl,
-                data: x,
-                headers: { 'Content-Type': 'application/json' },
+            $scope.SendToJobList = function (x) {
+                var req = {
+                    method: 'Post',
+                    url: $scope.sendFeeBeeDataToJobApiUrl,
+                    data: x,
+                    headers: { 'Content-Type': 'application/json' },
+                }
+                $http(req).then(function (response) {
+                    alert(response.data.returnMsg);
+                });
+            },
+            $scope.SendAllToJobList = function () {
+                var req = {
+                    method: 'Post',
+                    url: $scope.sendAllFeeBeeDataToJobApiUrl,
+                    data: $scope.dataArray,
+                    headers: { 'Content-Type': 'application/json' },
+                }
+                $http(req).then(function (response) {
+                    alert(response.data.returnMsg);
+                });
             }
-            $http(req).then(function (response) {
-                alert(response.data.returnMsg);
-            });
-        }
         
         //$scope.getCrawlPanel = function () {
         //    var req = {
