@@ -66,15 +66,18 @@ CrawlPanelApp.controller('CrawlPanelController',
 
         }, 100000);
 
-        connection.on("ReceiveJobInfo", (seq, jobType, url, startTime) => {  
+        connection.on("ReceiveAddJobInfo", (seq, jobType, url, startTime) => {
+            $scope.jobList.push({ seq: seq, jobType: jobType, url: url, startTime: startTime });
+            $scope.$apply();
+        });
+
+        connection.on("ReceiveRemoveJobInfo", (seq) => {
             const index = $scope.jobList.findIndex(x => x.seq === seq);
             if (index > -1) {
                 $scope.jobList.splice(index, 1);
-            } else {
-                $scope.jobList.push({ seq: seq, jobType: jobType, url: url, startTime: startTime });
-            }   
+            }
             $scope.$apply();
-        });        
+        });
 
         //$interval(function () {
         //    $scope.getCrawlPanel();

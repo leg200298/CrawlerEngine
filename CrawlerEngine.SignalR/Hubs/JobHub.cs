@@ -26,13 +26,22 @@ namespace CrawlerEngine.SignalR
             }
         }
 
-        public async Task SendJobInfo(Guid seq, string jobType, string url)
+        public async Task SendAddJobInfo(Guid seq, string jobType, string url)
         {
             if (connection.State == HubConnectionState.Disconnected)
             {
                 await connection.StartAsync();
             }            
-            await connection.InvokeAsync("SendJobInfo", seq, jobType, url);
-        }        
+            await connection.InvokeAsync("SendAddJobInfo", seq, jobType, url);
+        }
+
+        public async Task SendRemoveJobInfo(Guid seq)
+        {
+            if (connection.State == HubConnectionState.Disconnected)
+            {
+                await connection.StartAsync();
+            }
+            await connection.InvokeAsync("SendRemoveJobInfo", seq);
+        }
     }
 }

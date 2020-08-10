@@ -31,7 +31,7 @@ namespace CrawlerEngine.JobWorker
         {
             this.crawlDataJobListRepository = crawlFactory.CrawlDataJobListRepository;           
             UpdateJobStatusStart();
-            Task.Run(async () => await new JobHub().SendJobInfo(jobInfo.Seq, jobInfo.JobType, jobInfo.Url));
+            Task.Run(async () => await new JobHub().SendAddJobInfo(jobInfo.Seq, jobInfo.JobType, jobInfo.Url));
             (bool, string) temp = (false, "");
             try
             {
@@ -57,7 +57,7 @@ namespace CrawlerEngine.JobWorker
                     }
                 } while (temp.Item1);
                 UpdateJobStatusEnd();
-                Task.Run(async () => await new JobHub().SendJobInfo(jobInfo.Seq, jobInfo.JobType, jobInfo.Url));
+                Task.Run(async () => await new JobHub().SendRemoveJobInfo(jobInfo.Seq));
                 _logger.Info($"{jobInfo.Seq}  End");
             }
             catch (Exception e)
