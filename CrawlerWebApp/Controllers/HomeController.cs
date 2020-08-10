@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using CrawlerEngine.Model.DTO;
+using CrawlerEngine.Repository.Factory;
+using CrawlerWebApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using CrawlerWebApp.Models;
-using CrawlerEngine.Model.DTO;
-using CrawlerEngine.Repository.Factory;
-using System.Net.Http;
-using CrawlerEngine.Models.ViewModel;
-using System.Net;
-using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace CrawlerWebApp.Controllers
 {
@@ -31,9 +24,8 @@ namespace CrawlerWebApp.Controllers
             return PartialView();
         }
 
-        [HttpGet]
-        [Route("api/v1/CrawlPanel")]
-        public IEnumerable<CrawlDataJobListDto> Get(string database)
+        [HttpGet]      
+        public IEnumerable<CrawlDataJobListDto> CrawlPanel(string database)
         {
             crawlFactory = new CrawlFactory(database);
             var response = crawlFactory.CrawlDataJobListRepository
@@ -41,25 +33,23 @@ namespace CrawlerWebApp.Controllers
             return response;
         }
 
-        [HttpPost]
-        [Route("api/v1/CrawlPanelGetDiffStatus")]
+        [HttpPost]       
         public IActionResult CrawlPanelGetDiffStatus([FromBody] AskRequest data)
         {
             crawlFactory = new CrawlFactory(data.database);
             var response = crawlFactory.CrawlDataJobListRepository.GetCrawlDataJobDiffStatus();
-            return Ok(response);
+            return Json(response);
         }
 
-        [HttpPost]
-        [Route("api/v1/CrawlPanel")]
-        public IActionResult PostCrawlPanel([FromBody] AskRequest data)
+        [HttpPost]        
+        public IActionResult CrawlPanel([FromBody] AskRequest data)
         {
             crawlFactory = new CrawlFactory(data.database);
             var command = "1==1";
             if (string.IsNullOrEmpty(data.command)) { command = data.command; }
             var response = crawlFactory.CrawlDataJobListRepository
                             .GetCrawlDataJobListDtos(data.command, data.count);
-            return Ok(response);
+            return Json(response);
         }
 
         public IActionResult Privacy()
