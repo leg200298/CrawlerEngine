@@ -66,8 +66,8 @@ CrawlPanelApp.controller('CrawlPanelController',
 
         }, 100000);
 
-        connection.on("ReceiveAddJobInfo", (seq, jobType, url, startTime) => {
-            $scope.jobList.push({ seq: seq, jobType: jobType, url: url, startTime: startTime });
+        connection.on("ReceiveAddJobInfo", (machineName, vmIp, seq, jobType, url, startTime) => {
+            $scope.jobList.push({ machineName: machineName, vmIp: vmIp, seq: seq, jobType: jobType, url: url, startTime: startTime });
             $scope.$apply();
         });
 

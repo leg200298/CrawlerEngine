@@ -2,9 +2,11 @@
 using CrawlerEngine.Driver;
 using CrawlerEngine.JobWorker;
 using CrawlerEngine.Models;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace CrawlerEngine.Manager
@@ -18,6 +20,7 @@ namespace CrawlerEngine.Manager
         {
             CrawlFactory = new Repository.Factory.CrawlFactory("MSSQL");
             WebDriverPool.InitDriver(browserCount);
+            string vmIp = GetIp();
             List<Task> lt = new List<Task>();
             while (1 == 1)
             {
@@ -27,8 +30,9 @@ namespace CrawlerEngine.Manager
                 {
                     foreach (var jobInfo in GetJobInfo(resourceCount, machineName))
                     {
+                        jobInfo.PutToDic("machineName", machineName);
+                        jobInfo.PutToDic("vmIp", vmIp);
                         lt.Add(Task.Run(() => DoJob(jobInfo)));
-
                     }
 
                     Task.WaitAll(lt.ToArray());
@@ -46,7 +50,6 @@ namespace CrawlerEngine.Manager
                 //Thread.Sleep(10000);
             }
         }
-
 
         #region 工作區
         private IEnumerable<JobInfo> GetJobInfo(int resourceCount, string machineName)
@@ -100,6 +103,19 @@ namespace CrawlerEngine.Manager
 
         }
 
+        private string GetIp()
+        {
+            string ip = string.Empty;
+            var httpClient = new HttpClient();
+            var httpResponse = httpClient.GetAsync("http://ip-api.com/json/").GetAwaiter().GetResult();
+            string responseData = httpResponse.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+            try
+            {
+                ip = JObject.Parse(responseData).Value<string>("query");
+            }
+            catch { }
+            return ip;
+        }
 
 
         #endregion

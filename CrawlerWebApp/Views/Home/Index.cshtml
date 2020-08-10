@@ -96,12 +96,16 @@
                     <div class="tab-pane fade" id="job">
                         <table class="table table-bordered rounded-circle  ">
                             <tr>
+                                <td>VM名稱</td>
+                                <td>VMIP</td>
                                 <td>ID</td>
                                 <td>型態</td>
                                 <td>內文</td>
                                 <td>開始時間</td>
                             </tr>
                             <tr ng-repeat="x in jobList">
+                                <td>    {{x.machineName}}   </td>
+                                <td>    {{x.vmIp}}  </td>
                                 <td>    {{x.seq}} </td>
                                 <td>    {{x.jobType}} </td>
                                 <td>    {{x.url}} </td>
@@ -112,7 +116,7 @@
                 </div>
 
         </main>
-        </div>
+    </div>
     </div>
 </body>
 </html>

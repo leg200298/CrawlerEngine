@@ -29,9 +29,10 @@ namespace CrawlerEngine.JobWorker
         /// </summary>
         public void DoJobFlow(CrawlFactory crawlFactory)
         {
-            this.crawlDataJobListRepository = crawlFactory.CrawlDataJobListRepository;           
+            this.crawlDataJobListRepository = crawlFactory.CrawlDataJobListRepository;
             UpdateJobStatusStart();
-            Task.Run(async () => await new JobHub().SendAddJobInfo(jobInfo.Seq, jobInfo.JobType, jobInfo.Url));
+            Task.Run(async () =>
+            await new JobHub().SendAddJobInfo(Convert.ToString(jobInfo.GetFromDic("machineName")), Convert.ToString(jobInfo.GetFromDic("vmIp")), jobInfo.Seq, jobInfo.JobType, jobInfo.Url));
             (bool, string) temp = (false, "");
             try
             {

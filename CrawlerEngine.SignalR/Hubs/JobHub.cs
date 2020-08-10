@@ -21,18 +21,18 @@ namespace CrawlerEngine.SignalR
                     connection = new HubConnectionBuilder()
                     .WithUrl(new Uri(uri))
                     .WithAutomaticReconnect()
-                    .Build();                  
-                }                
+                    .Build();
+                }
             }
         }
 
-        public async Task SendAddJobInfo(Guid seq, string jobType, string url)
+        public async Task SendAddJobInfo(string machineName, string vmIp, Guid seq, string jobType, string url)
         {
             if (connection.State == HubConnectionState.Disconnected)
             {
                 await connection.StartAsync();
-            }            
-            await connection.InvokeAsync("SendAddJobInfo", seq, jobType, url);
+            }
+            await connection.InvokeAsync("SendAddJobInfo", machineName, vmIp, seq, jobType, url);
         }
 
         public async Task SendRemoveJobInfo(Guid seq)
