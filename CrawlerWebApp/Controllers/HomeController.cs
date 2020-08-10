@@ -21,7 +21,7 @@ namespace CrawlerWebApp.Controllers
 
         public IActionResult Index()
         {
-            return PartialView();
+            return View();
         }
 
         [HttpGet]      

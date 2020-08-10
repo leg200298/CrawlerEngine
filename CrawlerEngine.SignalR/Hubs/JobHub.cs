@@ -12,7 +12,7 @@ namespace CrawlerEngine.SignalR
         private static HubConnection connection;
         private static object jobHubLock = new object();
 
-        public JobHub(string uri = "https://localhost:44361/jobhub")
+        public JobHub(string uri = "https://crawlpanel.azurewebsites.net/jobhub")
         {
             lock (jobHubLock)
             {

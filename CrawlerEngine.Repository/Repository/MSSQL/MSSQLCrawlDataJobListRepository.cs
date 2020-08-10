@@ -54,7 +54,7 @@ namespace CrawlerEngine.Repository.MSSQL
                                     SET job_status='get'
                                         ,[start_time] = '{DateTime.UtcNow.ToString(RuleString.DateTimeFormat)}'
                                     OUTPUT inserted.*
-                                    where  job_status in ('not start' ,'waitforawhile')                                  
+                                    where  job_status in ('not start' ,'waitforawhile')                                      
                                     COMMIT TRAN";
             using (var conn = _DatabaseConnection.Create())
             {
