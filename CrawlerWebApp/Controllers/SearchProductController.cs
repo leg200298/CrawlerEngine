@@ -147,6 +147,7 @@ namespace CrawlerWebApp.Controllers
             }
             if (data.data_provider.ToLower() == "ybuy")
             {
+                returnStr = Platform.YahooBuyProduct.GetDescription();
             }
             if (data.data_provider.ToLower() == "jollybuy")
             {
@@ -160,7 +161,7 @@ namespace CrawlerWebApp.Controllers
             if (data.data_provider.ToLower() == "spstore")
             {
             }
-            
+
             return returnStr;
         }
         public class ReturnMessage<T>
