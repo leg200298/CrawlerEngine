@@ -55,9 +55,9 @@ namespace CrawlerEngine.JobWorker.WorkClass
 
             var htmlDoc = new HtmlDocument();
             htmlDoc.LoadHtml(responseData);//*[@id="yui_3_12_0_2_1594632086640_34"]/div[4]/div[1]/h1/span[1]
-            crawlDataDetailOptions.price = htmlDoc.DocumentNode.SelectSingleNode("//*[@id=\"ypsiif\"]/div/div[1]/div[4]/table/tbody/tr[1]/td/div/span").InnerText;
-            crawlDataDetailOptions.name = htmlDoc.DocumentNode.SelectSingleNode("//*[@id=\"ypsiif\"]/div/div[1]/div[4]/div[1]/h1/span[1]").InnerText;
-            crawlDataDetailOptions.category = "";
+            crawlDataDetailOptions.price = htmlDoc.DocumentNode.SelectSingleNode("//*[@id=\"isoredux-root\"]/div/div[2]/div/div[1]/div[2]/div[2]/div/div[1]/div[2]/div[1]/div/div[1]").InnerText;
+            crawlDataDetailOptions.name = htmlDoc.DocumentNode.SelectSingleNode("//*[@id=\"isoredux-root\"]/div/div[2]/div/div[1]/div[2]/div[2]/div/div[1]/div[2]/div[1]/h1").InnerText;
+            //crawlDataDetailOptions.category = "";
             return true;
         }
 
