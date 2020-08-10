@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "搜尋產品";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -11,78 +11,94 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
-<body ng-controller="CrawlPanelController">
+<body ng-controller="SearchProductController">
     <div class="container">
         <main role="main" class="pb-3">
-            <link data-require="bootstrap@3.3.7" data-semver="3.3.7" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
-            <link data-require="bootstrap-css@3.*" data-semver="3.3.7" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css" />
-            <script data-require="angular.js@1.6.5" data-semver="1.6.5" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.min.js"></script>
-            <script data-require="angular-animate@1.6.*" data-semver="1.6.5" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular-animate.min.js"></script>
-            <script data-require="angular-touch@1.6.*" data-semver="1.6.2" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.2/angular-touch.js"></script>
-            <script data-require="ui-bootstrap" data-semver="2.5.0" src="https://cdn.rawgit.com/angular-ui/bootstrap/gh-pages/ui-bootstrap-tpls-2.5.0.js"></script>
-            <script src="~/js/CrawlPanelController.js"></script>
+            <script src="~/js/SearchProductController.js"></script>
             <p></p>
-            <span>DB來源</span>
-            <select ng-model="dataBase" class="btn btn-secondary dropdown-toggle">
-                <option ng-repeat="x in dataBaseList" value="{{x}}">{{x}}</option>
-            </select>
 
-            <div class="container-fluid">
+            <div>商品名稱</div>
+            <input type="text" class=" text-dark " ng-model="reqProduct" />
+            <input type="button" class="btn btn-success" value="送出" ng-click="getdata()" />
 
-                <hr>
-                更新時間:{{ updateTime }}
-                <input type="button" class="btn btn-success" value="立刻更新" ng-click="getStatusCount()" />
-
-
-                <div>總觀</div>
-                <table class="table table-bordered rounded-circle  ">
-                    <tr><td>狀態</td><td>數量</td></tr>
-                    <tr ng-repeat="x in statusArray">
-                        <td>    {{x.job_status}} </td>
-                        <td>    {{x.count}} </td>
-                    </tr>
-                </table>
-                <hr />
-
-                <span>序列中JOB狀態</span>
-                <select ng-model="reqModel.job_status" class="btn btn-secondary dropdown-toggle">
-                    <option ng-repeat="x in statusArray" value="{{x.job_status}}">{{x.job_status}}</option>
+            <table class="table table-bordered rounded-circle  ">
+                <tr>
+                    <td>序列</td>
+                    <td>連結</td>
+                    <td>店家</td>
+                    <td>價格</td>
+                    <td>供應</td>
+                    <td>控制</td>
+                </tr>
+                <tr ng-repeat="x in dataArray">
+                    <td>    {{$index+1}} </td>
+                    <td>   <a href="{{x.href}}">{{x.title}} </a> </td>
+                    <td>    {{x.data_store}} </td>
+                    <td>    {{x.data_price}} </td>
+                    <td>    {{x.data_provider}} </td>
+                    <td>      <input type="button" class="btn btn-success" value="新增工作" ng-click="SendToJobList(x)" /> </td>
+                </tr>
+            </table>
+            @*<span>DB來源</span>
+                <select ng-model="dataBase" class="btn btn-secondary dropdown-toggle">
+                    <option ng-repeat="x in dataBaseList" value="{{x}}">{{x}}</option>
                 </select>
-                <span>取得數量</span>
-                <input type="number" class="info-box-number " ng-model="reqModel.count" />
 
-                <input type="button" class="btn btn-success" value="送出" ng-click="getdata()" />
+                <div class="container-fluid">
 
-                <div>最近的50筆</div>
-                <table class="table table-bordered rounded-circle  ">
-                    <tr>
-                        <td>ID</td>
-                        <td>型態</td>
-                        <td>狀態</td>
-                        <td>內文</td>
-                        <td>錯誤</td>
-                        <td>工作站</td>
-                        <td>工作次數</td>
-                        <td>註冊時間</td>
-                        <td>工作開始</td>
-                        <td>工作結束</td>
-                    </tr>
-                    <tr ng-repeat="x in dataArray">
-                        <td>    {{x.seq}} </td>
-                        <td>    {{x.job_type}} </td>
-                        <td>    {{x.job_status}} </td>
-                        <td>    {{x.job_info}} </td>
-                        <td>    {{x.error_info}} </td>
-                        <td>    {{x.work_station}} </td>
-                        <td>    {{x.work_times}} </td>
-                        <td>    {{x.register_time}} </td>
-                        <td>    {{x.start_time}} </td>
-                        <td>    {{x.end_time}} </td>
-                    </tr>
-                </table>
+                    <hr>
+                    更新時間:{{ updateTime }}
+                    <input type="button" class="btn btn-success" value="立刻更新" ng-click="getStatusCount()" />
 
 
-            </div>
+                    <div>總觀</div>
+                    <table class="table table-bordered rounded-circle  ">
+                        <tr><td>狀態</td><td>數量</td></tr>
+                        <tr ng-repeat="x in statusArray">
+                            <td>    {{x.job_status}} </td>
+                            <td>    {{x.count}} </td>
+                        </tr>
+                    </table>
+                    <hr />
+
+                    <span>序列中JOB狀態</span>
+                    <select ng-model="reqModel.job_status" class="btn btn-secondary dropdown-toggle">
+                        <option ng-repeat="x in statusArray" value="{{x.job_status}}">{{x.job_status}}</option>
+                    </select>
+                    <span>取得數量</span>
+                    <input type="number" class="info-box-number " ng-model="reqModel.count" />
+
+
+                    <div>最近的50筆</div>
+                    <table class="table table-bordered rounded-circle  ">
+                        <tr>
+                            <td>ID</td>
+                            <td>型態</td>
+                            <td>狀態</td>
+                            <td>內文</td>
+                            <td>錯誤</td>
+                            <td>工作站</td>
+                            <td>工作次數</td>
+                            <td>註冊時間</td>
+                            <td>工作開始</td>
+                            <td>工作結束</td>
+                        </tr>
+                        <tr ng-repeat="x in dataArray">
+                            <td>    {{x.seq}} </td>
+                            <td>    {{x.job_type}} </td>
+                            <td>    {{x.job_status}} </td>
+                            <td>    {{x.job_info}} </td>
+                            <td>    {{x.error_info}} </td>
+                            <td>    {{x.work_station}} </td>
+                            <td>    {{x.work_times}} </td>
+                            <td>    {{x.register_time}} </td>
+                            <td>    {{x.start_time}} </td>
+                            <td>    {{x.end_time}} </td>
+                        </tr>
+                    </table>
+
+
+                </div>*@
         </main>
     </div>
 
