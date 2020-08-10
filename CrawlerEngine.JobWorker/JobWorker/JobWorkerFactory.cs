@@ -82,6 +82,10 @@ namespace CrawlerEngine.JobWorker
             {
                 return new YahooMallSearchJobWorker(jobInfo);
             }
+            if (jobType == Platform.YahooBuyProduct.GetDescription())
+            {
+                return new YahooBuyProductJobWorker(jobInfo);
+            }
 
 
             #endregion

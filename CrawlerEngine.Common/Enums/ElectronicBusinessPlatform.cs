@@ -14,7 +14,7 @@ namespace CrawlerEngine.Common.Enums
             [Description("MOMOSHOP-PRODUCT")]
             MomoShopProduct = 0101,
             [Description("MOMOSHOP-DGRPCATEGORY")]
-            MomoShopDgrpCategory = 0102,            
+            MomoShopDgrpCategory = 0102,
             [Description("MOMOSHOP-LGRPCATEGORY")]
             MomoShopLgrpCategory = 0103,
             [Description("MOMOSHOP-STORE")]
@@ -44,6 +44,10 @@ namespace CrawlerEngine.Common.Enums
             YahooMallStore = 0302,
             [Description("YAHOOMALL-SEARCH")]
             YahooMallSearch = 0305,
+            [Description("YAHOOBUY-PRODUCT")]
+            YahooBuyProduct = 0401,
+
+
             #endregion
         }
         /*
