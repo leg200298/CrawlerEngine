@@ -15,6 +15,10 @@ namespace CrawlerEngine.Model.DTO
         public DateTime register_time { get; set; }
         [Column("job_status")]
         public string job_status { get; set; }
+        [Column("work_times")]
+        public int work_times { get; set; }
+        [Column("work_station")]
+        public string work_station { get; set; }
         [Column("start_time")]
         public DateTime? start_time { get; set; }
         [Column("end_time")]

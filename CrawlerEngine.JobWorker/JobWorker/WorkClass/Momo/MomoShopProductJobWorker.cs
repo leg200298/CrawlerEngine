@@ -7,9 +7,11 @@ using HtmlAgilityPack;
 using NLog;
 using System;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading;
+using static CrawlerEngine.Common.Enums.ElectronicBusiness;
 
 namespace CrawlerEngine.JobWorker.WorkClass
 {
@@ -35,12 +37,8 @@ namespace CrawlerEngine.JobWorker.WorkClass
             {
                 //GetDriver();
                 //OpenUrl();
-                //responseData = GetData();
-                var httpClient = new HttpClient();
-                httpClient.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36");
-                httpClient.DefaultRequestHeaders.Add("referer", "https://www.momoshop.com.tw");
-                var httpResponse = httpClient.GetAsync(jobInfo.Url).GetAwaiter().GetResult();                
-                responseData = httpResponse.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+                //responseData = GetData();                       
+                responseData = SetHttpHeaderAndGetPageData();
                 return true;
             }
             catch (Exception ex)
@@ -48,6 +46,31 @@ namespace CrawlerEngine.JobWorker.WorkClass
                 LoggerHelper._.Error(ex);
                 return false;
             }
+        }
+
+
+        private string SetHttpHeaderAndGetPageData()
+        {
+            Uri uri = new Uri(jobInfo.Url);
+            HttpClientHandler handler = new HttpClientHandler() { CookieContainer = new CookieContainer() };
+            var httpClient = new HttpClient(handler);
+
+            var cookieCollection = CookiesHelper.GetCookies(Platform.MomoShop);
+            if (cookieCollection != null)
+            {
+                handler.CookieContainer.Add(cookieCollection);
+            }
+            else
+            {
+                httpClient.GetAsync("https://" + uri.Host).GetAwaiter().GetResult();
+                var cookies = handler.CookieContainer.GetCookies(new Uri("https://" + uri.Host));
+                CookiesHelper.SetCookies(Platform.MomoShop, cookies, 60);
+            }
+
+            httpClient.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36");
+            httpClient.DefaultRequestHeaders.Add("referer", "https://www.momoshop.com.tw");
+            var httpResponse = httpClient.GetAsync(jobInfo.Url).GetAwaiter().GetResult();
+            return responseData = httpResponse.Content.ReadAsStringAsync().GetAwaiter().GetResult();
         }
 
         protected override bool Validate()

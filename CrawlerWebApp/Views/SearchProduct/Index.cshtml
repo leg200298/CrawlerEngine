@@ -1,0 +1,53 @@
+﻿
+@{
+    ViewData["Title"] = "搜尋產品";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<html ng-app="Crawl" class="ng-scope">
+<head>
+    <title>CrawlWeb</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body ng-controller="SearchProductController">
+    <div class="container">
+        <main role="main" class="pb-3">
+            <script src="~/js/SearchProductController.js"></script>
+            <p></p>
+
+            <div>商品名稱</div>
+            <input type="text" class=" text-dark " ng-model="reqProduct" />
+            <input type="button" class="btn btn-success" value="送出" ng-click="getdata()" />
+            <table class="table table-bordered rounded-circle  ">
+                <tr>
+                    <td>選取</td>
+                    <td>序列</td>
+                    <td>連結</td>
+                    <td>店家</td>
+                    <td>價格</td>
+                    <td>供應</td>
+                    <td>控制</td>
+                </tr>
+                <tr ng-repeat="x in dataArray">
+                    <td>   <input type="checkbox" ng-model="x.selected"> </td>
+                    <td>    {{$index+1}} </td>
+                    <td>   <a href="{{x.href}}">{{x.title}} </a> </td>
+                    <td>    {{x.data_store}} </td>
+                    <td>    {{x.data_price}} </td>
+                    <td>    {{x.data_provider}} </td>
+                    <td>      <input type="button" class="btn btn-success" value="新增工作" ng-click="SendToJobList(x)" /> </td>
+                </tr>
+            </table> 
+            <div></div>
+            <input type="button" ng-show="dataArray.length>0" class="btn btn-success" value="新增大量工作" ng-click="SendAllToJobList()" />
+
+
+        </main>
+    </div>
+
+
+</body>
+
+</html>
