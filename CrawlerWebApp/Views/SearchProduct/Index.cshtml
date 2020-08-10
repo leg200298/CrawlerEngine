@@ -39,7 +39,9 @@
                     <td>    {{x.data_provider}} </td>
                     <td>      <input type="button" class="btn btn-success" value="新增工作" ng-click="SendToJobList(x)" /> </td>
                 </tr>
-            </table> <input type="button" class="btn btn-success" value="新增大量工作" ng-click="SendAllToJobList()" />
+            </table> 
+            <div></div>
+            <input type="button" ng-show="dataArray.length>0" class="btn btn-success" value="新增大量工作" ng-click="SendAllToJobList()" />
 
 
         </main>

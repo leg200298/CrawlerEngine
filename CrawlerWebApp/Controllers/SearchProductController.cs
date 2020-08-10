@@ -145,6 +145,22 @@ namespace CrawlerWebApp.Controllers
             {
                 returnStr = Platform.Pchome24hProduct.GetDescription();
             }
+            if (data.data_provider.ToLower() == "ybuy")
+            {
+            }
+            if (data.data_provider.ToLower() == "jollybuy")
+            {
+            }
+            if (data.data_provider.ToLower() == "etmall")
+            {
+            }
+            if (data.data_provider.ToLower() == "umall")
+            {
+            }
+            if (data.data_provider.ToLower() == "spstore")
+            {
+            }
+            
             return returnStr;
         }
         public class ReturnMessage<T>
