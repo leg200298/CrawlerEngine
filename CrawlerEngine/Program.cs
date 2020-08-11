@@ -1,20 +1,20 @@
 ﻿using CrawlerEngine.Manager;
 using System;
 using System.Linq;
+using System.Text;
 
 namespace CrawlerEngine
 {
     class Program
     {
-        private static int Resource = 2;
+        private static int Resource = 3;
         private static int Browser = 1;
         private static string MachineName = "defaultMachine";
 
         static void Main(string[] args)
         {
-
-            check(args);
-
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+            check(args);            
             WorkManager workManager = new WorkManager();
             workManager.Process(Resource, Browser, MachineName);
         }

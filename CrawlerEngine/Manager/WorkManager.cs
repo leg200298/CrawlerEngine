@@ -18,7 +18,8 @@ namespace CrawlerEngine.Manager
         public Repository.Factory.CrawlFactory CrawlFactory;
         public void Process(int resourceCount, int browserCount, string machineName)
         {
-            CrawlFactory = new Repository.Factory.CrawlFactory("MSSQL");
+            CrawlFactory = new Repository.Factory.CrawlFactory("POSTGRESSQL");
+            //CrawlFactory = new Repository.Factory.CrawlFactory("MSSQL");
             WebDriverPool.InitDriver(browserCount);
             string vmIp = GetIp();
             List<Task> lt = new List<Task>();
