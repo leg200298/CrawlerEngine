@@ -1,4 +1,5 @@
-﻿using CrawlerEngine.Common.Helper;
+﻿using CrawlerEngine.Common;
+using CrawlerEngine.Common.Helper;
 using CrawlerEngine.Driver;
 using CrawlerEngine.Model.DTO;
 using CrawlerEngine.Models;
@@ -6,9 +7,11 @@ using CrawlerEngine.Repository.Factory;
 using HtmlAgilityPack;
 using NLog;
 using System;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using static CrawlerEngine.Common.Enums.ElectronicBusiness;
@@ -37,8 +40,10 @@ namespace CrawlerEngine.JobWorker.WorkClass
             {
                 //GetDriver();
                 //OpenUrl();
-                //responseData = GetData();                       
+                //responseData = GetData();       
+                crawlDataDetailOptions.PutToDic("crawl_start", DateTime.UtcNow.ToString(RuleString.DateTimeFormat));
                 responseData = SetHttpHeaderAndGetPageData();
+                crawlDataDetailOptions.PutToDic("crawl_end", DateTime.UtcNow.ToString(RuleString.DateTimeFormat));
                 return true;
             }
             catch (Exception ex)
@@ -51,22 +56,36 @@ namespace CrawlerEngine.JobWorker.WorkClass
 
         private string SetHttpHeaderAndGetPageData()
         {
-            Uri uri = new Uri(jobInfo.Url);
-            HttpClientHandler handler = new HttpClientHandler() { CookieContainer = new CookieContainer() };
-            var httpClient = new HttpClient(handler);
+            //Uri uri = new Uri(jobInfo.Url);
+            //HttpClientHandler handler = new HttpClientHandler() { CookieContainer = new CookieContainer() };
+            //var httpClient = new HttpClient(handler);
 
-            var cookieCollection = CookiesHelper.GetCookies(Platform.MomoShop);
-            if (cookieCollection != null)
-            {
-                handler.CookieContainer.Add(cookieCollection);
-            }
-            else
-            {
-                httpClient.GetAsync("https://" + uri.Host).GetAwaiter().GetResult();
-                var cookies = handler.CookieContainer.GetCookies(new Uri("https://" + uri.Host));
-                CookiesHelper.SetCookies(Platform.MomoShop, cookies, 60);
-            }
+            //var cookieCollection = CookiesHelper.GetCookies(Platform.MomoShop);
+            //if (cookieCollection != null)
+            //{
+            //    handler.CookieContainer.Add(cookieCollection);
+            //}
+            //else
+            //{
+            //    httpClient.GetAsync("https://" + uri.Host).GetAwaiter().GetResult();
+            //    var cookies = handler.CookieContainer.GetCookies(new Uri("https://" + uri.Host));
+            //    CookiesHelper.SetCookies(Platform.MomoShop, cookies, 60);
+            //}
 
+            //HttpWebRequest request = HttpWebRequest.Create(jobInfo.Url) as HttpWebRequest;
+            //request.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36";
+            //request.Referer = "https://www.momoshop.com.tw";
+
+            //using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+            //{
+            //    using (StreamReader sr = new StreamReader(response.GetResponseStream(), Encoding.GetEncoding(response.CharacterSet)))
+            //    {
+            //        responseData = sr.ReadToEnd();
+            //    }
+            //}
+            //return responseData;
+
+            var httpClient = new HttpClient();
             httpClient.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36");
             httpClient.DefaultRequestHeaders.Add("referer", "https://www.momoshop.com.tw");
             var httpResponse = httpClient.GetAsync(jobInfo.Url).GetAwaiter().GetResult();
@@ -89,6 +108,7 @@ namespace CrawlerEngine.JobWorker.WorkClass
         {
             try
             {
+                crawlDataDetailOptions.PutToDic("parse_start", DateTime.UtcNow.ToString(RuleString.DateTimeFormat));
                 htmlDoc.LoadHtml(responseData);
 
                 //crawlDataDetailOptions.price = htmlDoc.DocumentNode.SelectSingleNode("//*[@class='priceTxtArea']//b").InnerText;
@@ -106,6 +126,7 @@ namespace CrawlerEngine.JobWorker.WorkClass
                 crawlDataDetailOptions.category = string.Join("/", htmlDoc.DocumentNode.SelectNodes("//*[@id=\"bt_2_layout_NAV\"]/ul//li").Select(x => HtmlEntity.DeEntitize(x.InnerText)));
                 crawlDataDetailOptions.PutToDic("_img", $"https:{htmlDoc.DocumentNode.SelectSingleNode("//*[@id='goodsimgB']//a[contains(@href, 'goodsimg')]")?.Attributes["href"].Value}");
 
+                crawlDataDetailOptions.PutToDic("parse_end", DateTime.UtcNow.ToString(RuleString.DateTimeFormat));
                 return true;
             }
             catch (Exception ex)
@@ -119,11 +140,12 @@ namespace CrawlerEngine.JobWorker.WorkClass
         {
             try
             {
+                crawlDataDetailOptions.PutToDic("savedata_start", DateTime.UtcNow.ToString(RuleString.DateTimeFormat));
                 CrawlDataDetailDto crawlDataDetailDto = new CrawlDataDetailDto()
                 {
                     seq = jobInfo.Seq,
                     job_status = "end",
-                    end_time = DateTime.Now,
+                    end_time = DateTime.UtcNow,
                     detail_data = crawlDataDetailOptions.GetJsonString()
                 };
 

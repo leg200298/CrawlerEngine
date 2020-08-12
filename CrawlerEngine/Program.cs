@@ -1,6 +1,7 @@
 ﻿using CrawlerEngine.Manager;
 using System;
 using System.Linq;
+using System.Text;
 
 namespace CrawlerEngine
 {
@@ -12,9 +13,8 @@ namespace CrawlerEngine
 
         static void Main(string[] args)
         {
-
-            check(args);
-
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+            check(args);            
             WorkManager workManager = new WorkManager();
             workManager.Process(Resource, Browser, MachineName);
         }
