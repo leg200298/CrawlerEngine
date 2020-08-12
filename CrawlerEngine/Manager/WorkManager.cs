@@ -56,15 +56,15 @@ namespace CrawlerEngine.Manager
         private IEnumerable<JobInfo> GetJobInfo(int resourceCount, string machineName)
         {
             //#if (DEBUG)
-            List<JobInfo> lj = new List<JobInfo>();
-            lj.Add(new JobInfo()
-            {
-                Seq = new Guid("D608BE51-D170-4056-ADD4-A54EA20DC1C4"),
-                Info = JsonUntityHelper.DeserializeStringToDictionary<string, object>(
-                    "{\"_url\": \"https://www.etmall.com.tw/i/2480912\", " +
-                    "  \"_jobType\": \"ETMALL-PRODUCT\"}")
-            });
-            return lj.AsEnumerable();
+            //List<JobInfo> lj = new List<JobInfo>();
+            //lj.Add(new JobInfo()
+            //{
+            //    Seq = new Guid("D608BE51-D170-4056-ADD4-A54EA20DC1C4"),
+            //    Info = JsonUntityHelper.DeserializeStringToDictionary<string, object>(
+            //        "{\"_url\": \"https://www.etmall.com.tw/i/2480912\", " +
+            //        "  \"_jobType\": \"ETMALL-PRODUCT\"}")
+            //});
+            //return lj.AsEnumerable();
             //#else
             return
 

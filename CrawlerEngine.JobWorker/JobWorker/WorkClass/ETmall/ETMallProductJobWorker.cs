@@ -54,11 +54,15 @@ namespace CrawlerEngine.JobWorker.WorkClass
         {
 
             var htmlDoc = new HtmlDocument();
+            var ccc = responseData.IndexOf("'price': ");
+            var cccccc = responseData.Substring(ccc, 30);
+         var temp =   cccccc.Split(',')[0].Replace("'price': ","");
             htmlDoc.LoadHtml(responseData);//*[@id="yui_3_12_0_2_1594632086640_34"]/div[4]/div[1]/h1/span[1]
+            //var t = htmlDoc.DocumentNode.SelectSingleNode("//script[contains(text(), 'content_name')");
 
-            var t = htmlDoc.DocumentNode.SelectSingleNode("//script[contains(text(), 'content_name')");
+            //var t2 = htmlDoc.DocumentNode.SelectSingleNode("//script[contains(text(), 'content_name')");
 
-            crawlDataDetailOptions.price = htmlDoc.DocumentNode.SelectSingleNode("//*[@id=\"productDetail\"]/div[2]/section/section/div[1]/h3").InnerText;
+            crawlDataDetailOptions.price = temp;
            
             crawlDataDetailOptions.name = htmlDoc.DocumentNode.SelectSingleNode("//head//title").InnerText;
             //crawlDataDetailOptions.category = "";
