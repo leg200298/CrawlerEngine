@@ -49,6 +49,10 @@ namespace CrawlerEngine.Common.Enums
 
 
             #endregion
+            #region ETMALL
+            [Description("ETMALL-PRODUCT")]
+            ETMallProduct = 0501,
+            #endregion
         }
         /*
               PC Home 陣營電商通路平台：

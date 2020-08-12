@@ -89,6 +89,15 @@ namespace CrawlerEngine.JobWorker
 
 
             #endregion
+            #region ETMALL
+            
+
+
+            if (jobType == Platform.ETMallProduct.GetDescription())
+            {
+                return new ETMallProductJobWorker(jobInfo);
+            }
+            #endregion
             return null;
 
             // todo list
