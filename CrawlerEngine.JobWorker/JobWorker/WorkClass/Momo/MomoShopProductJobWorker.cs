@@ -85,9 +85,18 @@ namespace CrawlerEngine.JobWorker.WorkClass
             //}
             //return responseData;
 
-            var httpClient = new HttpClient();
+            var handler = new HttpClientHandler();
+            if (handler.SupportsAutomaticDecompression)
+            {
+                handler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
+            }
+            var httpClient = new HttpClient(handler);
+
+            //var httpClient = new HttpClient();
             httpClient.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36");
             httpClient.DefaultRequestHeaders.Add("referer", "https://www.momoshop.com.tw");
+            httpClient.DefaultRequestHeaders.Add("accept-encoding", "gzip, deflate");
+
             var httpResponse = httpClient.GetAsync(jobInfo.Url).GetAwaiter().GetResult();
             return responseData = httpResponse.Content.ReadAsStringAsync().GetAwaiter().GetResult();
         }

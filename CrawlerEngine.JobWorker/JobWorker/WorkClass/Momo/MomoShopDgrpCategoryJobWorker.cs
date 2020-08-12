@@ -71,6 +71,10 @@ namespace CrawlerEngine.JobWorker.WorkClass
         {            
             Uri uri = new Uri(jobInfo.Url);
             HttpClientHandler handler = new HttpClientHandler() { CookieContainer = new CookieContainer() };
+            if (handler.SupportsAutomaticDecompression)
+            {
+                handler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
+            }
             var httpClient = new HttpClient(handler);
 
             var cookieCollection = CookiesHelper.GetCookies(Platform.MomoShop);
@@ -89,6 +93,7 @@ namespace CrawlerEngine.JobWorker.WorkClass
             httpClient.DefaultRequestHeaders.Add("X-Requested-With", "XMLHttpRequest");
             httpClient.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36");
             httpClient.DefaultRequestHeaders.Add("referer", "https://www.momoshop.com.tw");
+            httpClient.DefaultRequestHeaders.Add("accept-encoding", "gzip, deflate");
 
             var postData = new StringContent(Convert.ToString(jobInfo.GetFromDic("_postData"))
                 , Encoding.UTF8, "application/x-www-form-urlencoded");
