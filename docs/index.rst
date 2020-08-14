@@ -1,59 +1,18 @@
-Installation
+說明
 ============
 
-Installing Kong is pretty simple. Here is a step by step plan on how to do it.
-
+這個專案是爬蟲專案，剛好都在外部所以可以拿來做測試的
 .. note::
-    Kong is available on Pypi as ``django-kong``, but trunk is probably your
-    best best for the most up to date features.
+    這個時間點專案已經被關回``私閉``,主要是說明大概怎麼做的
+	.
 
-First, obtain Python_ and virtualenv_ if you do not already have them. Using a
-virtual environment will make the installation easier, and will help to avoid
-clutter in your system-wide libraries. You will also need Git_ in order to
-clone the repository.
-
-.. _Python: http://www.python.org/
-.. _virtualenv: http://pypi.python.org/pypi/virtualenv
-.. _Git: http://git-scm.com/
-
-Once you have these, create a virtual environment somewhere on your disk, then
-activate it::
-
-    virtualenv kong
-    cd kong
-    source bin/activate
+首先要好好的FLOW這邊打語法
+語法糖_
 
 
-Kong ships with an example project that should get you up and running quickly. To actually get kong running, do the following::
+.. _語法糖: https://docs.readthedocs.io/en/latest/intro/getting-started-with-sphinx.html
 
-    git clone http://github.com/ericholscher/django-kong.git
-    cd django-kong
-    pip install -r requirements.txt
-    pip install . #Install Kong
-    cd example_project
-    ./manage.py syncdb --noinput
-    ./manage.py loaddata test_data
-    ./manage.py runserver
-
-
-This will give you a locally running instance with a couple of example sites
-and an example test.
-
-Now that you have your tests in your database, you need to check that your
-tests run. You can run tests like::
-
-    #Check all sites
-    ./manage.py check_sites
-    #Only run the front page test
-    ./manage.py check_sites -t front-page
-    #Only check sites of type Mine
-    ./manage.py check_sites -T mine
-
-The first command is the default way of running kong, and will run the tests for all of your sites.
-
-The second two different ways will run either a specific test, or a type of test. Both of these can run tests across multiple sites.
-    
-
+持續研究中
 
 Roadmap
 =======
@@ -61,12 +20,9 @@ Roadmap
 1.0
 ---
 
-For 1.0 I want to make Kong kick ass at running Twill tests in the browser.
-This is it's main purpose, and 1.0 will hopefully hit this out of the park.
-
+先跑API
 
 2.0
 ---
 
-In 2.0 I want to expand Kong to more than Twill tests. I want to be able to run twill tests off of the filesystem. Also I want to be able to have other "backend" types of tests, basically anything returning a 0/1/2, much like nagios.
-
+API開發文件轉移要全部轉換成這裡的類似MARKDOWN語法，這一段會花不少心力
