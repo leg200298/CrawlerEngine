@@ -154,6 +154,8 @@ namespace CrawlerWebApp.Controllers
             }
             if (data.data_provider.ToLower() == "etmall")
             {
+                returnStr = Platform.ETMallProduct.GetDescription();
+
             }
             if (data.data_provider.ToLower() == "umall")
             {
