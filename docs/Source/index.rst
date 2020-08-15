@@ -3,12 +3,6 @@
 簡單概要的說明 第二層的數量不多
 
 .. toctree::
-   :maxdepth: 4
    :name: install
 
-   install
-   management_commands
-   meta
-   overview
-   roadmap
-   settings
+   inner/*
