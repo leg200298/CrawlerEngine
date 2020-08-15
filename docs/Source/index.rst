@@ -1,9 +1,9 @@
-
 第二層
+============
 
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :name: install
 
    install
