@@ -1,6 +1,10 @@
+
+第二層
+
+
 .. toctree::
-   :maxdepth: 1
-   :name: toc-learn-features-2d
+   :maxdepth: 2
+   :name: install
 
    install
    management_commands
