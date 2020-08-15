@@ -4,7 +4,6 @@ Sample第二層
 
 .. toctree::
    :caption: sample
-   
   
 
    install
