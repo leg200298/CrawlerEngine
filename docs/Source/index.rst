@@ -5,4 +5,9 @@
 .. toctree::
    :name: install
 
-   inner/*
+   install
+   management_commands
+   meta
+   overview
+   roadmap
+   settings
