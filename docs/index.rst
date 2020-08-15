@@ -28,7 +28,7 @@ Roadmap
 API開發文件轉移要全部轉換成這裡的類似MARKDOWN語法，這一段會花不少心力
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
    :caption: special
    :name: sec-special
 
