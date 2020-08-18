@@ -6,7 +6,6 @@ using CrawlerEngine.Repository.Factory;
 using HtmlAgilityPack;
 using NLog;
 using System;
-using System.Linq;
 using System.Net.Http;
 
 namespace CrawlerEngine.JobWorker.WorkClass
@@ -56,16 +55,12 @@ namespace CrawlerEngine.JobWorker.WorkClass
 
             var htmlDoc = new HtmlDocument();
             htmlDoc.LoadHtml(responseData);//*[@id="yui_3_12_0_2_1594632086640_34"]/div[4]/div[1]/h1/span[1]
-            var qq = htmlDoc.DocumentNode.SelectSingleNode("//*[@id=\"ypsiif\"]/div/div//li[@class='tumblr']/a");
-            var qq222 = qq.InnerText;
-            var qqwww = qq.GetAttributes("data-caption").FirstOrDefault().Value;
-            htmlDoc.LoadHtml(qqwww);
-            var qq2 = htmlDoc.DocumentNode.SelectSingleNode("/a").InnerText;
-            var outer = htmlDoc.DocumentNode.InnerText;
-            crawlDataDetailOptions.price = htmlDoc.DocumentNode.SelectSingleNode("//*[@id=\"ypsiif\"]/table/tbody/tr[1]/td/div").InnerText;
-            crawlDataDetailOptions.price = htmlDoc.DocumentNode.SelectSingleNode("//*[@id=\"ypsiif\"]/table/tbody/tr[1]/td/div/").InnerText;
-            crawlDataDetailOptions.price = htmlDoc.DocumentNode.SelectSingleNode("//*[@id=\"ypsiif\"]/table/tbody/tr[1]/td/div/span").InnerText;
-            crawlDataDetailOptions.name = htmlDoc.DocumentNode.SelectSingleNode("//*[@id=\"ypsiif\"]/div/div[1]/div[4]/div[1]/h1/span[1]").InnerText;
+            var qq = htmlDoc.DocumentNode.SelectSingleNode("//div[@class='top']");
+            var qq2 = htmlDoc.DocumentNode.SelectSingleNode("//div[@class='points']/span");
+            var qq3 = htmlDoc.DocumentNode.SelectSingleNode("//span[@class='price']");
+            crawlDataDetailOptions.PutToDic("_promoPrice", htmlDoc.DocumentNode.SelectSingleNode("//span[@class='price']").InnerText.Replace("元", ""));
+            crawlDataDetailOptions.price = htmlDoc.DocumentNode.SelectSingleNode("//div[@class='points']/span").InnerText.Replace("元", "");
+            crawlDataDetailOptions.name = htmlDoc.DocumentNode.SelectSingleNode("//div[@class='top']").InnerText;
             crawlDataDetailOptions.category = "";
             return true;
         }
