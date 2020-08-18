@@ -22,6 +22,8 @@ namespace CrawlerEngine.JobWorker.WorkClass
         public override Logger _logger { get => LogManager.GetCurrentClassLogger(); }
         public override JobInfo jobInfo { get; set; }
 
+        HtmlDocument htmlDoc = new HtmlDocument();
+
         private int driverId;
         protected override bool Crawl()
         {
@@ -52,12 +54,9 @@ namespace CrawlerEngine.JobWorker.WorkClass
 
         protected override bool Parse()
         {
-
-            var htmlDoc = new HtmlDocument();
-            htmlDoc.LoadHtml(responseData);//*[@id="yui_3_12_0_2_1594632086640_34"]/div[4]/div[1]/h1/span[1]
-            crawlDataDetailOptions.price = htmlDoc.DocumentNode.SelectSingleNode("//*[@id=\"isoredux-root\"]/div/div[2]/div/div[1]/div[2]/div[2]/div/div[1]/div[2]/div[1]/div/div[1]").InnerText;
-            crawlDataDetailOptions.name = htmlDoc.DocumentNode.SelectSingleNode("//*[@id=\"isoredux-root\"]/div/div[2]/div/div[1]/div[2]/div[2]/div/div[1]/div[2]/div[1]/h1").InnerText;
-            //crawlDataDetailOptions.category = "";
+            htmlDoc.LoadHtml(responseData);
+            crawlDataDetailOptions.price = htmlDoc.DocumentNode.SelectSingleNode("//div[contains(@class,'HeroInfo__mainPrice')]").InnerText;
+            crawlDataDetailOptions.name = htmlDoc.DocumentNode.SelectSingleNode("//h1[contains(@class,'HeroInfo__title')]").InnerText;
             return true;
         }
 

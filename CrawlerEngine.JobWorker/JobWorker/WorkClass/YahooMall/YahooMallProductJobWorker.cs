@@ -58,10 +58,10 @@ namespace CrawlerEngine.JobWorker.WorkClass
             htmlDoc.LoadHtml(responseData);//*[@id="yui_3_12_0_2_1594632086640_34"]/div[4]/div[1]/h1/span[1]
             var qq = htmlDoc.DocumentNode.SelectSingleNode("//*[@id=\"ypsiif\"]/div/div//li[@class='tumblr']/a");
             var qq222 = qq.InnerText;
-          var qqwww=  qq.GetAttributes("data-caption").FirstOrDefault().Value;
+            var qqwww = qq.GetAttributes("data-caption").FirstOrDefault().Value;
             htmlDoc.LoadHtml(qqwww);
             var qq2 = htmlDoc.DocumentNode.SelectSingleNode("/a").InnerText;
-           var outer= htmlDoc.DocumentNode.InnerText;
+            var outer = htmlDoc.DocumentNode.InnerText;
             crawlDataDetailOptions.price = htmlDoc.DocumentNode.SelectSingleNode("//*[@id=\"ypsiif\"]/table/tbody/tr[1]/td/div").InnerText;
             crawlDataDetailOptions.price = htmlDoc.DocumentNode.SelectSingleNode("//*[@id=\"ypsiif\"]/table/tbody/tr[1]/td/div/").InnerText;
             crawlDataDetailOptions.price = htmlDoc.DocumentNode.SelectSingleNode("//*[@id=\"ypsiif\"]/table/tbody/tr[1]/td/div/span").InnerText;
